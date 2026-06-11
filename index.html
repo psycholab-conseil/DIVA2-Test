@@ -3,394 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questionnaire Conners / Conners Questionnaire / استبيان كونرز</title>
+<title>Questionnaire Conners</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("p6Lc3MHeM0w-YeGUO");</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,400;0,600;1,400&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
-
-:root {
-  --navy: #1a2744;
-  --teal: #2d7d6f;
-  --teal-light: #e8f4f1;
-  --teal-mid: #c2e4de;
-  --amber: #e8a020;
-  --amber-light: #fef6e8;
-  --red-soft: #c0392b;
-  --red-light: #fdf0ef;
-  --gray-50: #fafbfe;
-  --gray-100: #f2f4f9;
-  --gray-200: #e4e8f2;
-  --gray-300: #c8cedf;
-  --gray-400: #9aa3b8;
-  --gray-600: #5a6478;
-  --white: #fff;
-  --shadow: 0 2px 10px rgba(26,39,68,.07);
-  --shadow-lg: 0 6px 28px rgba(26,39,68,.13);
-  --radius: 12px;
+:root{
+  --navy:#1a2744;--teal:#2d7d6f;--teal-light:#e8f4f1;--teal-mid:#c2e4de;
+  --amber:#e8a020;--amber-light:#fef6e8;--red-soft:#c0392b;--red-light:#fdf0ef;
+  --green:#27ae60;
+  --gray-50:#fafbfe;--gray-100:#f2f4f9;--gray-200:#e4e8f2;--gray-300:#c8cedf;
+  --gray-400:#9aa3b8;--gray-600:#5a6478;--white:#fff;
+  --shadow:0 2px 10px rgba(26,39,68,.07);--shadow-lg:0 6px 28px rgba(26,39,68,.13);
+  --radius:14px;
+  --c0-bg:#f0f4ff;--c0-left:#7b9fd4;--c0-num:#4a7abf;
+  --c1-bg:#f0f9f4;--c1-left:#6bbf8a;--c1-num:#3d9e6a;
+  --c2-bg:#fff7ed;--c2-left:#f0a045;--c2-num:#c97c10;
+  --c3-bg:#fdf0f7;--c3-left:#d47bb5;--c3-num:#b0508e;
+  --c4-bg:#f2f0ff;--c4-left:#8b79d4;--c4-num:#6553b8;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
-  background: var(--gray-100);
-  color: var(--navy);
-  min-height: 100vh;
-  font-size: 15px;
-}
-body.rtl { font-family: 'Noto Sans Arabic', 'Inter', sans-serif; }
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter','Noto Sans Arabic',sans-serif;background:var(--gray-100);color:var(--navy);min-height:100vh;}
+body.rtl{font-family:'Noto Sans Arabic','Inter',sans-serif;}
 
 /* ── LANG BAR ── */
-#lang-bar {
-  background: var(--navy);
-  padding: .45rem 1.2rem;
-  display: flex; justify-content: flex-end; gap: .4rem; align-items: center;
-}
-.lang-btn {
-  background: transparent;
-  border: 1.5px solid rgba(255,255,255,.3);
-  color: rgba(255,255,255,.7);
-  font-family: inherit; font-size: .78rem; font-weight: 600;
-  padding: .28rem .85rem; border-radius: 20px; cursor: pointer;
-  transition: all .18s;
-}
-.lang-btn:hover, .lang-btn.active {
-  background: var(--teal); border-color: var(--teal); color: #fff;
-}
+#lang-bar{background:var(--navy);padding:.45rem 1rem;display:flex;justify-content:flex-end;gap:.4rem;}
+.lang-btn{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);font-family:inherit;font-size:.78rem;font-weight:600;padding:.28rem .85rem;border-radius:20px;cursor:pointer;transition:all .18s;}
+.lang-btn:hover,.lang-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;}
 
-/* ── HEADER ── */
-header {
-  background: var(--navy); color: #fff;
-  padding: 2rem 1.5rem 1.8rem; text-align: center;
-  position: relative; overflow: hidden;
-}
-header::before { content:''; position:absolute; top:-50px; right:-50px; width:180px; height:180px; border-radius:50%; background:rgba(45,125,111,.22); }
-header::after  { content:''; position:absolute; bottom:-35px; left:-35px; width:130px; height:130px; border-radius:50%; background:rgba(232,160,32,.16); }
-header h1 { font-family:'Fraunces',serif; font-size:1.65rem; font-weight:600; letter-spacing:-.02em; position:relative; z-index:1; }
-body.rtl header h1 { font-family:'Noto Sans Arabic',serif; letter-spacing:0; }
-header p { margin-top:.4rem; font-size:.85rem; color:rgba(255,255,255,.65); position:relative; z-index:1; }
-.badge { display:inline-block; margin-top:.6rem; background:var(--teal); color:#fff; font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:.28rem .85rem; border-radius:20px; position:relative; z-index:1; }
-body.rtl .badge { letter-spacing:0; text-transform:none; }
+/* ── PAGES ── */
+.page{display:none;}
+.page.active{display:block;}
 
-/* ── STICKY PROGRESS ── */
-#progress-wrap {
-  position:sticky; top:0; z-index:200;
-  background:var(--white); box-shadow:var(--shadow);
-  padding:.55rem 1.2rem; display:flex; align-items:center; gap:.9rem;
-}
-#progress-label { font-size:.78rem; color:var(--gray-600); white-space:nowrap; min-width:90px; }
-#progress-bar-outer { flex:1; height:7px; background:var(--gray-200); border-radius:8px; overflow:hidden; }
-#progress-bar-inner { height:100%; width:0%; background:linear-gradient(90deg,var(--teal),var(--amber)); border-radius:8px; transition:width .35s ease; }
-#progress-pct { font-size:.8rem; font-weight:700; color:var(--teal); white-space:nowrap; }
+/* ══════════════════════════════════
+   WELCOME PAGE
+══════════════════════════════════ */
+.welcome-hero{background:var(--navy);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;position:relative;overflow:hidden;}
+.welcome-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(45,125,111,.22);}
+.welcome-hero::after{content:'';position:absolute;bottom:-40px;left:-40px;width:150px;height:150px;border-radius:50%;background:rgba(232,160,32,.16);}
+.welcome-hero h1{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:700;letter-spacing:-.02em;position:relative;z-index:1;line-height:1.25;}
+body.rtl .welcome-hero h1{font-family:'Noto Sans Arabic',serif;letter-spacing:0;}
+.welcome-hero p{margin-top:.7rem;font-size:.92rem;color:rgba(255,255,255,.72);position:relative;z-index:1;line-height:1.6;}
+.welcome-badge{display:inline-block;margin-top:.8rem;background:var(--teal);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .9rem;border-radius:20px;position:relative;z-index:1;}
+body.rtl .welcome-badge{letter-spacing:0;text-transform:none;}
+.welcome-body{max-width:680px;margin:0 auto;padding:1.8rem 1rem 4rem;}
+.info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:.9rem;margin:1.4rem 0;}
+.info-card{background:var(--white);border-radius:var(--radius);padding:1.1rem .9rem;text-align:center;box-shadow:var(--shadow);}
+.ic-icon{font-size:1.7rem;margin-bottom:.4rem;}
+.ic-title{font-size:.78rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em;}
+body.rtl .ic-title{text-transform:none;letter-spacing:0;}
+.ic-desc{font-size:.73rem;color:var(--gray-600);margin-top:.25rem;line-height:1.5;}
+.scale-preview{background:var(--white);border-radius:var(--radius);padding:1.1rem 1.3rem;margin:1.1rem 0;box-shadow:var(--shadow);}
+.scale-preview h3{font-size:.86rem;font-weight:700;color:var(--navy);margin-bottom:.7rem;}
+.scale-row{display:flex;gap:.45rem;flex-wrap:wrap;}
+.scale-pill{display:flex;align-items:center;gap:.35rem;font-size:.8rem;font-weight:600;padding:.3rem .85rem;border-radius:20px;color:#fff;}
+.start-btn{display:block;width:100%;background:var(--navy);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:1rem;font-weight:700;padding:1rem;border-radius:50px;box-shadow:var(--shadow-lg);transition:background .2s,transform .15s;margin-top:1.4rem;text-align:center;}
+.start-btn:hover{background:var(--teal);transform:translateY(-2px);}
+.welcome-note{font-size:.76rem;color:var(--gray-600);text-align:center;margin-top:.85rem;line-height:1.6;}
 
-/* missing-item alert banner */
-#missing-banner {
-  display:none;
-  position:sticky; top:42px; z-index:190;
-  background:#fff3cd; border-bottom:2px solid var(--amber);
-  padding:.5rem 1.2rem;
-  font-size:.82rem; font-weight:600; color:#7a5500;
-  display:none; align-items:center; gap:.6rem; flex-wrap:wrap;
-}
-.missing-chip {
-  display:inline-flex; align-items:center; gap:.3rem;
-  background:var(--amber); color:#fff;
-  border-radius:20px; padding:.18rem .65rem;
-  font-size:.75rem; font-weight:700; cursor:pointer;
-  transition: opacity .15s;
-}
-.missing-chip:hover { opacity:.82; }
+/* ══════════════════════════════════
+   FORM PAGE
+══════════════════════════════════ */
+header{background:var(--navy);color:#fff;padding:1.5rem 1.2rem 1.3rem;text-align:center;position:relative;overflow:hidden;}
+header::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(45,125,111,.22);}
+header::after{content:'';position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:rgba(232,160,32,.16);}
+header h1{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:600;letter-spacing:-.02em;position:relative;z-index:1;}
+body.rtl header h1{font-family:'Noto Sans Arabic',serif;letter-spacing:0;}
+header p{margin-top:.3rem;font-size:.8rem;color:rgba(255,255,255,.65);position:relative;z-index:1;}
+.badge{display:inline-block;margin-top:.45rem;background:var(--teal);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.22rem .75rem;border-radius:20px;position:relative;z-index:1;}
+body.rtl .badge{letter-spacing:0;text-transform:none;}
 
-/* ── MAIN ── */
-main { max-width:820px; margin:0 auto; padding:1rem .5rem 3rem; }
-@media(min-width:600px){ main { padding:1.6rem 1rem 4rem; } }
+/* progress */
+#progress-wrap{position:sticky;top:0;z-index:200;background:var(--white);box-shadow:var(--shadow);padding:.48rem .9rem;display:flex;align-items:center;gap:.75rem;}
+#progress-label{font-size:.74rem;color:var(--gray-600);white-space:nowrap;min-width:82px;}
+#progress-bar-outer{flex:1;height:7px;background:var(--gray-200);border-radius:8px;overflow:hidden;}
+#progress-bar-inner{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--amber));border-radius:8px;transition:width .35s ease;}
+#progress-pct{font-size:.78rem;font-weight:700;color:var(--teal);white-space:nowrap;}
 
-/* ── CARD ── */
-.card {
-  background:var(--white); border-radius:var(--radius);
-  box-shadow:var(--shadow); padding:.9rem .85rem; margin-bottom:1rem;
-}
-@media(min-width:600px){ .card { padding:1.5rem 1.5rem; margin-bottom:1.4rem; } }
-.card-title {
-  font-family:'Fraunces',serif; font-size:1rem; color:var(--navy);
-  border-left:4px solid var(--teal); padding-left:.7rem; margin-bottom:1.1rem;
-}
-body.rtl .card-title { font-family:'Noto Sans Arabic',serif; border-left:none; border-right:4px solid var(--teal); padding-left:0; padding-right:.7rem; }
+/* missing banner */
+#missing-banner{display:none;position:sticky;top:40px;z-index:190;background:#fff3cd;border-bottom:2px solid var(--amber);padding:.42rem .9rem;font-size:.78rem;font-weight:600;color:#7a5500;flex-wrap:wrap;gap:.4rem;}
+.missing-chip{display:inline-flex;align-items:center;background:var(--amber);color:#fff;border-radius:20px;padding:.14rem .58rem;font-size:.7rem;font-weight:700;cursor:pointer;transition:opacity .15s;}
+.missing-chip:hover{opacity:.82;}
 
-/* ── INFO GRID ── */
-.info-grid { display:grid; grid-template-columns:1fr 1fr; gap:.85rem; }
-@media(max-width:520px){ .info-grid{ grid-template-columns:1fr; } }
-.field-label { display:block; font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--gray-600); margin-bottom:.28rem; }
-body.rtl .field-label { text-transform:none; letter-spacing:0; }
-input[type=text], input[type=email], input[type=date], select {
-  width:100%; border:1.5px solid var(--gray-200); border-radius:8px;
-  padding:.52rem .8rem; font-family:inherit; font-size:.88rem; color:var(--navy);
-  background:var(--gray-50); outline:none; transition:border-color .18s,background .18s;
-}
-input:focus, select:focus { border-color:var(--teal); background:var(--white); }
+/* main */
+main{max-width:820px;margin:0 auto;padding:.9rem .55rem 3rem;}
+@media(min-width:600px){main{padding:1.4rem 1rem 4rem;}}
 
-/* ── INSTRUCTIONS ── */
-.instructions {
-  background:var(--amber-light); border-left:4px solid var(--amber);
-  border-radius:0 10px 10px 0; padding:.9rem 1.1rem;
-  margin-bottom:1.4rem; font-size:.87rem; line-height:1.65;
-}
-body.rtl .instructions { border-left:none; border-right:4px solid var(--amber); border-radius:10px 0 0 10px; }
-.scale-legend { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.7rem; }
-.scale-chip { display:flex; align-items:center; gap:.35rem; font-size:.78rem; font-weight:600; background:var(--white); border:1.5px solid var(--gray-200); border-radius:20px; padding:.22rem .75rem; }
-.chip-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+/* card */
+.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:.85rem .8rem;margin-bottom:.9rem;}
+@media(min-width:600px){.card{padding:1.3rem 1.4rem;margin-bottom:1.2rem;}}
+.card-title{font-family:'Fraunces',serif;font-size:.97rem;color:var(--navy);border-left:4px solid var(--teal);padding-left:.65rem;margin-bottom:.95rem;}
+body.rtl .card-title{font-family:'Noto Sans Arabic',serif;border-left:none;border-right:4px solid var(--teal);padding-left:0;padding-right:.65rem;}
 
-/* ── SECTION HEADER ── */
-.section-hdr {
-  display:flex; align-items:center; gap:.7rem; margin:1.5rem 0 .6rem;
-}
-.section-hdr::before, .section-hdr::after { content:''; flex:1; height:1px; background:var(--gray-200); }
-.section-hdr span { font-size:.68rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); white-space:nowrap; }
-body.rtl .section-hdr span { letter-spacing:0; text-transform:none; }
+/* info grid */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+@media(max-width:480px){.info-grid{grid-template-columns:1fr;}}
+.field-label{display:block;font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-600);margin-bottom:.22rem;}
+body.rtl .field-label{text-transform:none;letter-spacing:0;}
+input[type=text],input[type=email],select{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:.5rem .75rem;font-family:inherit;font-size:.86rem;color:var(--navy);background:var(--gray-50);outline:none;transition:border-color .18s;}
+input:focus,select:focus{border-color:var(--teal);background:var(--white);}
 
-/* ════════════════════════════════════════
-   QUESTION ROW — compact, 2-line max text
-   ════════════════════════════════════════ */
-/* ── 5 alternating row colours (odd/even within each band of 5) ── */
-:root {
-  --c0-bg:#f0f4ff; --c0-left:#7b9fd4; --c0-num:#4a7abf;
-  --c1-bg:#f0f9f4; --c1-left:#6bbf8a; --c1-num:#3d9e6a;
-  --c2-bg:#fff7ed; --c2-left:#f0a045; --c2-num:#c97c10;
-  --c3-bg:#fdf0f7; --c3-left:#d47bb5; --c3-num:#b0508e;
-  --c4-bg:#f2f0ff; --c4-left:#8b79d4; --c4-num:#6553b8;
-}
+/* drum */
+.dob-drums{display:flex;align-items:center;gap:.32rem;background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:10px;padding:.42rem .65rem;width:fit-content;}
+.drum-sep{font-size:.95rem;font-weight:700;color:var(--gray-400);}
+.drum-wrap{display:flex;flex-direction:column;align-items:center;gap:.06rem;}
+.drum-wrap.drum-year{min-width:52px;}
+.drum-btn{background:none;border:none;cursor:pointer;color:var(--gray-400);font-size:.62rem;padding:.05rem .28rem;border-radius:4px;transition:color .15s,background .15s;line-height:1;}
+.drum-btn:hover{color:var(--teal);background:var(--teal-light);}
+.drum-display{font-size:1.05rem;font-weight:800;color:var(--navy);min-width:32px;text-align:center;background:var(--white);border:1.5px solid var(--gray-200);border-radius:7px;padding:.2rem .32rem;transition:background .15s;}
+.drum-display.flash{background:var(--teal-light);}
+.drum-unit{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gray-400);}
+body.rtl .drum-unit{letter-spacing:0;text-transform:none;}
 
-.q-row {
-  display:flex;
-  align-items:center;
-  gap:.55rem;
-  padding:.5rem .5rem .5rem .0rem;
-  border-radius:9px;
-  margin-bottom:3px;
-  border-left:4px solid transparent;
-  transition:filter .12s, opacity .12s;
-  position:relative;
-}
-/* Alternating colour bands */
-.q-row.c0 { background:var(--c0-bg); border-left-color:var(--c0-left); }
-.q-row.c1 { background:var(--c1-bg); border-left-color:var(--c1-left); }
-.q-row.c2 { background:var(--c2-bg); border-left-color:var(--c2-left); }
-.q-row.c3 { background:var(--c3-bg); border-left-color:var(--c3-left); }
-.q-row.c4 { background:var(--c4-bg); border-left-color:var(--c4-left); }
+/* instructions */
+.instructions{background:var(--amber-light);border-left:4px solid var(--amber);border-radius:0 10px 10px 0;padding:.8rem .95rem;margin-bottom:1.1rem;font-size:.84rem;line-height:1.65;}
+body.rtl .instructions{border-left:none;border-right:4px solid var(--amber);border-radius:10px 0 0 10px;}
+.scale-legend{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem;}
+.scale-chip-sm{display:flex;align-items:center;gap:.28rem;font-size:.74rem;font-weight:600;background:var(--white);border:1.5px solid var(--gray-200);border-radius:20px;padding:.18rem .65rem;}
+.chip-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 
-/* When answered — keep colour but add a subtle check overlay */
-.q-row.answered { opacity:1; }
-.q-row.answered::after {
-  content:'✓';
-  position:absolute; right:.45rem; top:50%; transform:translateY(-50%);
-  font-size:.65rem; font-weight:800;
-  color:var(--teal); opacity:.55;
-  pointer-events:none;
-}
-body.rtl .q-row.answered::after { right:auto; left:.45rem; }
+/* section hdr */
+.section-hdr{display:flex;align-items:center;gap:.55rem;margin:1.2rem 0 .45rem;}
+.section-hdr::before,.section-hdr::after{content:'';flex:1;height:1px;background:var(--gray-200);}
+.section-hdr span{font-size:.63rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);white-space:nowrap;}
+body.rtl .section-hdr span{letter-spacing:0;text-transform:none;}
 
-.q-row.missing-highlight {
-  background:#fff3cd !important;
-  border-left-color:var(--amber) !important;
-  border:2px solid var(--amber) !important;
-  border-radius:9px;
-  animation:pulse-warn 1.2s ease infinite;
-}
-@keyframes pulse-warn {
-  0%,100% { box-shadow: 0 0 0 2px rgba(232,160,32,.5); }
-  50%      { box-shadow: 0 0 0 7px rgba(232,160,32,.15); }
-}
+/* question rows */
+.q-row{display:flex;align-items:center;gap:.48rem;padding:.45rem .42rem .45rem 0;border-radius:9px;margin-bottom:2px;border-left:4px solid transparent;}
+.q-row.c0{background:var(--c0-bg);border-left-color:var(--c0-left);}
+.q-row.c1{background:var(--c1-bg);border-left-color:var(--c1-left);}
+.q-row.c2{background:var(--c2-bg);border-left-color:var(--c2-left);}
+.q-row.c3{background:var(--c3-bg);border-left-color:var(--c3-left);}
+.q-row.c4{background:var(--c4-bg);border-left-color:var(--c4-left);}
+.q-row.answered::after{content:'✓';font-size:.58rem;font-weight:800;color:var(--teal);opacity:.55;margin-left:auto;flex-shrink:0;}
+body.rtl .q-row.answered::after{margin-left:0;margin-right:auto;}
+.q-row.missing-highlight{background:#fff3cd!important;border:2px solid var(--amber)!important;border-radius:9px;animation:pw 1.2s ease infinite;}
+@keyframes pw{0%,100%{box-shadow:0 0 0 2px rgba(232,160,32,.5);}50%{box-shadow:0 0 0 7px rgba(232,160,32,.12);}}
+.q-num{flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.62rem;font-weight:800;margin-left:.32rem;}
+.q-row.c0 .q-num{background:var(--c0-num);color:#fff;}
+.q-row.c1 .q-num{background:var(--c1-num);color:#fff;}
+.q-row.c2 .q-num{background:var(--c2-num);color:#fff;}
+.q-row.c3 .q-num{background:var(--c3-num);color:#fff;}
+.q-row.c4 .q-num{background:var(--c4-num);color:#fff;}
+.q-row.missing-highlight .q-num{background:var(--amber)!important;color:#fff;}
+body.rtl .q-num{margin-left:0;margin-right:.32rem;}
+.q-text{flex:1;font-size:.8rem;line-height:1.38;color:var(--navy);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-width:0;}
+.q-row:hover .q-text,.q-row:focus-within .q-text{-webkit-line-clamp:unset;overflow:visible;}
+.rating-group{flex-shrink:0;display:flex;gap:.2rem;}
+.rating-group input[type=radio]{display:none;}
+.rating-group label{width:35px;height:35px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:7px;border:1.5px solid var(--gray-300);cursor:pointer;transition:all .13s;user-select:none;flex-shrink:0;}
+.rating-group label .r-val{font-size:.82rem;font-weight:700;color:var(--gray-400);line-height:1;}
+.rating-group label .r-lbl{font-size:.44rem;font-weight:600;color:var(--gray-400);margin-top:1px;text-align:center;line-height:1;white-space:nowrap;display:none;}
+@media(min-width:680px){.rating-group label{width:50px;height:40px;}.rating-group label .r-lbl{display:block;}.q-text{font-size:.86rem;}}
+.rating-group label:hover{border-color:var(--teal);}
+.rating-group label:hover .r-val,.rating-group label:hover .r-lbl{color:var(--teal);}
+.rating-group input[value="0"]:checked+label{background:#5d8cc4;border-color:#5d8cc4;}
+.rating-group input[value="1"]:checked+label{background:#5aab6d;border-color:#5aab6d;}
+.rating-group input[value="2"]:checked+label{background:var(--amber);border-color:var(--amber);}
+.rating-group input[value="3"]:checked+label{background:var(--red-soft);border-color:var(--red-soft);}
+.rating-group input:checked+label .r-val,.rating-group input:checked+label .r-lbl{color:#fff;}
+body.rtl .q-row{flex-direction:row-reverse;border-left:none;border-right:4px solid transparent;}
+body.rtl .q-row.c0{border-right-color:var(--c0-left);}
+body.rtl .q-row.c1{border-right-color:var(--c1-left);}
+body.rtl .q-row.c2{border-right-color:var(--c2-left);}
+body.rtl .q-row.c3{border-right-color:var(--c3-left);}
+body.rtl .q-row.c4{border-right-color:var(--c4-left);}
+body.rtl .q-text{text-align:right;}
 
-/* number badge */
-.q-num {
-  flex-shrink:0;
-  width:24px; height:24px;
-  display:flex; align-items:center; justify-content:center;
-  border-radius:50%;
-  font-size:.67rem; font-weight:800;
-  margin-left:.35rem;
-}
-.q-row.c0 .q-num { background:var(--c0-num); color:#fff; }
-.q-row.c1 .q-num { background:var(--c1-num); color:#fff; }
-.q-row.c2 .q-num { background:var(--c2-num); color:#fff; }
-.q-row.c3 .q-num { background:var(--c3-num); color:#fff; }
-.q-row.c4 .q-num { background:var(--c4-num); color:#fff; }
-.q-row.missing-highlight .q-num { background:var(--amber) !important; color:#fff; }
-body.rtl .q-num { margin-left:0; margin-right:.35rem; }
+/* submit */
+.submit-area{text-align:center;margin-top:1.7rem;}
+.specialist-wrap{max-width:360px;margin:0 auto .8rem;text-align:left;}
+body.rtl .specialist-wrap{text-align:right;}
+#submit-btn{background:var(--navy);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:.95rem;font-weight:700;padding:.88rem 2.5rem;border-radius:50px;box-shadow:var(--shadow-lg);transition:background .2s,transform .14s;}
+#submit-btn:hover{background:var(--teal);transform:translateY(-2px);}
+.submit-note{font-size:.74rem;color:var(--gray-600);margin-top:.6rem;}
 
-/* question text — strict 2 lines, full text on tap/hover */
-.q-text {
-  flex:1;
-  font-size:.82rem;
-  line-height:1.38;
-  color:var(--navy);
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-  min-width:0;
-  cursor:default;
-}
-/* Reveal full text on interaction — but only for this row */
-.q-row:hover .q-text,
-.q-row:focus-within .q-text {
-  -webkit-line-clamp:unset;
-  overflow:visible;
-}
+/* ══════════════════════════════════
+   CONFIRMATION PAGE (parent sees only this)
+══════════════════════════════════ */
+#page-confirm{background:var(--gray-100);min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem;}
+.confirm-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:2.5rem 2rem;max-width:480px;width:100%;text-align:center;}
+.confirm-icon{font-size:4rem;margin-bottom:1rem;}
+.confirm-title{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-bottom:.7rem;}
+body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
+.confirm-msg{font-size:.92rem;color:var(--gray-600);line-height:1.7;}
+.confirm-divider{height:1px;background:var(--gray-200);margin:1.4rem 0;}
+.confirm-note{font-size:.78rem;color:var(--gray-400);line-height:1.6;}
+.confirm-badge{display:inline-block;margin-top:1.2rem;background:var(--teal-light);color:var(--teal);font-size:.8rem;font-weight:700;padding:.45rem 1.1rem;border-radius:20px;}
 
-/* rating buttons — 4 small squares, never wrap */
-.rating-group {
-  flex-shrink:0;
-  display:flex;
-  gap:.22rem;
-  align-items:center;
-}
-.rating-group input[type=radio] { display:none; }
-.rating-group label {
-  width:36px; height:36px;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  border-radius:7px;
-  border:1.5px solid var(--gray-300);
-  cursor:pointer;
-  transition:all .13s;
-  user-select:none;
-  flex-shrink:0;
-}
-.rating-group label .r-val {
-  font-size:.85rem; font-weight:700; color:var(--gray-400); line-height:1;
-}
-.rating-group label .r-lbl {
-  font-size:.48rem; font-weight:600; color:var(--gray-400);
-  margin-top:1px; text-align:center; line-height:1;
-  white-space:nowrap; display:none;
-}
-/* Show text labels only on larger screens */
-@media(min-width:680px){
-  .rating-group label { width:54px; height:42px; }
-  .rating-group label .r-lbl { display:block; }
-  .q-text { font-size:.88rem; }
-}
-.rating-group label:hover { border-color:var(--teal); }
-.rating-group label:hover .r-val,
-.rating-group label:hover .r-lbl { color:var(--teal); }
-
-/* checked states */
-.rating-group input[value="0"]:checked + label { background:#5d8cc4; border-color:#5d8cc4; }
-.rating-group input[value="1"]:checked + label { background:#5aab6d; border-color:#5aab6d; }
-.rating-group input[value="2"]:checked + label { background:var(--amber); border-color:var(--amber); }
-.rating-group input[value="3"]:checked + label { background:var(--red-soft); border-color:var(--red-soft); }
-.rating-group input:checked + label .r-val,
-.rating-group input:checked + label .r-lbl { color:#fff; }
-
-/* RTL adjustments */
-body.rtl .q-row { flex-direction:row-reverse; border-left:none; border-right:4px solid transparent; }
-body.rtl .q-row.c0 { border-right-color:var(--c0-left); }
-body.rtl .q-row.c1 { border-right-color:var(--c1-left); }
-body.rtl .q-row.c2 { border-right-color:var(--c2-left); }
-body.rtl .q-row.c3 { border-right-color:var(--c3-left); }
-body.rtl .q-row.c4 { border-right-color:var(--c4-left); }
-body.rtl .q-text { text-align:right; }
-
-/* ── SUBMIT ── */
-.submit-area { text-align:center; margin-top:2rem; }
-#submit-btn {
-  background:var(--navy); color:#fff; border:none; cursor:pointer;
-  font-family:inherit; font-size:.95rem; font-weight:700;
-  padding:.9rem 2.8rem; border-radius:50px;
-  box-shadow:var(--shadow-lg); transition:background .2s,transform .14s;
-}
-#submit-btn:hover { background:var(--teal); transform:translateY(-2px); }
-#submit-btn.warning { background:var(--amber) !important; }
-#submit-btn.warning:hover { background:#c8890e !important; }
-.submit-note { font-size:.78rem; color:var(--gray-600); margin-top:.7rem; }
-
-/* ── RESULTS ── */
-#results-panel {
-  display:none;
-  background:var(--white); border-radius:var(--radius);
-  box-shadow:var(--shadow-lg); padding:1.8rem; margin-top:1.8rem;
-}
-#results-panel h2 { font-family:'Fraunces',serif; font-size:1.3rem; margin-bottom:1.1rem; color:var(--navy); }
-body.rtl #results-panel h2 { font-family:'Noto Sans Arabic',serif; text-align:right; }
-
-.score-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:.85rem; margin-bottom:1.4rem; }
-.score-box { border-radius:10px; padding:.9rem 1.1rem; border:1.5px solid var(--gray-200); }
-body.rtl .score-box { text-align:right; }
-.score-box .sn { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--gray-600); }
-body.rtl .score-box .sn { text-transform:none; letter-spacing:0; }
-.score-box .sv { font-size:1.9rem; font-weight:800; color:var(--navy); margin:.15rem 0 .1rem; }
-.score-box .sm { font-size:.75rem; color:var(--gray-400); }
-.score-box.high { border-color:var(--red-soft); background:var(--red-light); }
-.score-box.high .sv { color:var(--red-soft); }
-
-details summary { cursor:pointer; font-weight:700; font-size:.87rem; color:var(--teal); padding:.5rem 0; }
-.detail-table { width:100%; border-collapse:collapse; font-size:.8rem; margin-top:.8rem; }
-.detail-table th { background:var(--gray-100); text-align:left; padding:.45rem .75rem; font-weight:700; }
-body.rtl .detail-table th { text-align:right; }
-.detail-table td { padding:.38rem .75rem; border-bottom:1px solid var(--gray-200); vertical-align:top; }
-.detail-table tr:last-child td { border:none; }
-.tag-3 { color:var(--red-soft); font-weight:700; }
-.tag-2 { color:var(--amber); font-weight:600; }
-
-.email-section { margin-top:1.4rem; }
-.email-row { display:flex; gap:.7rem; align-items:flex-end; }
-.email-row input { flex:1; }
-#send-btn {
-  background:var(--teal); color:#fff; border:none; cursor:pointer;
-  font-family:inherit; font-size:.87rem; font-weight:700;
-  padding:.6rem 1.3rem; border-radius:8px; white-space:nowrap;
-  transition:background .18s;
-}
-#send-btn:hover { background:var(--navy); }
-#send-status { margin-top:.7rem; font-size:.85rem; font-weight:600; display:none; }
-#send-status.ok { color:var(--teal); }
-#send-status.err { color:var(--red-soft); }
-.print-btn {
-  margin-top:1rem; background:transparent; border:1.5px solid var(--navy);
-  color:var(--navy); font-family:inherit; font-size:.82rem; font-weight:700;
-  padding:.45rem 1.1rem; border-radius:8px; cursor:pointer; transition:all .18s;
-}
-.print-btn:hover { background:var(--navy); color:#fff; }
-
-/* ── DRUM / ROLLER DATE PICKER ── */
-.dob-drums {
-  display:flex; align-items:center; gap:.4rem;
-  background:var(--gray-50); border:1.5px solid var(--gray-200);
-  border-radius:12px; padding:.5rem .7rem;
-  width:fit-content;
-}
-.drum-sep { font-size:1.1rem; font-weight:700; color:var(--gray-400); padding:0 .1rem; }
-.drum-wrap { display:flex; flex-direction:column; align-items:center; gap:.1rem; }
-.drum-wrap.drum-year { min-width:56px; }
-.drum-btn {
-  background:none; border:none; cursor:pointer;
-  color:var(--gray-400); font-size:.68rem; padding:.08rem .35rem;
-  border-radius:4px; transition:color .15s,background .15s; line-height:1;
-}
-.drum-btn:hover { color:var(--teal); background:var(--teal-light); }
-.drum-display {
-  font-size:1.15rem; font-weight:800; color:var(--navy);
-  min-width:36px; text-align:center;
-  background:var(--white); border:1.5px solid var(--gray-200);
-  border-radius:8px; padding:.26rem .4rem;
-  transition:background .15s;
-}
-.drum-display.flash { background:var(--teal-light); }
-.drum-unit {
-  font-size:.58rem; font-weight:700; text-transform:uppercase;
-  letter-spacing:.05em; color:var(--gray-400);
-}
-body.rtl .drum-unit { letter-spacing:0; text-transform:none; }
-
-/* ── SPECIALIST EMAIL IN SUBMIT AREA ── */
-.specialist-input-wrap {
-  max-width:360px; margin:0 auto .9rem; text-align:left;
-}
-body.rtl .specialist-input-wrap { text-align:right; }
-
-@media print {
-  #lang-bar,#progress-wrap,#missing-banner,.submit-area,.print-btn { display:none!important; }
-}
+@media print{#lang-bar,#progress-wrap,#missing-banner,.submit-area{display:none!important;}}
 </style>
 </head>
 <body>
@@ -401,910 +203,836 @@ body.rtl .specialist-input-wrap { text-align:right; }
   <button class="lang-btn" onclick="setLang('ar')">🇩🇿 العربية</button>
 </div>
 
-<header>
-  <h1 data-i18n="title"></h1>
-  <p data-i18n="subtitle"></p>
-  <span class="badge" data-i18n="badge"></span>
-</header>
-
-<div id="progress-wrap">
-  <span id="progress-label"></span>
-  <div id="progress-bar-outer"><div id="progress-bar-inner"></div></div>
-  <span id="progress-pct">0 %</span>
+<!-- ══ PAGE ACCUEIL ══ -->
+<div id="page-welcome" class="page active">
+  <div class="welcome-hero">
+    <h1 data-i18n="wTitle"></h1>
+    <p data-i18n="wSubtitle"></p>
+    <span class="welcome-badge" data-i18n="badge"></span>
+  </div>
+  <div class="welcome-body">
+    <div class="info-cards">
+      <div class="info-card"><div class="ic-icon">👦</div><div class="ic-title" data-i18n="ic1T"></div><div class="ic-desc" data-i18n="ic1D"></div></div>
+      <div class="info-card"><div class="ic-icon">📝</div><div class="ic-title" data-i18n="ic2T"></div><div class="ic-desc" data-i18n="ic2D"></div></div>
+      <div class="info-card"><div class="ic-icon">⏱</div><div class="ic-title" data-i18n="ic3T"></div><div class="ic-desc" data-i18n="ic3D"></div></div>
+      <div class="info-card"><div class="ic-icon">🔒</div><div class="ic-title" data-i18n="ic4T"></div><div class="ic-desc" data-i18n="ic4D"></div></div>
+    </div>
+    <div class="scale-preview">
+      <h3 data-i18n="scaleTitle"></h3>
+      <div class="scale-row">
+        <span class="scale-pill" style="background:#5d8cc4"><strong>0</strong> — <span data-i18n="s0"></span></span>
+        <span class="scale-pill" style="background:#5aab6d"><strong>1</strong> — <span data-i18n="s1"></span></span>
+        <span class="scale-pill" style="background:#e8a020"><strong>2</strong> — <span data-i18n="s2"></span></span>
+        <span class="scale-pill" style="background:#c0392b"><strong>3</strong> — <span data-i18n="s3"></span></span>
+      </div>
+    </div>
+    <button class="start-btn" onclick="goToForm()" data-i18n="startBtn"></button>
+    <p class="welcome-note" data-i18n="welcomeNote"></p>
+  </div>
 </div>
 
-<div id="missing-banner"></div>
-
-<main>
-
-  <!-- INFO -->
-  <div class="card">
-    <div class="card-title" data-i18n="infoTitle"></div>
-    <div class="info-grid">
-      <div>
-        <label class="field-label" for="nom" data-i18n="childName"></label>
-        <input type="text" id="nom" data-i18n-ph="childNamePH">
-      </div>
-      <div class="dob-field" style="grid-column:1/-1">
-        <label class="field-label" data-i18n="dob"></label>
-        <div class="dob-drums">
-          <div class="drum-wrap">
-            <button class="drum-btn" onclick="drumStep('day',-1)">&#9650;</button>
-            <div class="drum-display" id="drum-day">01</div>
-            <button class="drum-btn" onclick="drumStep('day',1)">&#9660;</button>
-            <div class="drum-unit" data-i18n="dobDay"></div>
-          </div>
-          <div class="drum-sep">/</div>
-          <div class="drum-wrap">
-            <button class="drum-btn" onclick="drumStep('month',-1)">&#9650;</button>
-            <div class="drum-display" id="drum-month">01</div>
-            <button class="drum-btn" onclick="drumStep('month',1)">&#9660;</button>
-            <div class="drum-unit" data-i18n="dobMonth"></div>
-          </div>
-          <div class="drum-sep">/</div>
-          <div class="drum-wrap drum-year">
-            <button class="drum-btn" onclick="drumStep('year',-1)">&#9650;</button>
-            <div class="drum-display" id="drum-year">2015</div>
-            <button class="drum-btn" onclick="drumStep('year',1)">&#9660;</button>
-            <div class="drum-unit" data-i18n="dobYear"></div>
+<!-- ══ PAGE FORMULAIRE ══ -->
+<div id="page-form" class="page">
+  <header>
+    <h1 data-i18n="title"></h1>
+    <p data-i18n="subtitle"></p>
+    <span class="badge" data-i18n="badge"></span>
+  </header>
+  <div id="progress-wrap">
+    <span id="progress-label"></span>
+    <div id="progress-bar-outer"><div id="progress-bar-inner"></div></div>
+    <span id="progress-pct">0 %</span>
+  </div>
+  <div id="missing-banner"></div>
+  <main>
+    <div class="card">
+      <div class="card-title" data-i18n="infoTitle"></div>
+      <div class="info-grid">
+        <div><label class="field-label" data-i18n="childName"></label><input type="text" id="nom" data-i18n-ph="childNamePH"></div>
+        <div class="dob-field" style="grid-column:1/-1">
+          <label class="field-label" data-i18n="dob"></label>
+          <div class="dob-drums">
+            <div class="drum-wrap"><button class="drum-btn" onclick="drumStep('day',-1)">▲</button><div class="drum-display" id="drum-day">01</div><button class="drum-btn" onclick="drumStep('day',1)">▼</button><div class="drum-unit" data-i18n="dobDay"></div></div>
+            <div class="drum-sep">/</div>
+            <div class="drum-wrap"><button class="drum-btn" onclick="drumStep('month',-1)">▲</button><div class="drum-display" id="drum-month">01</div><button class="drum-btn" onclick="drumStep('month',1)">▼</button><div class="drum-unit" data-i18n="dobMonth"></div></div>
+            <div class="drum-sep">/</div>
+            <div class="drum-wrap drum-year"><button class="drum-btn" onclick="drumStep('year',-1)">▲</button><div class="drum-display" id="drum-year">2015</div><button class="drum-btn" onclick="drumStep('year',1)">▼</button><div class="drum-unit" data-i18n="dobYear"></div></div>
           </div>
         </div>
-      </div>
-      <div>
-        <label class="field-label" for="sexe" data-i18n="sex"></label>
-        <select id="sexe">
-          <option value="" data-i18n="sexChoose"></option>
-          <option value="M" data-i18n="sexM"></option>
-          <option value="F" data-i18n="sexF"></option>
-        </select>
-      </div>
-      <div>
-        <label class="field-label" for="degre" data-i18n="grade"></label>
-        <input type="text" id="degre" data-i18n-ph="gradePH">
-      </div>
-      <div>
-        <label class="field-label" for="parent-nom" data-i18n="parentName"></label>
-        <input type="text" id="parent-nom" data-i18n-ph="parentNamePH">
-      </div>
-      <div>
-        <label class="field-label" for="parent-email" data-i18n="parentEmail"></label>
-        <input type="email" id="parent-email" placeholder="parent@email.com">
+        <div><label class="field-label" data-i18n="sex"></label><select id="sexe"><option value="" data-i18n="sexChoose"></option><option value="M" data-i18n="sexM"></option><option value="F" data-i18n="sexF"></option></select></div>
+        <div><label class="field-label" data-i18n="grade"></label><input type="text" id="degre" data-i18n-ph="gradePH"></div>
+        <div><label class="field-label" data-i18n="parentName"></label><input type="text" id="parent-nom" data-i18n-ph="parentNamePH"></div>
+        <div><label class="field-label" data-i18n="parentEmail"></label><input type="email" id="parent-email" placeholder="parent@email.com"></div>
       </div>
     </div>
-  </div>
-
-  <!-- INSTRUCTIONS -->
-  <div class="instructions">
-    <strong data-i18n="instrLabel"></strong>
-    <span data-i18n="instrText"></span>
-    <div class="scale-legend">
-      <div class="scale-chip"><span class="chip-dot" style="background:#5d8cc4"></span><strong>0</strong> — <span data-i18n="s0"></span></div>
-      <div class="scale-chip"><span class="chip-dot" style="background:#5aab6d"></span><strong>1</strong> — <span data-i18n="s1"></span></div>
-      <div class="scale-chip"><span class="chip-dot" style="background:#e8a020"></span><strong>2</strong> — <span data-i18n="s2"></span></div>
-      <div class="scale-chip"><span class="chip-dot" style="background:#c0392b"></span><strong>3</strong> — <span data-i18n="s3"></span></div>
+    <div class="instructions">
+      <strong data-i18n="instrLabel"></strong> <span data-i18n="instrText"></span>
+      <div class="scale-legend">
+        <div class="scale-chip-sm"><span class="chip-dot" style="background:#5d8cc4"></span><strong>0</strong> — <span data-i18n="s0"></span></div>
+        <div class="scale-chip-sm"><span class="chip-dot" style="background:#5aab6d"></span><strong>1</strong> — <span data-i18n="s1"></span></div>
+        <div class="scale-chip-sm"><span class="chip-dot" style="background:#e8a020"></span><strong>2</strong> — <span data-i18n="s2"></span></div>
+        <div class="scale-chip-sm"><span class="chip-dot" style="background:#c0392b"></span><strong>3</strong> — <span data-i18n="s3"></span></div>
+      </div>
     </div>
-  </div>
-
-  <!-- QUESTIONS -->
-  <div class="card">
-    <div class="card-title" data-i18n="qTitle"></div>
-    <div id="questions-container"></div>
-  </div>
-
-  <div class="submit-area">
-    <div class="specialist-input-wrap">
-      <label class="field-label" for="specialist-email" data-i18n="sendLabel"></label>
-      <input type="email" id="specialist-email" placeholder="specialiste@clinique.com" style="width:100%;margin-bottom:.7rem">
+    <div class="card">
+      <div class="card-title" data-i18n="qTitle"></div>
+      <div id="questions-container"></div>
     </div>
-    <button id="submit-btn" data-i18n="calcBtn"></button>
-    <p class="submit-note" data-i18n="submitNote"></p>
-    <div id="send-status" style="margin-top:.7rem;font-size:.85rem;font-weight:600;display:none"></div>
-  </div>
+    <div class="submit-area">
+      <div class="specialist-wrap">
+        <label class="field-label" data-i18n="sendLabel"></label>
+        <input type="email" id="specialist-email" placeholder="specialiste@clinique.com" style="width:100%;margin-bottom:.7rem">
+      </div>
+      <button id="submit-btn" data-i18n="calcBtn"></button>
+      <p class="submit-note" data-i18n="submitNote"></p>
+      <div id="send-status" style="margin-top:.6rem;font-size:.83rem;font-weight:600;display:none"></div>
+    </div>
+  </main>
+</div>
 
-  <!-- RESULTS -->
-  <div id="results-panel">
-    <h2 data-i18n="resultsTitle"></h2>
-    <div id="score-grid" class="score-grid"></div>
-    <details>
-      <summary data-i18n="detailsToggle"></summary>
-      <div id="detail-table-wrap"></div>
-    </details>
-    <button class="print-btn" onclick="window.print()" data-i18n="printBtn"></button>
+<!-- ══ PAGE CONFIRMATION (parent voit uniquement ceci) ══ -->
+<div id="page-confirm" class="page">
+  <div class="confirm-card">
+    <div class="confirm-icon">✅</div>
+    <div class="confirm-title" data-i18n="confirmTitle"></div>
+    <div class="confirm-msg" data-i18n="confirmMsg"></div>
+    <div class="confirm-divider"></div>
+    <div class="confirm-note" data-i18n="confirmNote"></div>
+    <div class="confirm-badge" data-i18n="confirmBadge"></div>
   </div>
-
-</main>
+</div>
 
 <script>
-// ══════════════════════════════════════════════════════════
-// TRANSLATIONS
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// SUBSCALES
+// ═══════════════════════════════════════════════════════
 const SUBSCALE_ITEMS = {
-  fr: {
-    "Opposition / Défiance":    [1,8,11,16,21,31,40,47,62,66,67,69,70],
-    "Inattention cognitive":    [10,19,22,29,30,37,38,41,45,49,50,51,56,58,80],
-    "Hyperactivité":            [3,18,23,28,32,39,42,52,55,59,63,76,80],
-    "Anxiété / Timidité":       [4,7,14,17,24,27,33,36,43,44,46,53,65,72,75],
-    "Perfectionnisme":          [5,15,25,34,54],
-    "Problèmes sociaux":        [6,16,26,35,60,61,65,72],
-    "Psychosomatique":          [7,17,27,36,46,75],
-  },
-  en: {
-    "Opposition / Defiance":    [1,8,11,16,21,31,40,47,62,66,67,69,70],
-    "Cognitive Inattention":    [10,19,22,29,30,37,38,41,45,49,50,51,56,58,80],
-    "Hyperactivity":            [3,18,23,28,32,39,42,52,55,59,63,76,80],
-    "Anxious-Shy":              [4,7,14,17,24,27,33,36,43,44,46,53,65,72,75],
-    "Perfectionism":            [5,15,25,34,54],
-    "Social Problems":          [6,16,26,35,60,61,65,72],
-    "Psychosomatic":            [7,17,27,36,46,75],
-  },
-  ar: {
-    "المعارضة / العناد":         [1,8,11,16,21,31,40,47,62,66,67,69,70],
-    "قصور الانتباه المعرفي":      [10,19,22,29,30,37,38,41,45,49,50,51,56,58,80],
-    "فرط الحركة":                [3,18,23,28,32,39,42,52,55,59,63,76,80],
-    "القلق / الخجل":             [4,7,14,17,24,27,33,36,43,44,46,53,65,72,75],
-    "الكمالية":                  [5,15,25,34,54],
-    "المشكلات الاجتماعية":       [6,16,26,35,60,61,65,72],
-    "الشكاوى الجسدية":           [7,17,27,36,46,75],
-  }
+  fr:{"Opposition / Défiance":[1,8,11,16,21,31,40,47,62,66,67,69,70],"Inattention cognitive":[10,19,22,29,30,37,38,41,45,49,50,51,56,58,80],"Hyperactivité":[3,18,23,28,32,39,42,52,55,59,63,76,80],"Anxiété / Timidité":[4,7,14,17,24,27,33,36,43,44,46,53,65,72,75],"Perfectionnisme":[5,15,25,34,54],"Problèmes sociaux":[6,16,26,35,60,61,65,72],"Psychosomatique":[7,17,27,36,46,75]},
+  en:{"Opposition / Defiance":[1,8,11,16,21,31,40,47,62,66,67,69,70],"Cognitive Inattention":[10,19,22,29,30,37,38,41,45,49,50,51,56,58,80],"Hyperactivity":[3,18,23,28,32,39,42,52,55,59,63,76,80],"Anxious-Shy":[4,7,14,17,24,27,33,36,43,44,46,53,65,72,75],"Perfectionism":[5,15,25,34,54],"Social Problems":[6,16,26,35,60,61,65,72],"Psychosomatic":[7,17,27,36,46,75]},
+  ar:{"المعارضة / العناد":[1,8,11,16,21,31,40,47,62,66,67,69,70],"قصور الانتباه المعرفي":[10,19,22,29,30,37,38,41,45,49,50,51,56,58,80],"فرط الحركة":[3,18,23,28,32,39,42,52,55,59,63,76,80],"القلق / الخجل":[4,7,14,17,24,27,33,36,43,44,46,53,65,72,75],"الكمالية":[5,15,25,34,54],"المشكلات الاجتماعية":[6,16,26,35,60,61,65,72],"الشكاوى الجسدية":[7,17,27,36,46,75]}
 };
 
+// Seuils cliniques (T-score ≥ 65 = significatif)
+const THRESHOLDS = {
+  "Opposition / Défiance":19,"Opposition / Defiance":19,"المعارضة / العناد":19,
+  "Inattention cognitive":24,"Cognitive Inattention":24,"قصور الانتباه المعرفي":24,
+  "Hyperactivité":18,"Hyperactivity":18,"فرط الحركة":18,
+  "Anxiété / Timidité":24,"Anxious-Shy":24,"القلق / الخجل":24,
+  "Perfectionnisme":9,"Perfectionism":9,"الكمالية":9,
+  "Problèmes sociaux":15,"Social Problems":15,"المشكلات الاجتماعية":15,
+  "Psychosomatique":11,"Psychosomatic":11,"الشكاوى الجسدية":11
+};
+
+// ═══════════════════════════════════════════════════════
+// TRANSLATIONS
+// ═══════════════════════════════════════════════════════
 const T = {
-  fr: {
-    title:"Questionnaire d'évaluation Conners",
-    subtitle:"Version révisée (L) 1997 — À remplir par les parents",
-    badge:"Évaluation comportementale",
-    infoTitle:"Informations sur l'enfant",
-    childName:"Nom de l'enfant", childNamePH:"Nom et prénom",
-    dob:"Date de naissance",
-    sex:"Sexe", sexChoose:"-- Choisir --", sexM:"Masculin", sexF:"Féminin",
-    grade:"Degré académique / Classe", gradePH:"Ex : CM2, 6ème…",
-    parentName:"Nom du parent / tuteur", parentNamePH:"Nom et prénom",
-    parentEmail:"Email du parent",
-    instrLabel:"Instructions : ",
-    instrText:"Pour chaque comportement décrit ci-dessous, indiquez la fréquence que vous observez chez votre enfant.",
-    s0:"Jamais", s1:"Légère", s2:"Moyenne", s3:"Forte",
-    ratingLabels:["Jamais","Légère","Moy.","Forte"],
-    qTitle:"Items comportementaux (80 items)",
-    dobDay:"Jour", dobMonth:"Mois", dobYear:"Année",
-    calcBtn:"📧 Envoyer les résultats au spécialiste",
-    submitNote:"Remplissez tous les items et saisissez l'email du spécialiste pour envoyer.",
-    resultsTitle:"📊 Résultats — Questionnaire Conners",
-    detailsToggle:"Voir le détail des réponses",
-    sendLabel:"Envoyer les résultats au spécialiste",
-    sendBtn:"Envoyer par email",
-    printBtn:"🖨 Imprimer / PDF",
-    totalScore:"Score total",
-    errEmail:"⚠ Email du spécialiste invalide.",
-    okEmail:"✓ Votre client email va s'ouvrir avec le rapport.",
-    progressTpl: a=>`${a} / 80 réponses`,
-    missingBanner: missing => `⚠ ${missing.length} réponse(s) manquante(s) — cliquer pour y aller :`,
-    missingChip: n => `Item ${n}`,
-    btnMissing: n => `⚠ ${n} réponse(s) manquante(s) — cliquer pour y aller`,
-    sectionLabels:{ 1:"Items 1 – 20", 21:"Items 21 – 40", 41:"Items 41 – 60", 61:"Items 61 – 80" },
-    colItem:"#", colDesc:"Comportement", colScore:"Cote",
-    emailSubject:(n,d)=>`Conners – ${n} – ${d}`,
-    emailBody:(info,sub,total,flagged)=>
-`QUESTIONNAIRE CONNERS – RÉSULTATS
-Version révisée (L) 1997
-===================================
-ENFANT
-  Nom         : ${info.nom}
-  Naissance   : ${info.ddn}
-  Sexe        : ${info.sexe}
-  Classe      : ${info.degre}
-PARENT / TUTEUR
-  Nom         : ${info.parentNom}
-  Email       : ${info.parentEmail}
-SCORES PAR SOUS-ÉCHELLE
-${sub}
-SCORE TOTAL : ${total} / 240
-ITEMS NOTÉS 2 OU 3 (à examiner)
-${flagged||'  Aucun item à signaler'}
----
-Rapport généré automatiquement – Questionnaire Conners numérique.`,
-    questions:[
-      "Est colérique et rancunier",
-      "A des difficultés à faire ou compléter ses devoirs",
-      "Bouge tout le temps, comme un appareil motorisé",
-      "Est timide, vite effrayé",
-      "Se fait très rigide dans ses exigences",
-      "N'a pas d'ami(e)s",
-      "Souffre de maux d'estomac",
-      "Se querelle",
-      "Recherche la fuite, hésite, ou n'arrive pas à s'engager dans des tâches qui demandent un effort mental soutenu (travail scolaire ou devoirs à la maison)",
-      "A de la difficulté à se concentrer dans ses travaux et ses jeux",
-      "Argumente avec les adultes",
-      "Ne réussit pas à terminer ses tâches",
-      "Devient difficile à contrôler dans les centres d'achat ou épiceries",
-      "A peur des gens",
-      "Ne cesse de vérifier ses affaires",
-      "Perd rapidement ses camarades",
-      "Souffre de divers malaises et douleurs",
-      "Est turbulent ou très actif",
-      "A de la misère à se concentrer à l'école",
-      "Ne semble pas écouter ce qu'on lui dit",
-      "Perd le contrôle",
-      "Doit avoir une surveillance continue pour accomplir ses tâches",
-      "Se promène en courant ou grimpe partout dans des endroits interdits",
-      "Craint les nouvelles situations",
-      "Devient tatillon au niveau de la propreté",
-      "Ne sait pas comment se faire des ami(e)s",
-      "Commence à présenter des malaises, douleurs ou maux d'estomac avant de partir pour l'école",
-      "Devient facile à exciter et réagit vite",
-      "Ne suit pas toutes les consignes et ne réussit pas à terminer ses travaux scolaires ou corvées (sans lien avec une opposition ou incompréhension des directives)",
-      "Organise mal ses travaux et ses activités",
-      "Est irritable",
-      "Ne cesse de se tortiller",
-      "Craint de rester seul",
-      "Doit faire toujours les choses de la même manière",
-      "Ne reçoit pas d'invitations pour aller chez les camarades",
-      "Souffre de maux de tête",
-      "N'arrive pas à terminer ce qu'il commence",
-      "Manque de concentration ou se distrait facilement",
-      "Parle trop",
-      "Défie volontiers ou refuse de respecter les consignes de l'adulte",
-      "Ne se préoccupe pas des détails ou fait des erreurs d'inattention dans ses devoirs ou activités",
-      "Paraît incapable d'attendre en file ou son tour dans les jeux et activités de groupe",
-      "Présente de nombreuses peurs",
-      "Se sent obligé d'accomplir certains rituels",
-      "Se distrait vite ou ne reste pas longtemps sur une tâche",
-      "Se plaint de maladies même quand il n'a rien",
-      "A des explosions de colère",
-      "Se distrait facilement quand il reçoit une consigne précise",
-      "Interrompt ou s'ingère dans les affaires des autres (s'impose dans la conversation ou les jeux)",
-      "Oublie facilement dans les activités du quotidien",
-      "Ne peut pas saisir les mathématiques",
-      "Se met à courir entre deux bouchées de nourriture",
-      "A peur de la noirceur, des animaux ou des insectes",
-      "Se fixe des objectifs très élevés",
-      "Bouge des mains, des pieds ou se tortille sur la chaise",
-      "Ne se concentre pas longtemps",
-      "Est susceptible ou facilement ennuyé par les autres",
-      "Néglige son écriture",
-      "N'arrive pas à poursuivre un jeu agréable ou tranquille",
-      "Reste lointain et en retrait des autres",
-      "Blâme les autres pour ses fautes ou ses comportements inadéquats",
-      "Ne tient pas en place",
-      "Est malpropre ou mal organisé à la maison ou à l'école",
-      "S'énerve si les autres dérangent ses affaires",
-      "Colle aux parents ou autres adultes",
-      "Dérange les autres enfants",
-      "Fait exprès pour ennuyer les gens",
-      "Exige une réponse immédiate à ses demandes, sinon il se frustre",
-      "Ne porte attention qu'à ce qui l'intéresse",
-      "Se montre mesquin et rancunier",
-      "Perd le nécessaire à ses travaux ou activités (devoirs, crayons, livres, outils, jouets)",
-      "Se sent inférieur aux autres",
-      "Semble fatigué ou ralenti tout le temps",
-      "Est faible dans l'épellation des mots",
-      "Pleure souvent sans raison",
-      "Quitte son siège en classe ou ailleurs quand il doit rester assis",
-      "Change d'humeur de manière subite et radicale",
-      "Devient facilement exaspéré durant un effort",
-      "Se distrait facilement par les stimuli externes",
-      "Répond trop vite, avant même la fin de la question"
-    ]
-  },
-
-  en: {
-    title:"Conners' Rating Scale",
-    subtitle:"Revised Version (L) 1997 — To be completed by parents",
-    badge:"Behavioural Assessment",
-    infoTitle:"Child Information",
-    childName:"Child's Name", childNamePH:"First and last name",
-    dob:"Date of Birth",
-    sex:"Sex", sexChoose:"-- Select --", sexM:"Male", sexF:"Female",
-    grade:"Grade / Academic Level", gradePH:"E.g. Year 6, Grade 5…",
-    parentName:"Parent / Guardian Name", parentNamePH:"First and last name",
-    parentEmail:"Parent's Email",
-    instrLabel:"Instructions: ",
-    instrText:"For each item below, rate how often you observe this behaviour in your child.",
-    s0:"Never", s1:"A little", s2:"Moderate", s3:"Much",
-    ratingLabels:["Never","Little","Mod.","Much"],
-    qTitle:"Behavioural Items (80 items)",
-    dobDay:"Day", dobMonth:"Month", dobYear:"Year",
-    calcBtn:"📧 Send Results to Specialist",
-    submitNote:"Complete all items and enter the specialist's email to send.",
-    resultsTitle:"📊 Results — Conners Questionnaire",
-    detailsToggle:"View detailed responses",
-    sendLabel:"Send results to specialist",
-    sendBtn:"Send by email",
-    printBtn:"🖨 Print / Save PDF",
-    totalScore:"Total Score",
-    errEmail:"⚠ Please enter a valid specialist email.",
-    okEmail:"✓ Your email client will open with the pre-filled report.",
-    progressTpl: a=>`${a} / 80 answered`,
-    missingBanner: missing=>`⚠ ${missing.length} unanswered item(s) — click to go to:`,
-    missingChip: n=>`Item ${n}`,
-    btnMissing: n=>`⚠ ${n} unanswered — tap to go to next`,
-    sectionLabels:{ 1:"Items 1–20", 21:"Items 21–40", 41:"Items 41–60", 61:"Items 61–80" },
-    colItem:"#", colDesc:"Behaviour", colScore:"Score",
-    emailSubject:(n,d)=>`Conners – ${n} – ${d}`,
-    emailBody:(info,sub,total,flagged)=>
-`CONNERS QUESTIONNAIRE – RESULTS
-Revised Version (L) 1997
-===================================
-CHILD
-  Name        : ${info.nom}
-  Birth date  : ${info.ddn}
-  Sex         : ${info.sexe}
-  Grade       : ${info.degre}
-PARENT / GUARDIAN
-  Name        : ${info.parentNom}
-  Email       : ${info.parentEmail}
-SUBSCALE SCORES
-${sub}
-TOTAL SCORE : ${total} / 240
-ITEMS RATED 2 OR 3 (to review)
-${flagged||'  No flagged items'}
----
-Report automatically generated – Digital Conners Form.`,
-    questions:[
-      "Is angry and resentful",
-      "Has difficulty doing or completing homework",
-      "Constantly in motion, as if driven by a motor",
-      "Is shy, easily frightened",
-      "Is very demanding about having things done a certain way",
-      "Has no friends",
-      "Has stomach aches",
-      "Quarrels with others",
-      "Avoids or is reluctant to engage in tasks requiring sustained mental effort (such as schoolwork or homework)",
-      "Has difficulty concentrating in work or play",
-      "Argues with adults",
-      "Fails to finish tasks",
-      "Becomes hard to control in shopping centres or supermarkets",
-      "Is afraid of people",
-      "Keeps checking on things",
-      "Quickly loses friends",
-      "Has various aches and pains",
-      "Is restless or overactive",
-      "Has a hard time concentrating at school",
-      "Does not seem to listen to what is said",
-      "Loses control",
-      "Needs constant supervision to finish tasks",
-      "Runs about or climbs excessively in inappropriate situations",
-      "Is afraid of new situations",
-      "Is picky about cleanliness",
-      "Does not know how to make friends",
-      "Begins to have aches, pains or stomach aches before going to school",
-      "Is easily excited and quick to react",
-      "Does not follow through on instructions and fails to complete schoolwork or chores (not due to opposition or failure to understand)",
-      "Has difficulty organising tasks and activities",
-      "Is irritable",
-      "Keeps squirming",
-      "Is afraid of being alone",
-      "Has to do things the same way every time",
-      "Does not receive invitations to visit friends",
-      "Has headaches",
-      "Fails to finish what they start",
-      "Is easily distracted or lacks concentration",
-      "Talks excessively",
-      "Deliberately defies or refuses to comply with adult rules",
-      "Fails to give close attention to detail or makes careless errors in schoolwork or activities",
-      "Seems unable to wait in line or for their turn in group games or activities",
-      "Has many fears",
-      "Has to perform certain rituals",
-      "Is quickly distracted or does not stick with a task for long",
-      "Complains of illness when nothing is wrong",
-      "Has explosive outbursts of anger",
-      "Is easily distracted when given a specific instruction",
-      "Interrupts or intrudes on others (butts into conversations or games)",
-      "Is forgetful in daily activities",
-      "Cannot grasp mathematics",
-      "Runs between mouthfuls of food",
-      "Is afraid of the dark, animals or insects",
-      "Sets very high goals for themselves",
-      "Fidgets with hands or feet or squirms in seat",
-      "Cannot concentrate for long",
-      "Is touchy or easily annoyed by others",
-      "Is careless with handwriting",
-      "Cannot sustain an enjoyable or quiet game",
-      "Keeps to themselves, withdrawn from others",
-      "Blames others for their mistakes or bad behaviour",
-      "Cannot stay still",
-      "Is untidy or disorganised at home or school",
-      "Gets upset if others interfere with their things",
-      "Clings to parents or other adults",
-      "Disturbs other children",
-      "Deliberately annoys people",
-      "Demands immediate responses to requests, otherwise becomes frustrated",
-      "Pays attention only to what they are interested in",
-      "Is spiteful and resentful",
-      "Loses things needed for tasks (schoolwork, pencils, books, tools, toys)",
-      "Feels inferior to others",
-      "Seems tired or slow all the time",
-      "Is poor at spelling",
-      "Often cries for no reason",
-      "Leaves seat in class or elsewhere when remaining seated is expected",
-      "Has sudden and extreme mood changes",
-      "Becomes easily frustrated when making an effort",
-      "Is easily distracted by external stimuli",
-      "Blurts out answers before questions have been completed"
-    ]
-  },
-
-  ar: {
-    title:"استبيان كونرز للتقييم السلوكي",
-    subtitle:"النسخة المراجعة (L) 1997 — يُعبأ من قِبل الوالدَين",
-    badge:"التقييم السلوكي",
-    infoTitle:"معلومات الطفل",
-    childName:"اسم الطفل", childNamePH:"الاسم الكامل",
-    dob:"تاريخ الميلاد",
-    sex:"الجنس", sexChoose:"-- اختر --", sexM:"ذكر", sexF:"أنثى",
-    grade:"المستوى الدراسي / الصف", gradePH:"مثال: السنة الخامسة ابتدائي",
-    parentName:"اسم الوالد / الوصي", parentNamePH:"الاسم الكامل",
-    parentEmail:"البريد الإلكتروني للوالد",
-    instrLabel:"التعليمات: ",
-    instrText:"لكلّ سلوك موصوف أدناه، حدِّد مدى تكراره لدى طفلك.",
-    s0:"أبداً", s1:"خفيف", s2:"متوسط", s3:"شديد",
-    ratingLabels:["أبداً","خفيف","متوسط","شديد"],
-    qTitle:"البنود السلوكية (80 بنداً)",
-    dobDay:"يوم", dobMonth:"شهر", dobYear:"سنة",
-    calcBtn:"📧 إرسال النتائج إلى المختص",
-    submitNote:"أجب على جميع البنود وأدخل بريد المختص للإرسال.",
-    resultsTitle:"📊 النتائج — استبيان كونرز",
-    detailsToggle:"عرض تفاصيل الإجابات",
-    sendLabel:"إرسال النتائج إلى المختص",
-    sendBtn:"إرسال عبر البريد الإلكتروني",
-    printBtn:"🖨 طباعة / حفظ PDF",
-    totalScore:"المجموع الكلي",
-    errEmail:"⚠ يرجى إدخال بريد إلكتروني صحيح للمختص.",
-    okEmail:"✓ سيتم فتح برنامج البريد الإلكتروني مع التقرير.",
-    progressTpl: a=>`${a} / 80 إجابة`,
-    missingBanner: missing=>`⚠ ${missing.length} بند(بنود) غير مُجاب — انقر للانتقال:`,
-    missingChip: n=>`بند ${n}`,
-    sectionLabels:{ 1:"البنود 1–20", 21:"البنود 21–40", 41:"البنود 41–60", 61:"البنود 61–80" },
-    colItem:"#", colDesc:"السلوك", colScore:"الدرجة",
-    emailSubject:(n,d)=>`كونرز – ${n} – ${d}`,
-    emailBody:(info,sub,total,flagged)=>
-`استبيان كونرز – النتائج
-النسخة المراجعة (L) 1997
-===================================
-الطفل
-  الاسم       : ${info.nom}
-  الميلاد     : ${info.ddn}
-  الجنس       : ${info.sexe}
-  الصف        : ${info.degre}
-الوالد / الوصي
-  الاسم       : ${info.parentNom}
-  البريد      : ${info.parentEmail}
-درجات السلم الفرعي
-${sub}
-المجموع الكلي : ${total} / 240
-البنود المقيّمة بـ 2 أو 3 (تستوجب المراجعة)
-${flagged||'  لا توجد بنود مُشار إليها'}
----
-تم إنشاء هذا التقرير تلقائياً عبر نموذج كونرز الرقمي.`,
-    questions:[
-      "سريع الغضب والحقد",
-      "يجد صعوبة في إنجاز الواجبات المنزلية أو إكمالها",
-      "دائم الحركة كأنه يعمل بمحرك",
-      "خجول ويفزع بسرعة",
-      "متصلب جداً في مطالبه",
-      "ليس لديه أصدقاء",
-      "يعاني من آلام في المعدة",
-      "يتشاجر مع الآخرين",
-      "يتهرب أو يتردد أو لا يستطيع الانخراط في مهام تتطلب جهداً ذهنياً مستمراً (كالواجبات المدرسية أو المنزلية)",
-      "يجد صعوبة في التركيز في أعماله أو ألعابه",
-      "يجادل الكبار",
-      "لا ينجز مهامه حتى النهاية",
-      "يصعب ضبطه في المراكز التجارية أو المحلات",
-      "يخاف من الناس",
-      "لا يكف عن التحقق من أغراضه",
-      "يفقد أصدقاءه بسرعة",
-      "يعاني من آلام متعددة",
-      "مندفع أو نشيط جداً",
-      "يجد صعوبة في التركيز في المدرسة",
-      "لا يبدو أنه يُصغي لما يُقال له",
-      "يفقد السيطرة على نفسه",
-      "يحتاج إلى مراقبة مستمرة لإنجاز مهامه",
-      "يركض أو يتسلق في أماكن غير مناسبة",
-      "يخشى المواقف الجديدة",
-      "بالغ الاهتمام بالنظافة الشخصية",
-      "لا يعرف كيف يكوّن الصداقات",
-      "يشكو من آلام أو غثيان قبل الذهاب إلى المدرسة",
-      "سريع الاستثارة والتفاعل",
-      "لا يتّبع التعليمات ولا يُنهي واجباته المدرسية أو مهامه (دون أن يكون ذلك بسبب معارضة أو عدم فهم)",
-      "ينظم مهامه وأنشطته بشكل سيئ",
-      "سريع الانفعال",
-      "لا يكف عن الالتواء والتقلب",
-      "يخاف من الوحدة",
-      "يجب أن يفعل الأشياء دائماً بنفس الطريقة",
-      "لا يتلقى دعوات لزيارة أصدقائه",
-      "يعاني من صداع",
-      "لا يكمل ما يبدأه",
-      "يفتقر إلى التركيز أو يتشتت بسهولة",
-      "يتحدث كثيراً",
-      "يعارض أوامر الكبار أو يرفض اتباعها",
-      "لا يهتم بالتفاصيل أو يرتكب أخطاء إهمال في واجباته أو أنشطته",
-      "يبدو غير قادر على الانتظار في طابور أو انتظار دوره في الألعاب الجماعية",
-      "لديه مخاوف كثيرة",
-      "يجب عليه أداء طقوس معينة",
-      "يتشتت بسرعة أو لا يبقى طويلاً على مهمة واحدة",
-      "يشكو من المرض حتى حين لا يعاني من شيء",
-      "يُصاب بنوبات غضب شديدة",
-      "يتشتت بسهولة عند تلقيه تعليمة محددة",
-      "يقاطع الآخرين أو يتدخل في شؤونهم (في الحديث أو الألعاب)",
-      "كثير النسيان في الأنشطة اليومية",
-      "لا يستطيع فهم الرياضيات",
-      "يقوم بالجري بين اللقمة والأخرى أثناء الأكل",
-      "يخاف من الظلام أو الحيوانات أو الحشرات",
-      "يضع لنفسه أهدافاً مرتفعة جداً",
-      "يحرك يديه أو قدميه أو يتململ على الكرسي",
-      "لا يستطيع التركيز لفترة طويلة",
-      "حساس أو ينزعج بسهولة من الآخرين",
-      "يهمل كتابته",
-      "لا يستطيع الاستمرار في لعبة هادئة أو ممتعة",
-      "منعزل وبعيد عن الآخرين",
-      "يُلقي اللوم على الآخرين لأخطائه أو تصرفاته السيئة",
-      "لا يستطيع البقاء في مكانه",
-      "فوضوي أو غير منظم في المنزل أو المدرسة",
-      "ينزعج إذا تدخّل الآخرون في أغراضه",
-      "يتعلق بوالديه أو الكبار",
-      "يزعج الأطفال الآخرين",
-      "يفعل ذلك عمداً لإزعاج الناس",
-      "يطالب بردود فعل فورية وإلا أصابه الإحباط",
-      "لا ينتبه إلا لما يهمه",
-      "يُظهر الشماتة والحقد",
-      "يفقد الأدوات اللازمة لمهامه (كالأقلام والكتب والأدوات)",
-      "يشعر بالدونية تجاه الآخرين",
-      "يبدو مرهقاً أو بطيئاً طوال الوقت",
-      "ضعيف في الإملاء",
-      "يبكي كثيراً دون سبب",
-      "يترك مقعده في الفصل أو في أماكن يُفترض فيها الجلوس",
-      "يتقلب مزاجه بشكل مفاجئ وحاد",
-      "يُصاب بالإحباط بسهولة أثناء بذل المجهود",
-      "يتشتت بسهولة بسبب المحفزات الخارجية",
-      "يجيب قبل اكتمال السؤال"
-    ]
-  }
+fr:{
+  wTitle:"Questionnaire d'évaluation Conners",wSubtitle:"Outil clinique pour l'évaluation du comportement de l'enfant",
+  title:"Questionnaire Conners",subtitle:"Version révisée (L) 1997 — Parents",badge:"Évaluation comportementale",
+  ic1T:"Pour qui ?",ic1D:"Parents d'enfants présentant des difficultés scolaires ou comportementales",
+  ic2T:"80 items",ic2D:"Comportements observés à la maison et à l'école",
+  ic3T:"10–15 min",ic3D:"Durée estimée pour compléter le questionnaire",
+  ic4T:"Confidentiel",ic4D:"Résultats envoyés uniquement au spécialiste",
+  scaleTitle:"Échelle de cotation :",startBtn:"▶  Commencer le questionnaire",
+  welcomeNote:"Vos réponses sont strictement confidentielles et transmises uniquement au spécialiste désigné.",
+  infoTitle:"Informations sur l'enfant",
+  childName:"Nom de l'enfant",childNamePH:"Nom et prénom",
+  dob:"Date de naissance",dobDay:"Jour",dobMonth:"Mois",dobYear:"Année",
+  sex:"Sexe",sexChoose:"-- Choisir --",sexM:"Masculin",sexF:"Féminin",
+  grade:"Classe / Niveau",gradePH:"Ex : CM2, 6ème…",
+  parentName:"Nom du parent",parentNamePH:"Nom et prénom",
+  parentEmail:"Email du parent",
+  instrLabel:"Instructions :",instrText:"Pour chaque item, indiquez la fréquence observée chez votre enfant.",
+  s0:"Jamais",s1:"Légère",s2:"Moyenne",s3:"Forte",
+  ratingLabels:["Jamais","Légère","Moy.","Forte"],
+  qTitle:"Items comportementaux (80 items)",
+  sendLabel:"Email du spécialiste",
+  calcBtn:"📧 Envoyer les résultats au spécialiste",
+  submitNote:"Remplissez tous les items et saisissez l'email du spécialiste.",
+  errEmail:"⚠ Email du spécialiste invalide.",
+  sending:"⏳ Envoi en cours...",
+  errSend:"❌ Erreur d'envoi. Vérifiez votre connexion et réessayez.",
+  progressTpl:a=>`${a} / 80 réponses`,
+  missingBanner:m=>`⚠ ${m.length} réponse(s) manquante(s) :`,
+  missingChip:n=>`Item ${n}`,
+  btnMissing:n=>`⚠ ${n} manquant(s) — aller au suivant`,
+  sectionLabels:{1:"Items 1–20",21:"Items 21–40",41:"Items 41–60",61:"Items 61–80"},
+  confirmTitle:"Merci pour votre participation !",
+  confirmMsg:"Vos réponses ont bien été enregistrées et transmises au spécialiste. Vous pouvez fermer cette page.",
+  confirmNote:"Les résultats complets sont traités et analysés par le professionnel de santé qui vous a remis ce questionnaire.",
+  confirmBadge:"✉ Rapport envoyé au spécialiste",
+  questions:["Est colérique et rancunier","A des difficultés à faire ou compléter ses devoirs","Bouge tout le temps, comme un appareil motorisé","Est timide, vite effrayé","Se fait très rigide dans ses exigences","N'a pas d'ami(e)s","Souffre de maux d'estomac","Se querelle","Recherche la fuite, hésite, ou n'arrive pas à s'engager dans des tâches qui demandent un effort mental soutenu","A de la difficulté à se concentrer dans ses travaux et ses jeux","Argumente avec les adultes","Ne réussit pas à terminer ses tâches","Devient difficile à contrôler dans les centres d'achat ou épiceries","A peur des gens","Ne cesse de vérifier ses affaires","Perd rapidement ses camarades","Souffre de divers malaises et douleurs","Est turbulent ou très actif","A de la misère à se concentrer à l'école","Ne semble pas écouter ce qu'on lui dit","Perd le contrôle","Doit avoir une surveillance continue pour accomplir ses tâches","Se promène en courant ou grimpe partout dans des endroits interdits","Craint les nouvelles situations","Devient tatillon au niveau de la propreté","Ne sait pas comment se faire des ami(e)s","Commence à présenter des malaises ou maux d'estomac avant de partir pour l'école","Devient facile à exciter et réagit vite","Ne suit pas toutes les consignes et ne réussit pas à terminer ses travaux scolaires","Organise mal ses travaux et ses activités","Est irritable","Ne cesse de se tortiller","Craint de rester seul","Doit faire toujours les choses de la même manière","Ne reçoit pas d'invitations pour aller chez les camarades","Souffre de maux de tête","N'arrive pas à terminer ce qu'il commence","Manque de concentration ou se distrait facilement","Parle trop","Défie volontiers ou refuse de respecter les consignes de l'adulte","Ne se préoccupe pas des détails ou fait des erreurs d'inattention dans ses devoirs","Paraît incapable d'attendre en file ou son tour dans les jeux de groupe","Présente de nombreuses peurs","Se sent obligé d'accomplir certains rituels","Se distrait vite ou ne reste pas longtemps sur une tâche","Se plaint de maladies même quand il n'a rien","A des explosions de colère","Se distrait facilement quand il reçoit une consigne précise","Interrompt ou s'ingère dans les affaires des autres","Oublie facilement dans les activités du quotidien","Ne peut pas saisir les mathématiques","Se met à courir entre deux bouchées de nourriture","A peur de la noirceur, des animaux ou des insectes","Se fixe des objectifs très élevés","Bouge des mains, des pieds ou se tortille sur la chaise","Ne se concentre pas longtemps","Est susceptible ou facilement ennuyé par les autres","Néglige son écriture","N'arrive pas à poursuivre un jeu agréable ou tranquille","Reste lointain et en retrait des autres","Blâme les autres pour ses fautes","Ne tient pas en place","Est malpropre ou mal organisé à la maison ou à l'école","S'énerve si les autres dérangent ses affaires","Colle aux parents ou autres adultes","Dérange les autres enfants","Fait exprès pour ennuyer les gens","Exige une réponse immédiate à ses demandes, sinon il se frustre","Ne porte attention qu'à ce qui l'intéresse","Se montre mesquin et rancunier","Perd le nécessaire à ses travaux (crayons, livres, outils, jouets)","Se sent inférieur aux autres","Semble fatigué ou ralenti tout le temps","Est faible dans l'épellation des mots","Pleure souvent sans raison","Quitte son siège en classe ou ailleurs quand il doit rester assis","Change d'humeur de manière subite et radicale","Devient facilement exaspéré durant un effort","Se distrait facilement par les stimuli externes","Répond trop vite, avant même la fin de la question"]
+},
+en:{
+  wTitle:"Conners' Rating Scale",wSubtitle:"Clinical tool for assessing child behaviour",
+  title:"Conners Questionnaire",subtitle:"Revised Version (L) 1997 — Parents",badge:"Behavioural Assessment",
+  ic1T:"For whom?",ic1D:"Parents of children with learning or behavioural difficulties",
+  ic2T:"80 items",ic2D:"Behaviours observed at home and at school",
+  ic3T:"10–15 min",ic3D:"Estimated time to complete",
+  ic4T:"Confidential",ic4D:"Results sent only to the specialist",
+  scaleTitle:"Rating scale:",startBtn:"▶  Start the questionnaire",
+  welcomeNote:"Your answers are strictly confidential and sent only to the designated specialist.",
+  infoTitle:"Child Information",
+  childName:"Child's Name",childNamePH:"First and last name",
+  dob:"Date of Birth",dobDay:"Day",dobMonth:"Month",dobYear:"Year",
+  sex:"Sex",sexChoose:"-- Select --",sexM:"Male",sexF:"Female",
+  grade:"Grade / Level",gradePH:"E.g. Year 6, Grade 5…",
+  parentName:"Parent Name",parentNamePH:"First and last name",
+  parentEmail:"Parent Email",
+  instrLabel:"Instructions:",instrText:"For each item, rate how often you observe this behaviour in your child.",
+  s0:"Never",s1:"A little",s2:"Moderate",s3:"Much",
+  ratingLabels:["Never","Little","Mod.","Much"],
+  qTitle:"Behavioural Items (80 items)",
+  sendLabel:"Specialist email",
+  calcBtn:"📧 Send Results to Specialist",
+  submitNote:"Complete all items and enter the specialist's email.",
+  errEmail:"⚠ Invalid specialist email.",
+  sending:"⏳ Sending...",
+  errSend:"❌ Send error. Check your connection and try again.",
+  progressTpl:a=>`${a} / 80 answered`,
+  missingBanner:m=>`⚠ ${m.length} unanswered item(s):`,
+  missingChip:n=>`Item ${n}`,
+  btnMissing:n=>`⚠ ${n} missing — go to next`,
+  sectionLabels:{1:"Items 1–20",21:"Items 21–40",41:"Items 41–60",61:"Items 61–80"},
+  confirmTitle:"Thank you for your participation!",
+  confirmMsg:"Your answers have been recorded and sent to the specialist. You may close this page.",
+  confirmNote:"The complete results are processed and analysed by the health professional who gave you this questionnaire.",
+  confirmBadge:"✉ Report sent to specialist",
+  questions:["Is angry and resentful","Has difficulty doing or completing homework","Constantly in motion, as if driven by a motor","Is shy, easily frightened","Is very demanding about having things done a certain way","Has no friends","Has stomach aches","Quarrels with others","Avoids or is reluctant to engage in tasks requiring sustained mental effort","Has difficulty concentrating in work or play","Argues with adults","Fails to finish tasks","Becomes hard to control in shopping centres or supermarkets","Is afraid of people","Keeps checking on things","Quickly loses friends","Has various aches and pains","Is restless or overactive","Has a hard time concentrating at school","Does not seem to listen to what is said","Loses control","Needs constant supervision to finish tasks","Runs about or climbs excessively in inappropriate situations","Is afraid of new situations","Is picky about cleanliness","Does not know how to make friends","Begins to have aches or stomach aches before going to school","Is easily excited and quick to react","Does not follow through on instructions and fails to complete schoolwork or chores","Has difficulty organising tasks and activities","Is irritable","Keeps squirming","Is afraid of being alone","Has to do things the same way every time","Does not receive invitations to visit friends","Has headaches","Fails to finish what they start","Is easily distracted or lacks concentration","Talks excessively","Deliberately defies or refuses to comply with adult rules","Fails to give close attention to detail or makes careless errors","Seems unable to wait in line or for their turn in group games","Has many fears","Has to perform certain rituals","Is quickly distracted or does not stick with a task for long","Complains of illness when nothing is wrong","Has explosive outbursts of anger","Is easily distracted when given a specific instruction","Interrupts or intrudes on others","Is forgetful in daily activities","Cannot grasp mathematics","Runs between mouthfuls of food","Is afraid of the dark, animals or insects","Sets very high goals for themselves","Fidgets with hands or feet or squirms in seat","Cannot concentrate for long","Is touchy or easily annoyed by others","Is careless with handwriting","Cannot sustain an enjoyable or quiet game","Keeps to themselves, withdrawn from others","Blames others for their mistakes","Cannot stay still","Is untidy or disorganised at home or school","Gets upset if others interfere with their things","Clings to parents or other adults","Disturbs other children","Deliberately annoys people","Demands immediate responses, otherwise becomes frustrated","Pays attention only to what they are interested in","Is spiteful and resentful","Loses things needed for tasks (pencils, books, tools, toys)","Feels inferior to others","Seems tired or slow all the time","Is poor at spelling","Often cries for no reason","Leaves seat in class when remaining seated is expected","Has sudden and extreme mood changes","Becomes easily frustrated when making an effort","Is easily distracted by external stimuli","Blurts out answers before questions have been completed"]
+},
+ar:{
+  wTitle:"استبيان كونرز للتقييم السلوكي",wSubtitle:"أداة سريرية لتقييم سلوك الطفل",
+  title:"استبيان كونرز",subtitle:"النسخة المراجعة (L) 1997 — الوالدَين",badge:"التقييم السلوكي",
+  ic1T:"لمن؟",ic1D:"أولياء أمور الأطفال الذين يعانون من صعوبات دراسية أو سلوكية",
+  ic2T:"80 بنداً",ic2D:"سلوكيات ملاحظة في المنزل والمدرسة",
+  ic3T:"10–15 دقيقة",ic3D:"الوقت المقدر لإتمام الاستبيان",
+  ic4T:"سري",ic4D:"ترسل النتائج فقط إلى المختص",
+  scaleTitle:"سلّم التقييم:",startBtn:"▶  ابدأ الاستبيان",
+  welcomeNote:"إجاباتك سرية تماماً وتُرسل فقط إلى المختص المعيّن.",
+  infoTitle:"معلومات الطفل",
+  childName:"اسم الطفل",childNamePH:"الاسم الكامل",
+  dob:"تاريخ الميلاد",dobDay:"يوم",dobMonth:"شهر",dobYear:"سنة",
+  sex:"الجنس",sexChoose:"-- اختر --",sexM:"ذكر",sexF:"أنثى",
+  grade:"الصف / المستوى",gradePH:"مثال: السنة الخامسة ابتدائي",
+  parentName:"اسم الوالد",parentNamePH:"الاسم الكامل",
+  parentEmail:"البريد الإلكتروني للوالد",
+  instrLabel:"التعليمات:",instrText:"لكلّ بند، حدِّد مدى تكرار هذا السلوك لدى طفلك.",
+  s0:"أبداً",s1:"خفيف",s2:"متوسط",s3:"شديد",
+  ratingLabels:["أبداً","خفيف","متوسط","شديد"],
+  qTitle:"البنود السلوكية (80 بنداً)",
+  sendLabel:"البريد الإلكتروني للمختص",
+  calcBtn:"📧 إرسال النتائج إلى المختص",
+  submitNote:"أجب على جميع البنود وأدخل بريد المختص.",
+  errEmail:"⚠ البريد الإلكتروني للمختص غير صالح.",
+  sending:"⏳ جارٍ الإرسال...",
+  errSend:"❌ خطأ في الإرسال. تحقق من اتصالك وأعد المحاولة.",
+  progressTpl:a=>`${a} / 80 إجابة`,
+  missingBanner:m=>`⚠ ${m.length} بند(بنود) غير مُجاب:`,
+  missingChip:n=>`بند ${n}`,
+  btnMissing:n=>`⚠ ${n} غير مُجاب — انتقل للتالي`,
+  sectionLabels:{1:"البنود 1–20",21:"البنود 21–40",41:"البنود 41–60",61:"البنود 61–80"},
+  confirmTitle:"شكراً على مشاركتك!",
+  confirmMsg:"تم تسجيل إجاباتك وإرسالها إلى المختص. يمكنك إغلاق هذه الصفحة.",
+  confirmNote:"يتم معالجة النتائج الكاملة وتحليلها من قِبل المختص الصحي الذي أعطاك هذا الاستبيان.",
+  confirmBadge:"✉ تم إرسال التقرير إلى المختص",
+  questions:["سريع الغضب والحقد","يجد صعوبة في إنجاز الواجبات المنزلية أو إكمالها","دائم الحركة كأنه يعمل بمحرك","خجول ويفزع بسرعة","متصلب جداً في مطالبه","ليس لديه أصدقاء","يعاني من آلام في المعدة","يتشاجر مع الآخرين","يتهرب أو لا يستطيع الانخراط في مهام تتطلب جهداً ذهنياً مستمراً","يجد صعوبة في التركيز في أعماله أو ألعابه","يجادل الكبار","لا ينجز مهامه حتى النهاية","يصعب ضبطه في المراكز التجارية أو المحلات","يخاف من الناس","لا يكف عن التحقق من أغراضه","يفقد أصدقاءه بسرعة","يعاني من آلام متعددة","مندفع أو نشيط جداً","يجد صعوبة في التركيز في المدرسة","لا يبدو أنه يُصغي لما يُقال له","يفقد السيطرة على نفسه","يحتاج إلى مراقبة مستمرة لإنجاز مهامه","يركض أو يتسلق في أماكن غير مناسبة","يخشى المواقف الجديدة","بالغ الاهتمام بالنظافة الشخصية","لا يعرف كيف يكوّن الصداقات","يشكو من آلام أو غثيان قبل الذهاب إلى المدرسة","سريع الاستثارة والتفاعل","لا يتّبع التعليمات ولا يُنهي واجباته","ينظم مهامه وأنشطته بشكل سيئ","سريع الانفعال","لا يكف عن الالتواء والتقلب","يخاف من الوحدة","يجب أن يفعل الأشياء دائماً بنفس الطريقة","لا يتلقى دعوات لزيارة أصدقائه","يعاني من صداع","لا يكمل ما يبدأه","يفتقر إلى التركيز أو يتشتت بسهولة","يتحدث كثيراً","يعارض أوامر الكبار أو يرفض اتباعها","لا يهتم بالتفاصيل أو يرتكب أخطاء إهمال في واجباته","يبدو غير قادر على انتظار دوره في الألعاب الجماعية","لديه مخاوف كثيرة","يجب عليه أداء طقوس معينة","يتشتت بسرعة أو لا يبقى طويلاً على مهمة واحدة","يشكو من المرض حتى حين لا يعاني من شيء","يُصاب بنوبات غضب شديدة","يتشتت بسهولة عند تلقيه تعليمة محددة","يقاطع الآخرين أو يتدخل في شؤونهم","كثير النسيان في الأنشطة اليومية","لا يستطيع فهم الرياضيات","يقوم بالجري بين اللقمة والأخرى أثناء الأكل","يخاف من الظلام أو الحيوانات أو الحشرات","يضع لنفسه أهدافاً مرتفعة جداً","يحرك يديه أو قدميه أو يتململ على الكرسي","لا يستطيع التركيز لفترة طويلة","حساس أو ينزعج بسهولة من الآخرين","يهمل كتابته","لا يستطيع الاستمرار في لعبة هادئة أو ممتعة","منعزل وبعيد عن الآخرين","يُلقي اللوم على الآخرين لأخطائه","لا يستطيع البقاء في مكانه","فوضوي أو غير منظم في المنزل أو المدرسة","ينزعج إذا تدخّل الآخرون في أغراضه","يتعلق بوالديه أو الكبار","يزعج الأطفال الآخرين","يفعل ذلك عمداً لإزعاج الناس","يطالب بردود فعل فورية وإلا أصابه الإحباط","لا ينتبه إلا لما يهمه","يُظهر الشماتة والحقد","يفقد الأدوات اللازمة لمهامه","يشعر بالدونية تجاه الآخرين","يبدو مرهقاً أو بطيئاً طوال الوقت","ضعيف في الإملاء","يبكي كثيراً دون سبب","يترك مقعده في الفصل أو في أماكن يُفترض فيها الجلوس","يتقلب مزاجه بشكل مفاجئ وحاد","يُصاب بالإحباط بسهولة أثناء بذل المجهود","يتشتت بسهولة بسبب المحفزات الخارجية","يجيب قبل اكتمال السؤال"]
+}
 };
 
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // STATE
-// ══════════════════════════════════════════════════════════
-let currentLang = 'fr';
-// Keep answers across language switches
-const answers = {};  // answers[i] = "0"|"1"|"2"|"3" | undefined
+// ═══════════════════════════════════════════════════════
+let currentLang='fr';
+const answers={};
 
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goToForm(){ showPage('page-form'); }
+
+// ═══════════════════════════════════════════════════════
 // LANG
-// ══════════════════════════════════════════════════════════
-function setLang(lang) {
-  currentLang = lang;
-  const t = T[lang];
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang==='ar' ? 'rtl' : 'ltr';
-  document.body.classList.toggle('rtl', lang==='ar');
-
-  document.querySelectorAll('.lang-btn').forEach(b=>{
-    b.classList.toggle('active', b.getAttribute('onclick').includes(`'${lang}'`));
-  });
-
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const k = el.getAttribute('data-i18n');
-    if (t[k]!==undefined) el.textContent = t[k];
-  });
-  // Refresh drum labels
-  document.querySelectorAll('.drum-unit[data-i18n]').forEach(el=>{
-    const k=el.getAttribute('data-i18n');
-    if(t[k]) el.textContent=t[k];
-  });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
-    const k = el.getAttribute('data-i18n-ph');
-    if (t[k]) el.placeholder = t[k];
-  });
-  ['sexChoose','sexM','sexF'].forEach((key,i)=>{
-    const opt = document.querySelectorAll('#sexe option')[i];
-    if(opt && t[key]) opt.textContent = t[key];
-  });
-
+// ═══════════════════════════════════════════════════════
+function setLang(lang){
+  currentLang=lang;
+  const t=T[lang];
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.body.classList.toggle('rtl',lang==='ar');
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('onclick').includes(`'${lang}'`)));
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k]!==undefined)el.textContent=t[k];});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(t[k])el.placeholder=t[k];});
+  ['sexChoose','sexM','sexF'].forEach((key,i)=>{const o=document.querySelectorAll('#sexe option')[i];if(o&&t[key])o.textContent=t[key];});
   buildQuestions();
   updateProgress();
 }
 
-// ══════════════════════════════════════════════════════════
-// BUILD QUESTIONS
-// ══════════════════════════════════════════════════════════
-function buildQuestions() {
-  const t = T[currentLang];
-  const container = document.getElementById('questions-container');
-  container.innerHTML = '';
-
-  t.questions.forEach((q, idx) => {
-    const num = idx + 1;
-
-    // Section header
-    if (t.sectionLabels[num]) {
-      const hdr = document.createElement('div');
-      hdr.className = 'section-hdr';
-      hdr.innerHTML = `<span>${t.sectionLabels[num]}</span>`;
-      container.appendChild(hdr);
-    }
-
-    const row = document.createElement('div');
-    const colorClass = 'c' + ((num - 1) % 5);
-    row.className = 'q-row ' + colorClass + (answers[num]!==undefined ? ' answered' : '');
-    row.id = `row-${num}`;
-
-    const radioHTML = [0,1,2,3].map(v => `
-      <input type="radio" name="q${num}" id="q${num}v${v}" value="${v}"${answers[num]==v?' checked':''}>
-      <label for="q${num}v${v}">
-        <span class="r-val">${v}</span>
-        <span class="r-lbl">${t.ratingLabels[v]}</span>
-      </label>`).join('');
-
-    row.innerHTML = `
-      <span class="q-num">${num}</span>
-      <span class="q-text">${q}</span>
-      <div class="rating-group">${radioHTML}</div>`;
-
-    container.appendChild(row);
+// ═══════════════════════════════════════════════════════
+// QUESTIONS
+// ═══════════════════════════════════════════════════════
+function buildQuestions(){
+  const t=T[currentLang];
+  const c=document.getElementById('questions-container');
+  c.innerHTML='';
+  t.questions.forEach((q,idx)=>{
+    const num=idx+1;
+    if(t.sectionLabels[num]){const h=document.createElement('div');h.className='section-hdr';h.innerHTML=`<span>${t.sectionLabels[num]}</span>`;c.appendChild(h);}
+    const row=document.createElement('div');
+    const cc='c'+((num-1)%5);
+    row.className='q-row '+cc+(answers[num]!==undefined?' answered':'');
+    row.id=`row-${num}`;
+    row.innerHTML=`<span class="q-num">${num}</span><span class="q-text">${q}</span><div class="rating-group">${[0,1,2,3].map(v=>`<input type="radio" name="q${num}" id="q${num}v${v}" value="${v}"${answers[num]==v?' checked':''}><label for="q${num}v${v}"><span class="r-val">${v}</span><span class="r-lbl">${t.ratingLabels[v]}</span></label>`).join('')}</div>`;
+    c.appendChild(row);
   });
 }
 
-// ══════════════════════════════════════════════════════════
-// PROGRESS + MISSING BANNER
-// ══════════════════════════════════════════════════════════
-function getMissing() {
-  const missing = [];
-  for (let i=1;i<=80;i++) {
-    if (answers[i]===undefined) missing.push(i);
-  }
-  return missing;
+// ═══════════════════════════════════════════════════════
+// PROGRESS
+// ═══════════════════════════════════════════════════════
+function getMissing(){const m=[];for(let i=1;i<=80;i++)if(answers[i]===undefined)m.push(i);return m;}
+function updateProgress(){
+  const t=T[currentLang];
+  const answered=80-getMissing().length;
+  const pct=Math.round((answered/80)*100);
+  document.getElementById('progress-bar-inner').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+' %';
+  document.getElementById('progress-label').textContent=t.progressTpl(answered);
+  for(let i=1;i<=80;i++){const row=document.getElementById(`row-${i}`);if(!row)continue;row.classList.toggle('answered',answers[i]!==undefined);if(answers[i]!==undefined)row.classList.remove('missing-highlight');const cc='c'+((i-1)%5);if(!row.classList.contains(cc))row.classList.add(cc);}
+  if(window._tried)renderMissingBanner();
 }
-
-function updateProgress() {
-  const t = T[currentLang];
-  const answered = 80 - getMissing().length;
-  const pct = Math.round((answered/80)*100);
-
-  document.getElementById('progress-bar-inner').style.width = pct+'%';
-  document.getElementById('progress-pct').textContent = pct+' %';
-  document.getElementById('progress-label').textContent = t.progressTpl(answered);
-  // button always enabled — guiding logic handles missing items
-
-  // Update row styles
-  for (let i=1;i<=80;i++) {
-    const row = document.getElementById(`row-${i}`);
-    if (!row) continue;
-    row.classList.toggle('answered', answers[i]!==undefined);
-    if (answers[i]!==undefined) row.classList.remove('missing-highlight');
-    // ensure colour class is preserved
-    const cc = 'c'+((i-1)%5);
-    if (!row.classList.contains(cc)) row.classList.add(cc);
-  }
-
-  // Missing banner — shown only if user already tried to submit
-  if (window._submitAttempted) renderMissingBanner();
+function renderMissingBanner(){
+  const t=T[currentLang];const missing=getMissing();const b=document.getElementById('missing-banner');
+  if(missing.length===0){b.style.display='none';return;}
+  b.style.display='flex';
+  b.innerHTML=`<span>${t.missingBanner(missing)}</span>${missing.map(n=>`<span class="missing-chip" onclick="scrollToItem(${n})">${t.missingChip(n)}</span>`).join('')}`;
 }
-
-// Current missing pointer index (for sequential navigation)
-let _missingPointer = 0;
-
-function renderMissingBanner() {
-  const t = T[currentLang];
-  const missing = getMissing();
-  const banner = document.getElementById('missing-banner');
-  if (missing.length === 0) {
-    banner.style.display = 'none';
-    return;
-  }
-  banner.style.display = 'flex';
-  const chips = missing.map(n =>
-    `<span class="missing-chip" onclick="scrollToItem(${n})">${t.missingChip(n)}</span>`
-  ).join('');
-  banner.innerHTML = `<span>${t.missingBanner(missing)}</span>${chips}`;
-}
-
-function scrollToItem(num) {
-  // Remove all previous highlights
-  document.querySelectorAll('.missing-highlight').forEach(r => r.classList.remove('missing-highlight'));
-  const row = document.getElementById(`row-${num}`);
-  if (!row) return;
+function scrollToItem(num){
+  document.querySelectorAll('.missing-highlight').forEach(r=>r.classList.remove('missing-highlight'));
+  const row=document.getElementById(`row-${num}`);if(!row)return;
   row.classList.add('missing-highlight');
-  // Scroll with offset to account for sticky bars
-  const y = row.getBoundingClientRect().top + window.scrollY - 120;
-  window.scrollTo({ top: y, behavior: 'smooth' });
-  // Auto-remove highlight when answered
-  const cleanup = setInterval(() => {
-    if (answers[num] !== undefined) {
-      row.classList.remove('missing-highlight');
-      clearInterval(cleanup);
-    }
-  }, 300);
-  // Fallback remove after 8s
-  setTimeout(() => { row.classList.remove('missing-highlight'); clearInterval(cleanup); }, 8000);
+  window.scrollTo({top:row.getBoundingClientRect().top+window.scrollY-130,behavior:'smooth'});
+  const t=setInterval(()=>{if(answers[num]!==undefined){row.classList.remove('missing-highlight');clearInterval(t);}},300);
+  setTimeout(()=>{row.classList.remove('missing-highlight');clearInterval(t);},8000);
 }
-
-// Listen for radio changes
-document.addEventListener('change', e => {
-  if (e.target.type === 'radio' && e.target.name.startsWith('q')) {
-    const num = parseInt(e.target.name.slice(1));
-    answers[num] = e.target.value;
+document.addEventListener('change',e=>{
+  if(e.target.type==='radio'&&e.target.name.startsWith('q')){
+    const num=parseInt(e.target.name.slice(1));
+    answers[num]=e.target.value;
     updateProgress();
-    // Auto-advance to next missing item after a brief delay
-    if (window._submitAttempted) {
-      const missing = getMissing();
-      if (missing.length > 0) {
-        updateSubmitBtnState(missing.length);
-        // Find next missing AFTER current item
-        const next = missing.find(n => n > num);
-        if (next) {
-          setTimeout(() => scrollToItem(next), 350);
-        }
-      } else {
-        updateSubmitBtnState(0);
-      }
+    if(window._tried){
+      const m=getMissing();
+      if(m.length>0){updateSubmitBtn(m.length);const nx=m.find(n=>n>num);if(nx)setTimeout(()=>scrollToItem(nx),350);}
+      else updateSubmitBtn(0);
     }
   }
 });
 
-// ══════════════════════════════════════════════════════════
-// SUBMIT: smart guided navigation + send
-// ══════════════════════════════════════════════════════════
-document.getElementById('submit-btn').addEventListener('click', () => {
-  window._submitAttempted = true;
-  const missing = getMissing();
-
-  if (missing.length > 0) {
-    // Find next unanswered item after current scroll position
-    const scrollMid = window.scrollY + window.innerHeight / 2;
-    let target = missing[0];
-    for (const n of missing) {
-      const row = document.getElementById(`row-${n}`);
-      if (row && row.getBoundingClientRect().top + window.scrollY > scrollMid) {
-        target = n; break;
-      }
-    }
-    renderMissingBanner();
-    scrollToItem(target);
-    // Update button to show count + next action
-    updateSubmitBtnState(missing.length);
-    return;
+// ═══════════════════════════════════════════════════════
+// SUBMIT
+// ═══════════════════════════════════════════════════════
+document.getElementById('submit-btn').addEventListener('click',()=>{
+  window._tried=true;
+  const m=getMissing();
+  if(m.length>0){
+    const mid=window.scrollY+window.innerHeight/2;let t=m[0];
+    for(const n of m){const r=document.getElementById(`row-${n}`);if(r&&r.getBoundingClientRect().top+window.scrollY>mid){t=n;break;}}
+    renderMissingBanner();scrollToItem(t);updateSubmitBtn(m.length);return;
   }
-
-  // All answered → compute + send
-  updateSubmitBtnState(0);
-  computeResults();
+  updateSubmitBtn(0);
   sendResults();
 });
-
-function updateSubmitBtnState(missingCount) {
-  const t = T[currentLang];
-  const btn = document.getElementById('submit-btn');
-  if (missingCount > 0) {
-    btn.style.background = 'var(--amber)';
-    btn.textContent = t.btnMissing(missingCount);
-  } else {
-    btn.style.background = '';
-    btn.textContent = t.calcBtn;
-  }
+function updateSubmitBtn(n){
+  const t=T[currentLang];const b=document.getElementById('submit-btn');
+  if(n>0){b.style.background='var(--amber)';b.textContent=t.btnMissing(n);}
+  else{b.style.background='';b.textContent=t.calcBtn;}
 }
 
-// ══════════════════════════════════════════════════════════
-// COMPUTE RESULTS
-// ══════════════════════════════════════════════════════════
-function computeResults() {
-  const t = T[currentLang];
-  const subscales = SUBSCALE_ITEMS[currentLang];
-  const total = Object.values(answers).reduce((a,b)=>a+parseInt(b),0);
-  const scoreGrid = document.getElementById('score-grid');
-  scoreGrid.innerHTML = '';
+// ═══════════════════════════════════════════════════════
+// BUILD FULL CLINICAL REPORT (for specialist email only)
+// ═══════════════════════════════════════════════════════
+function buildClinicalReport(info, subscales, total, date){
 
-  // Total box
+  const COLORS = ['#4a7abf','#3d9e6a','#c97c10','#b0508e','#6553b8','#c0392b','#0e8a8a'];
+  const allItems = T[currentLang].questions;
   const maxTotal = 240;
-  const b0 = document.createElement('div');
-  b0.className = 'score-box'+(total > maxTotal*0.5 ? ' high' : '');
-  b0.innerHTML = `<div class="sn">${t.totalScore}</div><div class="sv">${total}</div><div class="sm">/ ${maxTotal}</div>`;
-  scoreGrid.appendChild(b0);
+  const pctTotal = Math.round((total / maxTotal) * 100);
 
-  Object.entries(subscales).forEach(([name, items]) => {
-    const s = items.reduce((acc,i)=>acc+parseInt(answers[i]||0),0);
-    const max = items.length*3;
-    const high = s > max*0.6;
-    const bx = document.createElement('div');
-    bx.className = 'score-box'+(high?' high':'');
-    bx.innerHTML = `<div class="sn">${name}</div><div class="sv">${s}</div><div class="sm">/ ${max}</div>`;
-    scoreGrid.appendChild(bx);
+  // ── Domain descriptions ──────────────────────────────────────────
+  const DOMAIN_INFO = {
+    "Opposition / Défiance":    { num:"D1", desc:"Évalue les comportements d'opposition, de défi et d'hostilité envers les adultes et les pairs.", items_desc:"Colère, querelles, argumentation, perte de contrôle, défiance, irritabilité, comportements mesquins." },
+    "Opposition / Defiance":    { num:"D1", desc:"Assesses oppositional, defiant, and hostile behaviours toward adults and peers.", items_desc:"Anger, quarrels, arguing, loss of control, defiance, irritability, spiteful behaviours." },
+    "المعارضة / العناد":         { num:"D1", desc:"يقيّم سلوكيات المعارضة والعناد والعدائية تجاه الكبار والأقران.", items_desc:"الغضب، المشاجرة، الجدال، فقدان السيطرة، التحدي، التهيج." },
+
+    "Inattention cognitive":    { num:"D2", desc:"Évalue les difficultés attentionnelles, les erreurs d'inattention et les problèmes d'organisation dans le contexte scolaire.", items_desc:"Distraction, oublis, difficultés de concentration, désorganisation, non-achèvement des tâches." },
+    "Cognitive Inattention":    { num:"D2", desc:"Assesses attentional difficulties, inattentive errors, and organisational problems in academic contexts.", items_desc:"Distraction, forgetfulness, concentration difficulties, disorganisation, task non-completion." },
+    "قصور الانتباه المعرفي":     { num:"D2", desc:"يقيّم صعوبات الانتباه وأخطاء الإهمال ومشاكل التنظيم في السياق الدراسي.", items_desc:"التشتت، النسيان، صعوبات التركيز، سوء التنظيم، عدم إتمام المهام." },
+
+    "Hyperactivité":            { num:"D3", desc:"Évalue le niveau d'agitation motrice, l'impulsivité et l'hyperactivité comportementale.", items_desc:"Agitation permanente, grimper, courir, parler excessivement, réponses impulsives, tortillements." },
+    "Hyperactivity":            { num:"D3", desc:"Assesses motor restlessness, impulsivity, and behavioural hyperactivity.", items_desc:"Constant agitation, climbing, running, excessive talking, impulsive responses, squirming." },
+    "فرط الحركة":               { num:"D3", desc:"يقيّم مستوى الاندفاع الحركي والتسرع وفرط النشاط السلوكي.", items_desc:"الحركة المستمرة، التسلق، الجري، الكلام المفرط، الاستجابات الاندفاعية." },
+
+    "Anxiété / Timidité":       { num:"D4", desc:"Évalue les manifestations anxieuses, les peurs et les comportements d'inhibition sociale.", items_desc:"Timidité, peurs multiples, plaintes somatiques, rituels, attachement excessif, évitement." },
+    "Anxious-Shy":              { num:"D4", desc:"Assesses anxiety manifestations, fears, and social inhibition behaviours.", items_desc:"Shyness, multiple fears, somatic complaints, rituals, excessive attachment, avoidance." },
+    "القلق / الخجل":            { num:"D4", desc:"يقيّم مظاهر القلق والمخاوف وسلوكيات التثبيط الاجتماعي.", items_desc:"الخجل، المخاوف المتعددة، الشكاوى الجسدية، الطقوس، التعلق المفرط، التجنب." },
+
+    "Perfectionnisme":          { num:"D5", desc:"Évalue la rigidité comportementale, les exigences élevées envers soi-même et les comportements de vérification.", items_desc:"Rigidité dans les exigences, vérification compulsive, objectifs très élevés, rituels de routine." },
+    "Perfectionism":            { num:"D5", desc:"Assesses behavioural rigidity, high self-demands, and checking behaviours.", items_desc:"Rigid demands, compulsive checking, very high goals, routine rituals." },
+    "الكمالية":                 { num:"D5", desc:"يقيّم الصرامة السلوكية والمطالب المرتفعة تجاه الذات وسلوكيات التحقق.", items_desc:"الصرامة في المطالب، التحقق القهري، الأهداف المرتفعة جداً، طقوس الروتين." },
+
+    "Problèmes sociaux":        { num:"D6", desc:"Évalue les difficultés d'intégration sociale, les relations avec les pairs et l'isolement.", items_desc:"Absence d'amis, perte rapide de camarades, isolement, refus d'invitations, inaptitude sociale." },
+    "Social Problems":          { num:"D6", desc:"Assesses social integration difficulties, peer relationships, and isolation.", items_desc:"No friends, rapid loss of peers, isolation, refusal of invitations, social ineptitude." },
+    "المشكلات الاجتماعية":      { num:"D6", desc:"يقيّم صعوبات الاندماج الاجتماعي والعلاقة مع الأقران والعزلة.", items_desc:"غياب الأصدقاء، فقدان الرفاق بسرعة، العزلة، رفض الدعوات، العجز الاجتماعي." },
+
+    "Psychosomatique":          { num:"D7", desc:"Évalue les plaintes physiques sans cause organique évidente, souvent liées au stress et à l'anxiété scolaire.", items_desc:"Maux de tête, maux d'estomac, douleurs diverses, plaintes avant l'école, fatigue inexpliquée." },
+    "Psychosomatic":            { num:"D7", desc:"Assesses physical complaints without obvious organic cause, often linked to stress and school anxiety.", items_desc:"Headaches, stomach aches, various pains, complaints before school, unexplained fatigue." },
+    "الشكاوى الجسدية":          { num:"D7", desc:"يقيّم الشكاوى الجسدية بدون سبب عضوي واضح، وغالباً مرتبطة بضغط الدراسة.", items_desc:"الصداع، آلام المعدة، آلام متنوعة، شكاوى قبل المدرسة، الإرهاق غير المبرر." },
+  };
+
+  // ── T-score approximation (mean=50, SD=10) ──────────────────────
+  // Based on Conners 1997 normative data approximation
+  function getTScore(rawScore, maxScore) {
+    const pct = rawScore / maxScore;
+    // Approximate T-score: T = 50 + 10 * ((pct - 0.25) / 0.15)
+    const t = Math.round(50 + 10 * ((pct - 0.25) / 0.18));
+    return Math.min(Math.max(t, 40), 90);
+  }
+
+  function getTInterpretation(tScore) {
+    if (tScore >= 70) return { label: currentLang==='ar'?'مرتفع جداً — إشكالي':currentLang==='en'?'Very Elevated — Clinically Significant':'Très élevé — Cliniquement significatif', color:'#c0392b', zone:'danger' };
+    if (tScore >= 65) return { label: currentLang==='ar'?'مرتفع — يستوجب الانتباه':currentLang==='en'?'Elevated — Warrants Attention':'Élevé — Mérite attention', color:'#e05c5c', zone:'high' };
+    if (tScore >= 60) return { label: currentLang==='ar'?'فوق المتوسط':currentLang==='en'?'Above Average':'Au-dessus de la moyenne', color:'#e8a020', zone:'moderate' };
+    if (tScore >= 50) return { label: currentLang==='ar'?'متوسط':currentLang==='en'?'Average':'Dans la moyenne', color:'#5aab6d', zone:'normal' };
+    return { label: currentLang==='ar'?'دون المتوسط':currentLang==='en'?'Below Average':'En dessous de la moyenne', color:'#4a7abf', zone:'low' };
+  }
+
+  // ── SVG bar-gauge for each domain ───────────────────────────────
+  function makeDomainGauge(rawScore, maxScore, color, tScore) {
+    const pct = Math.min(Math.round((rawScore / maxScore) * 100), 100);
+    const tPct = Math.min(Math.round(((tScore - 40) / 50) * 100), 100); // 40-90 range
+    const threshold65Pct = Math.round(((65 - 40) / 50) * 100); // where T=65 falls
+    return `
+    <svg width="100%" height="28" viewBox="0 0 300 28" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <!-- Background track -->
+      <rect x="0" y="8" width="300" height="12" rx="6" fill="#eef0f6"/>
+      <!-- Zone colors: normal (green), moderate (amber), high (red) -->
+      <rect x="0" y="8" width="${threshold65Pct*3}" height="12" rx="6" fill="#e8f5ee" opacity="0.6"/>
+      <rect x="${threshold65Pct*3}" y="8" width="${300-threshold65Pct*3}" height="12" rx="6" fill="#fdf0ef" opacity="0.6"/>
+      <!-- Score fill -->
+      <rect x="0" y="8" width="${pct*3}" height="12" rx="6" fill="${color}"/>
+      <!-- T=65 threshold line -->
+      <line x1="${threshold65Pct*3}" y1="4" x2="${threshold65Pct*3}" y2="24" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <!-- Score label -->
+      <text x="${Math.min(pct*3+4, 280)}" y="19" font-size="10" font-weight="700" fill="${color}">${rawScore}/${maxScore}</text>
+      <!-- T-score label -->
+      <text x="290" y="7" font-size="9" fill="#9aa3b8" text-anchor="end">T=${tScore}</text>
+    </svg>`;
+  }
+
+  // ── Build per-domain cards ───────────────────────────────────────
+  let domainCards = '';
+  let significantCount = 0;
+  let clinicalNotes = '';
+  let subRows = '';
+  let flaggedRows = '';
+
+  const domainData = [];
+
+  Object.entries(subscales).forEach(([name, items], i) => {
+    const s = items.reduce((acc, j) => acc + parseInt(answers[j] || 0), 0);
+    const max = items.length * 3;
+    const pct = Math.round((s / max) * 100);
+    const tScore = getTScore(s, max);
+    const interp = getTInterpretation(tScore);
+    const threshold = THRESHOLDS[name] || Math.round(max * 0.6);
+    const significant = s >= threshold;
+    if (significant) significantCount++;
+    const info_d = DOMAIN_INFO[name] || { num: `D${i+1}`, desc: '', items_desc: '' };
+    const col = COLORS[i];
+
+    domainData.push({ name, s, max, pct, tScore, interp, significant, col, info_d, items });
+
+    // Items in this domain with their scores
+    let domainItemRows = '';
+    items.forEach(itemNum => {
+      const v = parseInt(answers[itemNum] || 0);
+      const ibg = v===3?'#c0392b':v===2?'#e8a020':v===1?'#5aab6d':'#e4e8f2';
+      const ifc = v===0?'#9aa3b8':'#fff';
+      domainItemRows += `
+        <tr style="background:${itemNum%2===0?'#fff':'#f8f9fc'}">
+          <td style="padding:5px 8px;font-size:11px;color:#9aa3b8;font-weight:700;white-space:nowrap">${itemNum}</td>
+          <td style="padding:5px 8px;font-size:11px;color:#2c3e50;line-height:1.4">${allItems[itemNum - 1]}</td>
+          <td style="padding:5px 8px;text-align:center">
+            <span style="display:inline-block;background:${ibg};color:${ifc};border-radius:10px;padding:2px 8px;font-size:11px;font-weight:700">${v}</span>
+          </td>
+        </tr>`;
+    });
+
+    // Status badge
+    const statusBadge = significant
+      ? `<span style="background:#fdf0ef;color:#c0392b;border:1.5px solid #c0392b;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">⚠ Seuil atteint — T=${tScore}</span>`
+      : `<span style="background:#e8f5ee;color:#27ae60;border:1.5px solid #27ae60;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">✓ Dans la norme — T=${tScore}</span>`;
+
+    if (significant) {
+      clinicalNotes += `<li style="margin-bottom:7px;font-size:12px;color:#2c3e50"><b>${info_d.num} — ${name}</b> : Score brut ${s}/${max} · T-score = ${tScore} · ${interp.label}. Exploration clinique recommandée.</li>`;
+    }
+
+    // Summary table row
+    subRows += `
+      <tr>
+        <td style="padding:9px 11px;border-bottom:1px solid #e8eaf0;font-size:12px;font-weight:700;color:#1a2744">${info_d.num}</td>
+        <td style="padding:9px 11px;border-bottom:1px solid #e8eaf0;font-size:12px;color:#1a2744">${name}</td>
+        <td style="padding:9px 11px;border-bottom:1px solid #e8eaf0;font-size:12px;text-align:center;font-weight:700;color:${interp.color}">${s} / ${max}</td>
+        <td style="padding:9px 11px;border-bottom:1px solid #e8eaf0;font-size:12px;text-align:center;font-weight:800;color:${interp.color}">${tScore}</td>
+        <td style="padding:9px 11px;border-bottom:1px solid #e8eaf0;font-size:12px;color:${interp.color};font-weight:600">${interp.label}</td>
+      </tr>`;
+
+    // Full domain card
+    domainCards += `
+    <div style="margin-bottom:20px;border:1.5px solid #e4e8f2;border-radius:10px;overflow:hidden;border-top:4px solid ${col}">
+
+      <!-- Domain header -->
+      <div style="background:#f8f9fc;padding:12px 16px;display:flex;align-items:flex-start;gap:12px">
+        <div style="background:${col};color:#fff;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">${info_d.num}</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:#1a2744">${name}</div>
+          <div style="font-size:11px;color:#5a6478;margin-top:3px;line-height:1.5">${info_d.desc}</div>
+        </div>
+        <div style="flex-shrink:0;text-align:right">${statusBadge}</div>
+      </div>
+
+      <!-- Gauge + scores -->
+      <div style="padding:14px 16px;background:#fff">
+
+        <!-- Score boxes row -->
+        <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+          <div style="background:#f2f4f9;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#9aa3b8;letter-spacing:.06em">Score brut</div>
+            <div style="font-size:22px;font-weight:900;color:${interp.color};line-height:1.1">${s}</div>
+            <div style="font-size:10px;color:#9aa3b8">/ ${max}</div>
+          </div>
+          <div style="background:#f2f4f9;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#9aa3b8;letter-spacing:.06em">T-Score</div>
+            <div style="font-size:22px;font-weight:900;color:${interp.color};line-height:1.1">${tScore}</div>
+            <div style="font-size:10px;color:#9aa3b8">Seuil : 65</div>
+          </div>
+          <div style="background:#f2f4f9;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#9aa3b8;letter-spacing:.06em">Percentile</div>
+            <div style="font-size:22px;font-weight:900;color:${interp.color};line-height:1.1">${pct}</div>
+            <div style="font-size:10px;color:#9aa3b8">%</div>
+          </div>
+          <div style="background:${significant?'#fdf0ef':'#e8f5ee'};border-radius:8px;padding:8px 14px;flex:1;min-width:120px;display:flex;align-items:center">
+            <div>
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#9aa3b8;letter-spacing:.06em">Interprétation</div>
+              <div style="font-size:12px;font-weight:700;color:${interp.color};margin-top:3px;line-height:1.4">${interp.label}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual gauge bar -->
+        <div style="margin-bottom:6px">
+          <div style="font-size:10px;color:#9aa3b8;margin-bottom:4px;display:flex;justify-content:space-between">
+            <span>T=40 (Bas)</span><span style="color:#c0392b">│ T=65 (Seuil clinique)</span><span>T=90 (Élevé)</span>
+          </div>
+          ${makeDomainGauge(s, max, interp.color, tScore)}
+        </div>
+
+        <!-- Items of this domain -->
+        <details style="margin-top:10px">
+          <summary style="cursor:pointer;font-size:11px;font-weight:700;color:#5a6478;padding:5px 0">${currentLang==='ar'?'عرض البنود المرتبطة بهذا المجال':currentLang==='en'?'▸ View items for this domain':'▸ Voir les items de ce domaine'} (${items.length} items)</summary>
+          <table style="width:100%;border-collapse:collapse;margin-top:8px">
+            <thead><tr style="background:#f2f4f9">
+              <th style="padding:5px 8px;font-size:10px;font-weight:700;color:#9aa3b8;text-align:left;width:30px">#</th>
+              <th style="padding:5px 8px;font-size:10px;font-weight:700;color:#9aa3b8;text-align:left">Comportement</th>
+              <th style="padding:5px 8px;font-size:10px;font-weight:700;color:#9aa3b8;text-align:center;width:45px">Cote</th>
+            </tr></thead>
+            <tbody>${domainItemRows}</tbody>
+          </table>
+        </details>
+      </div>
+    </div>`;
   });
 
-  // Detail table
-  const wrap = document.getElementById('detail-table-wrap');
-  let rows='';
-  for(let i=1;i<=80;i++){
-    const v=parseInt(answers[i]||0);
-    const cls=v===3?'tag-3':v===2?'tag-2':'';
-    rows+=`<tr><td>${i}</td><td>${t.questions[i-1]}</td><td class="${cls}">${v}</td></tr>`;
+  // ── Flagged items ────────────────────────────────────────────────
+  for (let i = 1; i <= 80; i++) {
+    const v = parseInt(answers[i] || 0);
+    if (v >= 2) {
+      const badge = v===3 ? 'background:#c0392b' : 'background:#e8a020';
+      flaggedRows += `<tr><td style="padding:6px 9px;border-bottom:1px solid #eee;font-size:11px;color:#9aa3b8;font-weight:700">${i}</td><td style="padding:6px 9px;border-bottom:1px solid #eee;font-size:11px;color:#2c3e50">${allItems[i-1]}</td><td style="padding:6px 9px;border-bottom:1px solid #eee;text-align:center"><span style="display:inline-block;${badge};color:#fff;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700">${v}/3</span></td></tr>`;
+    }
   }
-  wrap.innerHTML=`<table class="detail-table">
-    <thead><tr><th>${t.colItem}</th><th>${t.colDesc}</th><th>${t.colScore}</th></tr></thead>
-    <tbody>${rows}</tbody></table>`;
+  if (!flaggedRows) flaggedRows = `<tr><td colspan="3" style="padding:10px;font-size:12px;color:#888;text-align:center">Aucun item coté 2 ou 3</td></tr>`;
 
-  document.getElementById('results-panel').style.display = 'block';
-  document.getElementById('results-panel').scrollIntoView({ behavior:'smooth' });
+  // ── Global interpretation ────────────────────────────────────────
+  const pctTotal2 = Math.round((total / maxTotal) * 100);
+  const interpGlobal = pctTotal2 > 66
+    ? 'Le profil global est <b>cliniquement significatif</b>. Plusieurs dimensions sont atteintes au-delà du seuil critique (T≥65). Une évaluation diagnostique approfondie (TDAH, troubles anxieux, troubles oppositionnels) est fortement recommandée.'
+    : pctTotal2 > 40
+    ? 'Le profil global présente des <b>scores modérés</b>. Certaines dimensions dépassent la moyenne normative. Un suivi clinique et une observation renforcée sont conseillés.'
+    : 'Le profil global se situe <b>dans les limites normatives</b>. Les scores obtenus ne suggèrent pas de préoccupation clinique majeure au moment de cette évaluation.';
+
+  const tGlobal = Math.round(50 + 10 * ((pctTotal2/100 - 0.25) / 0.18));
+  const tGlobalClamped = Math.min(Math.max(tGlobal, 40), 90);
+  const globalColor = tGlobalClamped >= 65 ? '#c0392b' : tGlobalClamped >= 55 ? '#e8a020' : '#27ae60';
+
+  return `<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:0;background:#f4f6fb;color:#2c3e50;}
+  .wrap{max-width:700px;margin:0 auto;background:#fff;}
+  details>summary{list-style:none;} details>summary::-webkit-details-marker{display:none;}
+</style>
+</head><body><div class="wrap">
+
+<!-- ══ EN-TÊTE ══ -->
+<div style="background:#1a2744;padding:26px 28px;color:#fff">
+  <div style="display:flex;align-items:center;gap:14px">
+    <div style="font-size:34px">📋</div>
+    <div>
+      <div style="font-size:18px;font-weight:700">Rapport Clinique — Questionnaire Conners</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px">Version révisée (L) 1997 &nbsp;|&nbsp; Généré le ${date}</div>
+      <div style="margin-top:6px;display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,.8)">🔒 Confidentiel — Réservé au professionnel de santé</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ INFOS ENFANT ══ -->
+<div style="background:#f8f9fc;padding:18px 28px;border-bottom:2px solid #e4e8f2">
+  <div style="font-size:12px;font-weight:700;text-transform:uppercase;color:#9aa3b8;letter-spacing:.06em;margin-bottom:10px">Informations</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Enfant</div><div style="font-size:14px;font-weight:700;color:#1a2744">${info.nom}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Naissance</div><div style="font-size:13px;font-weight:600;color:#1a2744">${info.ddn}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Sexe / Classe</div><div style="font-size:13px;font-weight:600;color:#1a2744">${info.sexe} &nbsp;|&nbsp; ${info.degre}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Parent</div><div style="font-size:13px;color:#1a2744">${info.parentNom}</div></div>
+    <div style="grid-column:2/-1"><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Email parent</div><div style="font-size:12px;color:#5a6478">${info.parentEmail}</div></div>
+  </div>
+</div>
+
+<!-- ══ SCORE TOTAL ══ -->
+<div style="background:linear-gradient(135deg,#1a2744 0%,#2d7d6f 100%);padding:22px 28px;color:#fff">
+  <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <div style="text-align:center;min-width:100px">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:4px">Score total brut</div>
+      <div style="font-size:50px;font-weight:900;line-height:1;color:${globalColor==='#c0392b'?'#ff9999':globalColor==='#e8a020'?'#ffd580':'#99ffcc'}">${total}</div>
+      <div style="font-size:13px;opacity:.65">/ ${maxTotal}</div>
+    </div>
+    <div style="text-align:center;min-width:90px">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:4px">T-Score global</div>
+      <div style="font-size:50px;font-weight:900;line-height:1;color:${globalColor==='#c0392b'?'#ff9999':globalColor==='#e8a020'?'#ffd580':'#99ffcc'}">${tGlobalClamped}</div>
+      <div style="font-size:11px;opacity:.65">Seuil clinique : T=65</div>
+    </div>
+    <div style="flex:1;min-width:180px">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;opacity:.7;margin-bottom:6px">Profil global (${pctTotal2}%)</div>
+      <div style="background:rgba(255,255,255,.18);border-radius:20px;height:12px;overflow:hidden;margin-bottom:8px">
+        <div style="width:${pctTotal2}%;height:100%;background:#fff;border-radius:20px"></div>
+      </div>
+      <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;font-size:12px;line-height:1.6">${interpGlobal}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LÉGENDE T-SCORES ══ -->
+<div style="padding:14px 28px;background:#f8f9fc;border-bottom:2px solid #e4e8f2">
+  <div style="font-size:11px;font-weight:700;color:#5a6478;margin-bottom:8px">📖 Guide d'interprétation des T-Scores</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <span style="background:#e8f5ee;color:#27ae60;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700">T &lt; 50 — Bas</span>
+    <span style="background:#eef4ff;color:#4a7abf;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700">T 50–59 — Moyen</span>
+    <span style="background:#fff7ed;color:#e8a020;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700">T 60–64 — Au-dessus de la moyenne</span>
+    <span style="background:#fdf0ef;color:#e05c5c;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700">T 65–69 — ⚠ Élevé</span>
+    <span style="background:#fdf0ef;color:#c0392b;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;border:1.5px solid #c0392b">T ≥ 70 — 🚨 Très élevé / Cliniquement significatif</span>
+  </div>
+</div>
+
+<!-- ══ TABLEAU RÉCAPITULATIF ══ -->
+<div style="padding:20px 28px">
+  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:12px;padding-bottom:7px;border-bottom:2px solid #e4e8f2">📊 Récapitulatif des 7 domaines</div>
+  <table style="width:100%;border-collapse:collapse">
+    <thead>
+      <tr style="background:#1a2744;color:#fff">
+        <th style="padding:9px 11px;text-align:left;font-size:11px;width:32px">N°</th>
+        <th style="padding:9px 11px;text-align:left;font-size:11px">Domaine</th>
+        <th style="padding:9px 11px;text-align:center;font-size:11px">Score brut</th>
+        <th style="padding:9px 11px;text-align:center;font-size:11px">T-Score</th>
+        <th style="padding:9px 11px;text-align:left;font-size:11px">Interprétation</th>
+      </tr>
+    </thead>
+    <tbody>${subRows}</tbody>
+  </table>
+</div>
+
+${significantCount > 0 ? `
+<!-- ══ ALERTES CLINIQUES ══ -->
+<div style="padding:0 28px 20px">
+  <div style="background:#fdf0ef;border-left:4px solid #c0392b;border-radius:0 10px 10px 0;padding:16px 18px">
+    <div style="font-size:13px;font-weight:700;color:#c0392b;margin-bottom:10px">🚨 Alertes cliniques — ${significantCount} domaine(s) significatif(s)</div>
+    <ul style="margin:0;padding-left:16px">${clinicalNotes}</ul>
+  </div>
+</div>` : `
+<div style="padding:0 28px 20px">
+  <div style="background:#e8f5ee;border-left:4px solid #27ae60;border-radius:0 10px 10px 0;padding:14px 18px">
+    <div style="font-size:13px;font-weight:700;color:#27ae60">✅ Aucun domaine cliniquement significatif détecté</div>
+    <div style="font-size:12px;color:#2c3e50;margin-top:5px">Tous les scores se situent en dessous du seuil clinique (T&lt;65).</div>
+  </div>
+</div>`}
+
+<!-- ══ DÉTAIL PAR DOMAINE ══ -->
+<div style="padding:0 28px 20px">
+  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid #e4e8f2">🔬 Analyse détaillée par domaine</div>
+  ${domainCards}
+</div>
+
+<!-- ══ ITEMS COTÉS 2 OU 3 ══ -->
+<div style="padding:0 28px 20px">
+  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:12px;padding-bottom:7px;border-bottom:2px solid #e4e8f2">🔍 Items nécessitant une attention clinique (cotés 2 ou 3)</div>
+  <table style="width:100%;border-collapse:collapse">
+    <thead><tr style="background:#f2f4f9">
+      <th style="padding:7px 9px;font-size:11px;font-weight:700;color:#5a6478;text-align:left;width:30px">#</th>
+      <th style="padding:7px 9px;font-size:11px;font-weight:700;color:#5a6478;text-align:left">Comportement</th>
+      <th style="padding:7px 9px;font-size:11px;font-weight:700;color:#5a6478;text-align:center;width:55px">Cote</th>
+    </tr></thead>
+    <tbody>${flaggedRows}</tbody>
+  </table>
+</div>
+
+<!-- ══ TOUTES LES RÉPONSES ══ -->
+<div style="padding:0 28px 20px">
+  <details>
+    <summary style="cursor:pointer;font-size:14px;font-weight:700;color:#1a2744;padding-bottom:7px;border-bottom:2px solid #e4e8f2;margin-bottom:12px">📋 Détail complet des 80 réponses ▸</summary>
+    <table style="width:100%;border-collapse:collapse;font-size:11px">
+      <thead><tr style="background:#f2f4f9">
+        <th style="padding:6px 8px;text-align:left;font-weight:700;color:#5a6478;width:28px">#</th>
+        <th style="padding:6px 8px;text-align:left;font-weight:700;color:#5a6478">Item</th>
+        <th style="padding:6px 8px;text-align:center;font-weight:700;color:#5a6478;width:40px">Cote</th>
+      </tr></thead>
+      <tbody>
+        ${Array.from({length:80},(_,i)=>{
+          const v=parseInt(answers[i+1]||0);
+          const bg=v===3?'#c0392b':v===2?'#e8a020':v===1?'#5aab6d':'#e4e8f2';
+          const fc=v===0?'#9aa3b8':'#fff';
+          return `<tr style="background:${i%2===0?'#fff':'#f8f9fc'}"><td style="padding:5px 8px;color:#9aa3b8;font-weight:700">${i+1}</td><td style="padding:5px 8px;color:#2c3e50;line-height:1.35">${allItems[i]}</td><td style="padding:5px 8px;text-align:center"><span style="display:inline-block;background:${bg};color:${fc};border-radius:8px;padding:2px 8px;font-size:10px;font-weight:700">${v}</span></td></tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  </details>
+</div>
+
+<!-- ══ PIED DE PAGE ══ -->
+<div style="background:#1a2744;padding:14px 28px;text-align:center;color:rgba(255,255,255,.45);font-size:10px;line-height:1.8">
+  Rapport clinique généré automatiquement — Questionnaire Conners version révisée (L) 1997<br>
+  Traduction : Dr Claude Jolicoeur, pédopsychiatre, Montréal, 1999<br>
+  🔒 <b style="color:rgba(255,255,255,.6)">Confidentiel — Document réservé au professionnel de santé. Ne pas transmettre au patient.</b>
+</div>
+
+</div></body></html>`;
 }
 
-// ══════════════════════════════════════════════════════════
-// DRUM DATE PICKER
-// ══════════════════════════════════════════════════════════
-const drumState = { day:1, month:1, year:2015 };
-const drumMax   = { day:31, month:12, year: new Date().getFullYear() };
-const drumMin   = { day:1,  month:1,  year:1990 };
+// ═══════════════════════════════════════════════════════
+// SEND — uniquement au spécialiste, rien au parent
+// ═══════════════════════════════════════════════════════
+function sendResults(){
+  const t=T[currentLang];
+  const specialist=document.getElementById('specialist-email').value.trim();
+  const status=document.getElementById('send-status');
+  status.style.display='none';
 
-function drumStep(field, dir) {
-  drumState[field] += dir;
-  if (drumState[field] > drumMax[field]) drumState[field] = drumMin[field];
-  if (drumState[field] < drumMin[field]) drumState[field] = drumMax[field];
-  const el = document.getElementById('drum-'+field);
-  el.textContent = field==='year'
-    ? drumState[field]
-    : String(drumState[field]).padStart(2,'0');
-  el.classList.add('flash');
-  setTimeout(()=>el.classList.remove('flash'),200);
-}
-
-function getDOB() {
-  const d = String(drumState.day).padStart(2,'0');
-  const m = String(drumState.month).padStart(2,'0');
-  return `${d}/${m}/${drumState.year}`;
-}
-
-// ══════════════════════════════════════════════════════════
-// SEND EMAIL
-// ══════════════════════════════════════════════════════════
-function sendResults() {
-  const t = T[currentLang];
-  const specialist = document.getElementById('specialist-email').value.trim();
-  const status = document.getElementById('send-status');
-  status.style.display = 'none';
-
-  if (!specialist || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(specialist)) {
-    status.className='err'; status.style.display='flex'; status.style.alignItems='center'; status.style.gap='.5rem';
-    status.innerHTML = '<span>'+t.errEmail+'</span>';
-    status.style.display='block';
-    // scroll to email field
+  if(!specialist||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(specialist)){
+    status.className='';status.style.color='var(--red-soft)';status.style.display='block';
+    status.textContent=t.errEmail;
     document.getElementById('specialist-email').focus();
     document.getElementById('specialist-email').scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
 
-  const info = {
-    nom: document.getElementById('nom').value||'—',
-    ddn: getDOB(),
-    sexe: document.getElementById('sexe').value||'—',
-    degre: document.getElementById('degre').value||'—',
-    parentNom: document.getElementById('parent-nom').value||'—',
-    parentEmail: document.getElementById('parent-email').value||'—',
+  const info={
+    nom:document.getElementById('nom').value||'—',
+    ddn:getDOB(),
+    sexe:document.getElementById('sexe').value||'—',
+    degre:document.getElementById('degre').value||'—',
+    parentNom:document.getElementById('parent-nom').value||'—',
+    parentEmail:document.getElementById('parent-email').value||'—',
   };
 
-  const subscales = SUBSCALE_ITEMS[currentLang];
-  const total = Object.values(answers).reduce((a,b)=>a+parseInt(b||0),0);
+  const subscales=SUBSCALE_ITEMS[currentLang];
+  const total=Object.values(answers).reduce((a,b)=>a+parseInt(b||0),0);
+  const locale=currentLang==='ar'?'ar-DZ':currentLang==='en'?'en-GB':'fr-FR';
+  const date=new Date().toLocaleDateString(locale);
 
-  let sub='';
+  // Build plain text subscale summary
+  let subLines='';
   Object.entries(subscales).forEach(([name,items])=>{
-    const s=items.reduce((acc,i)=>acc+parseInt(answers[i]||0),0);
-    sub+=`  ${name}: ${s}/${items.length*3}\n`;
+    const s=items.reduce((acc,j)=>acc+parseInt(answers[j]||0),0);
+    const max=items.length*3;
+    const p=Math.round((s/max)*100);
+    const thr=THRESHOLDS[name]||Math.round(max*0.6);
+    subLines+=`${name}: ${s}/${max} (${p}%) ${s>=thr?'⚠ SIGNIFICATIF':''}\n`;
   });
 
+  // Build flagged items text
   let flagged='';
-  const qs = T[currentLang].questions;
-  for(let i=1;i<=80;i++){
-    if(parseInt(answers[i]||0)>=2)
-      flagged+=`  Item ${i} (${answers[i]}/3): ${qs[i-1]}\n`;
-  }
+  for(let i=1;i<=80;i++) if(parseInt(answers[i]||0)>=2) flagged+=`Item ${i} (${answers[i]}/3): ${T[currentLang].questions[i-1]}\n`;
+  if(!flagged) flagged='Aucun item coté 2 ou 3';
 
-  const locale = currentLang==='ar'?'ar-DZ':currentLang==='en'?'en-GB':'fr-FR';
-  const date = new Date().toLocaleDateString(locale);
-  const subject = encodeURIComponent(t.emailSubject(info.nom, date));
-  const body = encodeURIComponent(t.emailBody(info, sub, total, flagged));
-  window.location.href = `mailto:${specialist}?subject=${subject}&body=${body}`;
+  // Build full HTML report
+  const html_report=buildClinicalReport(info,subscales,total,date);
 
-  status.className='ok'; status.style.display='block';
-  status.textContent = t.okEmail;
+  // Update button
+  const btn=document.getElementById('submit-btn');
+  const orig=btn.textContent;
+  btn.textContent=t.sending;btn.disabled=true;
+
+  // Send to specialist ONLY
+  emailjs.send('psycholab_gmail','template_e9ua9l5',{
+    to_email:   specialist,
+    child_name: info.nom,
+    child_dob:  info.ddn,
+    child_sex:  info.sexe,
+    child_grade:info.degre,
+    parent_name:info.parentNom,
+    parent_email:info.parentEmail,
+    subscale_scores:subLines,
+    total_score:`${total} / 240 (${Math.round((total/240)*100)}%)`,
+    flagged_items:flagged,
+    html_table: html_report,   // full clinical report in email body
+    date:       date,
+  })
+  .then(()=>{
+    btn.disabled=false;
+    // ← Parent sees ONLY the confirmation page
+    showPage('page-confirm');
+    setLang(currentLang); // refresh i18n on confirm page
+  })
+  .catch(err=>{
+    console.error(err);
+    btn.textContent=orig;btn.disabled=false;
+    status.style.color='var(--red-soft)';status.style.display='block';
+    status.textContent=t.errSend;
+  });
 }
 
-// ── INIT ──
+// ═══════════════════════════════════════════════════════
+// DRUM DATE
+// ═══════════════════════════════════════════════════════
+const drumState={day:1,month:1,year:2015};
+const drumMax={day:31,month:12,year:new Date().getFullYear()};
+const drumMin={day:1,month:1,year:1990};
+function drumStep(field,dir){
+  drumState[field]+=dir;
+  if(drumState[field]>drumMax[field])drumState[field]=drumMin[field];
+  if(drumState[field]<drumMin[field])drumState[field]=drumMax[field];
+  const el=document.getElementById('drum-'+field);
+  el.textContent=field==='year'?drumState[field]:String(drumState[field]).padStart(2,'0');
+  el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),200);
+}
+function getDOB(){return String(drumState.day).padStart(2,'0')+'/'+String(drumState.month).padStart(2,'0')+'/'+drumState.year;}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
 setLang('fr');
 </script>
 </body>
