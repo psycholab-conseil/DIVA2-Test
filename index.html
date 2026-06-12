@@ -1619,11 +1619,9 @@ function sendResults(){
   const orig=btn.textContent;
   btn.textContent=t.sending; btn.disabled=true;
 
-  Promise.resolve().then(()=>{
+  const scoreColor = (n) => n>=6?'#c0392b':'#27ae60';
 
-    const scoreColor = (n) => n>=6?'#c0392b':'#27ae60';
-
-    return emailjs.send('psycholab_gmail','template_e9ua9l5',{
+  emailjs.send('psycholab_gmail','template_e9ua9l5',{
       to_email:    specialist,
       child_name:  info.nom,
       child_dob:   info.dob,
@@ -1688,7 +1686,6 @@ function sendResults(){
         '</div>'+
         '</div>',
       date:new Date().toLocaleDateString('fr-FR'),
-    });
   })
   .then(()=>{
     btn.disabled=false;
@@ -1696,10 +1693,10 @@ function sendResults(){
     setLang(currentLang);
   })
   .catch(err=>{
-    console.error('Error:',err);
+    console.error('EmailJS error:',err);
     btn.textContent=orig; btn.disabled=false;
     status.style.color='var(--red)'; status.style.display='block';
-    status.textContent=t.errSend;
+    status.textContent=t.errSend+' — '+(err.text||err.status||JSON.stringify(err));
   });
 }
 
