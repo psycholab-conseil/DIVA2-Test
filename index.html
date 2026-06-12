@@ -3,49 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questionnaire Conners</title>
+<title>DIVA 2.0 — Entretien diagnostique TDAH adulte</title>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("p6Lc3MHeM0w-YeGUO");</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,400;0,600;1,400&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
 :root{
   --navy:#1a2744;--teal:#2d7d6f;--teal-light:#e8f4f1;--teal-mid:#c2e4de;
-  --amber:#e8a020;--amber-light:#fef6e8;--red-soft:#c0392b;--red-light:#fdf0ef;
-  --green:#27ae60;
+  --amber:#e8a020;--amber-light:#fef6e8;--red:#c0392b;--red-light:#fdf0ef;
+  --purple:#6c3483;--purple-light:#f4ecf7;
+  --blue:#2471a3;--blue-light:#eaf2fb;
   --gray-50:#fafbfe;--gray-100:#f2f4f9;--gray-200:#e4e8f2;--gray-300:#c8cedf;
   --gray-400:#9aa3b8;--gray-600:#5a6478;--white:#fff;
   --shadow:0 2px 10px rgba(26,39,68,.07);--shadow-lg:0 6px 28px rgba(26,39,68,.13);
   --radius:14px;
-  --c0-bg:#f0f4ff;--c0-left:#7b9fd4;--c0-num:#4a7abf;
-  --c1-bg:#f0f9f4;--c1-left:#6bbf8a;--c1-num:#3d9e6a;
-  --c2-bg:#fff7ed;--c2-left:#f0a045;--c2-num:#c97c10;
-  --c3-bg:#fdf0f7;--c3-left:#d47bb5;--c3-num:#b0508e;
-  --c4-bg:#f2f0ff;--c4-left:#8b79d4;--c4-num:#6553b8;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:'Inter','Noto Sans Arabic',sans-serif;background:var(--gray-100);color:var(--navy);min-height:100vh;}
 body.rtl{font-family:'Noto Sans Arabic','Inter',sans-serif;}
+.page{display:none;} .page.active{display:block;}
 
 /* ── LANG BAR ── */
 #lang-bar{background:var(--navy);padding:.45rem 1rem;display:flex;justify-content:flex-end;gap:.4rem;}
 .lang-btn{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);font-family:inherit;font-size:.78rem;font-weight:600;padding:.28rem .85rem;border-radius:20px;cursor:pointer;transition:all .18s;}
 .lang-btn:hover,.lang-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;}
 
-/* ── PAGES ── */
-.page{display:none;}
-.page.active{display:block;}
-
-/* ══════════════════════════════════
-   WELCOME PAGE
-══════════════════════════════════ */
+/* ══ WELCOME ══ */
 .welcome-hero{background:var(--navy);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;position:relative;overflow:hidden;}
-.welcome-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(45,125,111,.22);}
-.welcome-hero::after{content:'';position:absolute;bottom:-40px;left:-40px;width:150px;height:150px;border-radius:50%;background:rgba(232,160,32,.16);}
-.welcome-hero h1{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:700;letter-spacing:-.02em;position:relative;z-index:1;line-height:1.25;}
-body.rtl .welcome-hero h1{font-family:'Noto Sans Arabic',serif;letter-spacing:0;}
+.welcome-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(108,52,131,.3);}
+.welcome-hero::after{content:'';position:absolute;bottom:-40px;left:-40px;width:150px;height:150px;border-radius:50%;background:rgba(232,160,32,.18);}
+.welcome-hero h1{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:700;position:relative;z-index:1;line-height:1.25;}
+body.rtl .welcome-hero h1{font-family:'Noto Sans Arabic',serif;}
 .welcome-hero p{margin-top:.7rem;font-size:.92rem;color:rgba(255,255,255,.72);position:relative;z-index:1;line-height:1.6;}
-.welcome-badge{display:inline-block;margin-top:.8rem;background:var(--teal);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .9rem;border-radius:20px;position:relative;z-index:1;}
+.welcome-badge{display:inline-block;margin-top:.8rem;background:var(--purple);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .9rem;border-radius:20px;position:relative;z-index:1;}
 body.rtl .welcome-badge{letter-spacing:0;text-transform:none;}
 .welcome-body{max-width:680px;margin:0 auto;padding:1.8rem 1rem 4rem;}
 .info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:.9rem;margin:1.4rem 0;}
@@ -54,134 +45,135 @@ body.rtl .welcome-badge{letter-spacing:0;text-transform:none;}
 .ic-title{font-size:.78rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em;}
 body.rtl .ic-title{text-transform:none;letter-spacing:0;}
 .ic-desc{font-size:.73rem;color:var(--gray-600);margin-top:.25rem;line-height:1.5;}
-.scale-preview{background:var(--white);border-radius:var(--radius);padding:1.1rem 1.3rem;margin:1.1rem 0;box-shadow:var(--shadow);}
-.scale-preview h3{font-size:.86rem;font-weight:700;color:var(--navy);margin-bottom:.7rem;}
-.scale-row{display:flex;gap:.45rem;flex-wrap:wrap;}
-.scale-pill{display:flex;align-items:center;gap:.35rem;font-size:.8rem;font-weight:600;padding:.3rem .85rem;border-radius:20px;color:#fff;}
-.start-btn{display:block;width:100%;background:var(--navy);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:1rem;font-weight:700;padding:1rem;border-radius:50px;box-shadow:var(--shadow-lg);transition:background .2s,transform .15s;margin-top:1.4rem;text-align:center;}
-.start-btn:hover{background:var(--teal);transform:translateY(-2px);}
+.dsm-note{background:var(--blue-light);border-left:4px solid var(--blue);border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin:1.1rem 0;font-size:.84rem;line-height:1.65;color:var(--navy);}
+body.rtl .dsm-note{border-left:none;border-right:4px solid var(--blue);border-radius:10px 0 0 10px;}
+.start-btn{display:block;width:100%;background:var(--purple);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:1rem;font-weight:700;padding:1rem;border-radius:50px;box-shadow:var(--shadow-lg);transition:background .2s,transform .15s;margin-top:1.4rem;}
+.start-btn:hover{background:var(--navy);transform:translateY(-2px);}
 .welcome-note{font-size:.76rem;color:var(--gray-600);text-align:center;margin-top:.85rem;line-height:1.6;}
 
-/* ══════════════════════════════════
-   FORM PAGE
-══════════════════════════════════ */
+/* ══ FORM PAGE ══ */
 header{background:var(--navy);color:#fff;padding:1.5rem 1.2rem 1.3rem;text-align:center;position:relative;overflow:hidden;}
-header::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(45,125,111,.22);}
+header::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(108,52,131,.25);}
 header::after{content:'';position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:rgba(232,160,32,.16);}
-header h1{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:600;letter-spacing:-.02em;position:relative;z-index:1;}
-body.rtl header h1{font-family:'Noto Sans Arabic',serif;letter-spacing:0;}
+header h1{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:600;position:relative;z-index:1;}
+body.rtl header h1{font-family:'Noto Sans Arabic',serif;}
 header p{margin-top:.3rem;font-size:.8rem;color:rgba(255,255,255,.65);position:relative;z-index:1;}
-.badge{display:inline-block;margin-top:.45rem;background:var(--teal);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.22rem .75rem;border-radius:20px;position:relative;z-index:1;}
+.badge{display:inline-block;margin-top:.45rem;background:var(--purple);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.22rem .75rem;border-radius:20px;position:relative;z-index:1;}
 body.rtl .badge{letter-spacing:0;text-transform:none;}
 
 /* progress */
 #progress-wrap{position:sticky;top:0;z-index:200;background:var(--white);box-shadow:var(--shadow);padding:.48rem .9rem;display:flex;align-items:center;gap:.75rem;}
-#progress-label{font-size:.74rem;color:var(--gray-600);white-space:nowrap;min-width:82px;}
+#progress-label{font-size:.74rem;color:var(--gray-600);white-space:nowrap;min-width:90px;}
 #progress-bar-outer{flex:1;height:7px;background:var(--gray-200);border-radius:8px;overflow:hidden;}
-#progress-bar-inner{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--amber));border-radius:8px;transition:width .35s ease;}
-#progress-pct{font-size:.78rem;font-weight:700;color:var(--teal);white-space:nowrap;}
-
-/* missing banner */
+#progress-bar-inner{height:100%;width:0%;background:linear-gradient(90deg,var(--purple),var(--amber));border-radius:8px;transition:width .35s ease;}
+#progress-pct{font-size:.78rem;font-weight:700;color:var(--purple);white-space:nowrap;}
 #missing-banner{display:none;position:sticky;top:40px;z-index:190;background:#fff3cd;border-bottom:2px solid var(--amber);padding:.42rem .9rem;font-size:.78rem;font-weight:600;color:#7a5500;flex-wrap:wrap;gap:.4rem;}
 .missing-chip{display:inline-flex;align-items:center;background:var(--amber);color:#fff;border-radius:20px;padding:.14rem .58rem;font-size:.7rem;font-weight:700;cursor:pointer;transition:opacity .15s;}
 .missing-chip:hover{opacity:.82;}
 
-/* main */
-main{max-width:820px;margin:0 auto;padding:.9rem .55rem 3rem;}
+main{max-width:860px;margin:0 auto;padding:.9rem .55rem 3rem;}
 @media(min-width:600px){main{padding:1.4rem 1rem 4rem;}}
 
-/* card */
-.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:.85rem .8rem;margin-bottom:.9rem;}
-@media(min-width:600px){.card{padding:1.3rem 1.4rem;margin-bottom:1.2rem;}}
-.card-title{font-family:'Fraunces',serif;font-size:.97rem;color:var(--navy);border-left:4px solid var(--teal);padding-left:.65rem;margin-bottom:.95rem;}
-body.rtl .card-title{font-family:'Noto Sans Arabic',serif;border-left:none;border-right:4px solid var(--teal);padding-left:0;padding-right:.65rem;}
+/* ── SECTION BLOCKS ── */
+.section-block{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem .85rem;margin-bottom:1.1rem;}
+@media(min-width:600px){.section-block{padding:1.4rem 1.5rem;margin-bottom:1.3rem;}}
+.section-block-title{font-family:'Fraunces',serif;font-size:1rem;color:var(--navy);margin-bottom:.85rem;display:flex;align-items:center;gap:.6rem;}
+body.rtl .section-block-title{font-family:'Noto Sans Arabic',serif;}
+.section-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:#fff;flex-shrink:0;}
 
 /* info grid */
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
 @media(max-width:480px){.info-grid{grid-template-columns:1fr;}}
 .field-label{display:block;font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-600);margin-bottom:.22rem;}
 body.rtl .field-label{text-transform:none;letter-spacing:0;}
-input[type=text],input[type=email],select{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:.5rem .75rem;font-family:inherit;font-size:.86rem;color:var(--navy);background:var(--gray-50);outline:none;transition:border-color .18s;}
-input:focus,select:focus{border-color:var(--teal);background:var(--white);}
+input[type=text],input[type=email],input[type=number],select,textarea{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:.5rem .75rem;font-family:inherit;font-size:.86rem;color:var(--navy);background:var(--gray-50);outline:none;transition:border-color .18s;}
+input:focus,select:focus,textarea:focus{border-color:var(--purple);background:var(--white);}
+textarea{resize:vertical;min-height:70px;}
 
-/* drum */
+/* drum date */
 .dob-drums{display:flex;align-items:center;gap:.32rem;background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:10px;padding:.42rem .65rem;width:fit-content;}
 .drum-sep{font-size:.95rem;font-weight:700;color:var(--gray-400);}
 .drum-wrap{display:flex;flex-direction:column;align-items:center;gap:.06rem;}
 .drum-wrap.drum-year{min-width:52px;}
 .drum-btn{background:none;border:none;cursor:pointer;color:var(--gray-400);font-size:.62rem;padding:.05rem .28rem;border-radius:4px;transition:color .15s,background .15s;line-height:1;}
-.drum-btn:hover{color:var(--teal);background:var(--teal-light);}
+.drum-btn:hover{color:var(--purple);background:var(--purple-light);}
 .drum-display{font-size:1.05rem;font-weight:800;color:var(--navy);min-width:32px;text-align:center;background:var(--white);border:1.5px solid var(--gray-200);border-radius:7px;padding:.2rem .32rem;transition:background .15s;}
-.drum-display.flash{background:var(--teal-light);}
+.drum-display.flash{background:var(--purple-light);}
 .drum-unit{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gray-400);}
 body.rtl .drum-unit{letter-spacing:0;text-transform:none;}
 
-/* instructions */
-.instructions{background:var(--amber-light);border-left:4px solid var(--amber);border-radius:0 10px 10px 0;padding:.8rem .95rem;margin-bottom:1.1rem;font-size:.84rem;line-height:1.65;}
-body.rtl .instructions{border-left:none;border-right:4px solid var(--amber);border-radius:10px 0 0 10px;}
-.scale-legend{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem;}
-.scale-chip-sm{display:flex;align-items:center;gap:.28rem;font-size:.74rem;font-weight:600;background:var(--white);border:1.5px solid var(--gray-200);border-radius:20px;padding:.18rem .65rem;}
-.chip-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+/* ── CRITERION CARDS ── */
+.criterion-section-hdr{display:flex;align-items:center;gap:.6rem;margin:1.4rem 0 .6rem;}
+.criterion-section-hdr::before,.criterion-section-hdr::after{content:'';flex:1;height:1.5px;background:var(--gray-200);}
+.criterion-section-hdr span{font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;padding:.2rem .7rem;border-radius:20px;color:#fff;}
+body.rtl .criterion-section-hdr span{letter-spacing:0;text-transform:none;}
 
-/* section hdr */
-.section-hdr{display:flex;align-items:center;gap:.55rem;margin:1.2rem 0 .45rem;}
-.section-hdr::before,.section-hdr::after{content:'';flex:1;height:1px;background:var(--gray-200);}
-.section-hdr span{font-size:.63rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);white-space:nowrap;}
-body.rtl .section-hdr span{letter-spacing:0;text-transform:none;}
+.criterion-card{border-radius:10px;margin-bottom:.85rem;overflow:hidden;border:1.5px solid var(--gray-200);}
+.criterion-header{padding:.75rem .9rem;display:flex;align-items:flex-start;gap:.7rem;cursor:pointer;user-select:none;}
+.criterion-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:#fff;flex-shrink:0;margin-top:.1rem;}
+.criterion-question{flex:1;font-size:.88rem;font-weight:600;line-height:1.45;color:var(--navy);}
+body.rtl .criterion-question{text-align:right;}
+.criterion-status{flex-shrink:0;font-size:.7rem;font-weight:700;padding:.18rem .65rem;border-radius:20px;white-space:nowrap;}
+.criterion-body{padding:.7rem .9rem .9rem;background:var(--gray-50);display:none;}
+.criterion-body.open{display:block;}
 
-/* question rows */
-.q-row{display:flex;align-items:center;gap:.48rem;padding:.45rem .42rem .45rem 0;border-radius:9px;margin-bottom:2px;border-left:4px solid transparent;}
-.q-row.c0{background:var(--c0-bg);border-left-color:var(--c0-left);}
-.q-row.c1{background:var(--c1-bg);border-left-color:var(--c1-left);}
-.q-row.c2{background:var(--c2-bg);border-left-color:var(--c2-left);}
-.q-row.c3{background:var(--c3-bg);border-left-color:var(--c3-left);}
-.q-row.c4{background:var(--c4-bg);border-left-color:var(--c4-left);}
-.q-row.answered::after{content:'✓';font-size:.58rem;font-weight:800;color:var(--teal);opacity:.55;margin-left:auto;flex-shrink:0;}
-body.rtl .q-row.answered::after{margin-left:0;margin-right:auto;}
-.q-row.missing-highlight{background:#fff3cd!important;border:2px solid var(--amber)!important;border-radius:9px;animation:pw 1.2s ease infinite;}
-@keyframes pw{0%,100%{box-shadow:0 0 0 2px rgba(232,160,32,.5);}50%{box-shadow:0 0 0 7px rgba(232,160,32,.12);}}
-.q-num{flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.62rem;font-weight:800;margin-left:.32rem;}
-.q-row.c0 .q-num{background:var(--c0-num);color:#fff;}
-.q-row.c1 .q-num{background:var(--c1-num);color:#fff;}
-.q-row.c2 .q-num{background:var(--c2-num);color:#fff;}
-.q-row.c3 .q-num{background:var(--c3-num);color:#fff;}
-.q-row.c4 .q-num{background:var(--c4-num);color:#fff;}
-.q-row.missing-highlight .q-num{background:var(--amber)!important;color:#fff;}
-body.rtl .q-num{margin-left:0;margin-right:.32rem;}
-.q-text{flex:1;font-size:.8rem;line-height:1.38;color:var(--navy);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-width:0;}
-.q-row:hover .q-text,.q-row:focus-within .q-text{-webkit-line-clamp:unset;overflow:visible;}
-.rating-group{flex-shrink:0;display:flex;gap:.2rem;}
-.rating-group input[type=radio]{display:none;}
-.rating-group label{width:35px;height:35px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:7px;border:1.5px solid var(--gray-300);cursor:pointer;transition:all .13s;user-select:none;flex-shrink:0;}
-.rating-group label .r-val{font-size:.82rem;font-weight:700;color:var(--gray-400);line-height:1;}
-.rating-group label .r-lbl{font-size:.44rem;font-weight:600;color:var(--gray-400);margin-top:1px;text-align:center;line-height:1;white-space:nowrap;display:none;}
-@media(min-width:680px){.rating-group label{width:50px;height:40px;}.rating-group label .r-lbl{display:block;}.q-text{font-size:.86rem;}}
-.rating-group label:hover{border-color:var(--teal);}
-.rating-group label:hover .r-val,.rating-group label:hover .r-lbl{color:var(--teal);}
-.rating-group input[value="0"]:checked+label{background:#5d8cc4;border-color:#5d8cc4;}
-.rating-group input[value="1"]:checked+label{background:#5aab6d;border-color:#5aab6d;}
-.rating-group input[value="2"]:checked+label{background:var(--amber);border-color:var(--amber);}
-.rating-group input[value="3"]:checked+label{background:var(--red-soft);border-color:var(--red-soft);}
-.rating-group input:checked+label .r-val,.rating-group input:checked+label .r-lbl{color:#fff;}
-body.rtl .q-row{flex-direction:row-reverse;border-left:none;border-right:4px solid transparent;}
-body.rtl .q-row.c0{border-right-color:var(--c0-left);}
-body.rtl .q-row.c1{border-right-color:var(--c1-left);}
-body.rtl .q-row.c2{border-right-color:var(--c2-left);}
-body.rtl .q-row.c3{border-right-color:var(--c3-left);}
-body.rtl .q-row.c4{border-right-color:var(--c4-left);}
-body.rtl .q-text{text-align:right;}
+/* Age labels */
+.age-cols{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+@media(max-width:540px){.age-cols{grid-template-columns:1fr;}}
+.age-col{background:var(--white);border-radius:8px;padding:.7rem .8rem;border:1.5px solid var(--gray-200);}
+.age-col-title{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.55rem;display:flex;align-items:center;gap:.4rem;}
+body.rtl .age-col-title{letter-spacing:0;text-transform:none;flex-direction:row-reverse;}
+.age-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* checkboxes */
+.example-item{display:flex;align-items:flex-start;gap:.5rem;margin-bottom:.35rem;cursor:pointer;}
+.example-item input[type=checkbox]{margin-top:.15rem;accent-color:var(--purple);width:14px;height:14px;flex-shrink:0;cursor:pointer;}
+.example-item label{font-size:.78rem;line-height:1.45;color:var(--navy);cursor:pointer;}
+body.rtl .example-item{flex-direction:row-reverse;}
+body.rtl .example-item label{text-align:right;}
+.other-input{margin-top:.5rem;}
+.other-input input{font-size:.78rem;padding:.38rem .6rem;}
+
+/* Present toggle */
+.present-toggle{margin-top:1rem;display:flex;align-items:center;gap:.7rem;padding:.7rem .85rem;background:var(--gray-100);border-radius:10px;border:2px solid var(--gray-200);flex-wrap:wrap;position:relative;}
+.present-toggle-adult{background:#eaf2fb;border-color:#2471a3;border-width:2px;}
+.present-toggle-child{background:#fef6e8;border-color:var(--amber);border-width:2px;}
+
+body.rtl .present-toggle{flex-direction:row-reverse;}
+.present-toggle span{font-size:.8rem;font-weight:600;color:var(--navy);}
+.present-toggle b{font-weight:800;}
+.toggle-group{display:flex;gap:.35rem;}
+.toggle-group input[type=radio]{display:none;}
+.toggle-group label{font-size:.88rem;font-weight:700;padding:.48rem 1.1rem;border-radius:20px;border:2px solid var(--gray-300);cursor:pointer;transition:all .14s;color:var(--gray-400);user-select:none;-webkit-tap-highlight-color:transparent;min-height:44px;min-width:72px;display:flex;align-items:center;justify-content:center;}
+.toggle-group label:hover{border-color:var(--purple);color:var(--purple);}
+.toggle-group input[value="oui"]:checked+label{background:var(--teal);border-color:var(--teal);color:#fff;}
+.toggle-group input[value="non"]:checked+label{background:#e74c3c;border-color:#e74c3c;color:#fff;}
+.toggle-group input[value="0"]:checked+label{background:#5aab6d;border-color:#5aab6d;color:#fff;}
+.toggle-group input[value="1"]:checked+label{background:var(--amber);border-color:var(--amber);color:#fff;}
+.toggle-group input[value="2"]:checked+label{background:#c0392b;border-color:#c0392b;color:#fff;}
+.toggle-group input[value="na"]:checked+label{background:var(--gray-400);border-color:var(--gray-400);color:#fff;}
+
+/* Section C checkboxes */
+.domain-section{margin-bottom:.7rem;}
+.domain-title{font-size:.76rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;border-bottom:1px solid var(--gray-200);padding-bottom:.3rem;}
+body.rtl .domain-title{letter-spacing:0;text-transform:none;text-align:right;}
+
+/* Yes/No questions */
+.yn-row{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.6rem .8rem;background:var(--white);border-radius:8px;border:1.5px solid var(--gray-200);margin-bottom:.5rem;}
+body.rtl .yn-row{flex-direction:row-reverse;}
+.yn-label{font-size:.83rem;font-weight:600;color:var(--navy);flex:1;line-height:1.4;}
+body.rtl .yn-label{text-align:right;}
 
 /* submit */
 .submit-area{text-align:center;margin-top:1.7rem;}
 .specialist-wrap{max-width:360px;margin:0 auto .8rem;text-align:left;}
 body.rtl .specialist-wrap{text-align:right;}
-#submit-btn{background:var(--navy);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:.95rem;font-weight:700;padding:.88rem 2.5rem;border-radius:50px;box-shadow:var(--shadow-lg);transition:background .2s,transform .14s;}
-#submit-btn:hover{background:var(--teal);transform:translateY(-2px);}
+#submit-btn{background:var(--purple);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:.95rem;font-weight:700;padding:.88rem 2.5rem;border-radius:50px;box-shadow:var(--shadow-lg);transition:background .2s,transform .14s;}
+#submit-btn:hover{background:var(--navy);transform:translateY(-2px);}
 .submit-note{font-size:.74rem;color:var(--gray-600);margin-top:.6rem;}
+#send-status{margin-top:.6rem;font-size:.83rem;font-weight:600;display:none;}
 
-/* ══════════════════════════════════
-   CONFIRMATION PAGE (parent sees only this)
-══════════════════════════════════ */
+/* ══ CONFIRM ══ */
 #page-confirm{background:var(--gray-100);min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem;}
 .confirm-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:2.5rem 2rem;max-width:480px;width:100%;text-align:center;}
 .confirm-icon{font-size:4rem;margin-bottom:1rem;}
@@ -190,7 +182,7 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
 .confirm-msg{font-size:.92rem;color:var(--gray-600);line-height:1.7;}
 .confirm-divider{height:1px;background:var(--gray-200);margin:1.4rem 0;}
 .confirm-note{font-size:.78rem;color:var(--gray-400);line-height:1.6;}
-.confirm-badge{display:inline-block;margin-top:1.2rem;background:var(--teal-light);color:var(--teal);font-size:.8rem;font-weight:700;padding:.45rem 1.1rem;border-radius:20px;}
+.confirm-badge{display:inline-block;margin-top:1.2rem;background:var(--purple-light);color:var(--purple);font-size:.8rem;font-weight:700;padding:.45rem 1.1rem;border-radius:20px;}
 
 @media print{#lang-bar,#progress-wrap,#missing-banner,.submit-area{display:none!important;}}
 </style>
@@ -212,20 +204,12 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
   </div>
   <div class="welcome-body">
     <div class="info-cards">
-      <div class="info-card"><div class="ic-icon">👦</div><div class="ic-title" data-i18n="ic1T"></div><div class="ic-desc" data-i18n="ic1D"></div></div>
-      <div class="info-card"><div class="ic-icon">📝</div><div class="ic-title" data-i18n="ic2T"></div><div class="ic-desc" data-i18n="ic2D"></div></div>
+      <div class="info-card"><div class="ic-icon">🧠</div><div class="ic-title" data-i18n="ic1T"></div><div class="ic-desc" data-i18n="ic1D"></div></div>
+      <div class="info-card"><div class="ic-icon">📋</div><div class="ic-title" data-i18n="ic2T"></div><div class="ic-desc" data-i18n="ic2D"></div></div>
       <div class="info-card"><div class="ic-icon">⏱</div><div class="ic-title" data-i18n="ic3T"></div><div class="ic-desc" data-i18n="ic3D"></div></div>
       <div class="info-card"><div class="ic-icon">🔒</div><div class="ic-title" data-i18n="ic4T"></div><div class="ic-desc" data-i18n="ic4D"></div></div>
     </div>
-    <div class="scale-preview">
-      <h3 data-i18n="scaleTitle"></h3>
-      <div class="scale-row">
-        <span class="scale-pill" style="background:#5d8cc4"><strong>0</strong> — <span data-i18n="s0"></span></span>
-        <span class="scale-pill" style="background:#5aab6d"><strong>1</strong> — <span data-i18n="s1"></span></span>
-        <span class="scale-pill" style="background:#e8a020"><strong>2</strong> — <span data-i18n="s2"></span></span>
-        <span class="scale-pill" style="background:#c0392b"><strong>3</strong> — <span data-i18n="s3"></span></span>
-      </div>
-    </div>
+    <div class="dsm-note" data-i18n="dsmNote"></div>
     <button class="start-btn" onclick="goToForm()" data-i18n="startBtn"></button>
     <p class="welcome-note" data-i18n="welcomeNote"></p>
   </div>
@@ -243,12 +227,18 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
     <div id="progress-bar-outer"><div id="progress-bar-inner"></div></div>
     <span id="progress-pct">0 %</span>
   </div>
-  <div id="missing-banner"></div>
+  <div id="missing-banner" style="display:none!important"></div>
+
   <main>
-    <div class="card">
-      <div class="card-title" data-i18n="infoTitle"></div>
+
+    <!-- INFO PATIENT -->
+    <div class="section-block">
+      <div class="section-block-title">
+        <span class="section-icon" style="background:var(--purple)">👤</span>
+        <span data-i18n="infoTitle"></span>
+      </div>
       <div class="info-grid">
-        <div><label class="field-label" data-i18n="childName"></label><input type="text" id="nom" data-i18n-ph="childNamePH"></div>
+        <div><label class="field-label" data-i18n="patientName"></label><input type="text" id="nom" data-i18n-ph="patientNamePH"></div>
         <div class="dob-field" style="grid-column:1/-1">
           <label class="field-label" data-i18n="dob"></label>
           <div class="dob-drums">
@@ -256,28 +246,137 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
             <div class="drum-sep">/</div>
             <div class="drum-wrap"><button class="drum-btn" onclick="drumStep('month',-1)">▲</button><div class="drum-display" id="drum-month">01</div><button class="drum-btn" onclick="drumStep('month',1)">▼</button><div class="drum-unit" data-i18n="dobMonth"></div></div>
             <div class="drum-sep">/</div>
-            <div class="drum-wrap drum-year"><button class="drum-btn" onclick="drumStep('year',-1)">▲</button><div class="drum-display" id="drum-year">2015</div><button class="drum-btn" onclick="drumStep('year',1)">▼</button><div class="drum-unit" data-i18n="dobYear"></div></div>
+            <div class="drum-wrap drum-year"><button class="drum-btn" onclick="drumStep('year',-1)">▲</button><div class="drum-display" id="drum-year">1985</div><button class="drum-btn" onclick="drumStep('year',1)">▼</button><div class="drum-unit" data-i18n="dobYear"></div></div>
           </div>
         </div>
         <div><label class="field-label" data-i18n="sex"></label><select id="sexe"><option value="" data-i18n="sexChoose"></option><option value="M" data-i18n="sexM"></option><option value="F" data-i18n="sexF"></option></select></div>
-        <div><label class="field-label" data-i18n="grade"></label><input type="text" id="degre" data-i18n-ph="gradePH"></div>
-        <div><label class="field-label" data-i18n="parentName"></label><input type="text" id="parent-nom" data-i18n-ph="parentNamePH"></div>
-        <div><label class="field-label" data-i18n="parentEmail"></label><input type="email" id="parent-email" placeholder="parent@email.com"></div>
+        <div><label class="field-label" data-i18n="interviewDate"></label><input type="text" id="interview-date" data-i18n-ph="interviewDatePH"></div>
+        <div><label class="field-label" data-i18n="clinicianName"></label><input type="text" id="clinician" data-i18n-ph="clinicianNamePH"></div>
+        <div><label class="field-label" data-i18n="patientNum"></label><input type="text" id="patient-num" data-i18n-ph="patientNumPH"></div>
       </div>
     </div>
-    <div class="instructions">
-      <strong data-i18n="instrLabel"></strong> <span data-i18n="instrText"></span>
-      <div class="scale-legend">
-        <div class="scale-chip-sm"><span class="chip-dot" style="background:#5d8cc4"></span><strong>0</strong> — <span data-i18n="s0"></span></div>
-        <div class="scale-chip-sm"><span class="chip-dot" style="background:#5aab6d"></span><strong>1</strong> — <span data-i18n="s1"></span></div>
-        <div class="scale-chip-sm"><span class="chip-dot" style="background:#e8a020"></span><strong>2</strong> — <span data-i18n="s2"></span></div>
-        <div class="scale-chip-sm"><span class="chip-dot" style="background:#c0392b"></span><strong>3</strong> — <span data-i18n="s3"></span></div>
+
+    <!-- SECTION 1: INATTENTION A1 -->
+    <div class="section-block" id="section-A">
+      <div class="section-block-title">
+        <span class="section-icon" style="background:var(--blue)">A</span>
+        <span data-i18n="secATitle"></span>
+      </div>
+      <p style="font-size:.8rem;color:var(--gray-600);margin-bottom:1rem;line-height:1.6" data-i18n="secAInstr"></p>
+      <div id="criteria-A"></div>
+    </div>
+
+    <!-- SECTION 2: HYPERACTIVITE-IMPULSIVITE A2 -->
+    <div class="section-block" id="section-HI">
+      <div class="section-block-title">
+        <span class="section-icon" style="background:var(--red)">HI</span>
+        <span data-i18n="secHITitle"></span>
+      </div>
+      <p style="font-size:.8rem;color:var(--gray-600);margin-bottom:1rem;line-height:1.6" data-i18n="secHIInstr"></p>
+      <div id="criteria-HI"></div>
+    </div>
+
+    <!-- SECTION 3: AGE DE DEBUT + RETENTISSEMENT -->
+    <div class="section-block" id="section-B">
+      <div class="section-block-title">
+        <span class="section-icon" style="background:var(--amber)">B</span>
+        <span data-i18n="secBTitle"></span>
+      </div>
+
+      <!-- Critère B -->
+      <div style="margin-bottom:1rem">
+        <div class="yn-row">
+          <span class="yn-label" data-i18n="critBQ"></span>
+          <div class="toggle-group">
+            <input type="radio" name="critB" id="critB-oui" value="oui"><label for="critB-oui" data-i18n="yes"></label>
+            <input type="radio" name="critB" id="critB-non" value="non"><label for="critB-non" data-i18n="no"></label>
+          </div>
+        </div>
+        <div id="critB-age-wrap" style="display:none;margin-top:.5rem;display:none">
+          <label class="field-label" data-i18n="critBAge"></label>
+          <input type="number" id="critB-age" min="1" max="60" style="width:100px">
+        </div>
+      </div>
+
+      <!-- Critère C — Retentissement -->
+      <div style="margin-bottom:1rem">
+        <div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.7rem" data-i18n="critCTitle"></div>
+        <div id="criteria-C"></div>
+      </div>
+
+      <!-- Critère D global -->
+      <div style="margin-top:1rem">
+        <div class="yn-row">
+          <span class="yn-label" data-i18n="critDAdult"></span>
+          <div class="toggle-group">
+            <input type="radio" name="critD-adult" id="critDa-oui" value="oui"><label for="critDa-oui" data-i18n="yes"></label>
+            <input type="radio" name="critD-adult" id="critDa-non" value="non"><label for="critDa-non" data-i18n="no"></label>
+          </div>
+        </div>
+        <div class="yn-row">
+          <span class="yn-label" data-i18n="critDChild"></span>
+          <div class="toggle-group">
+            <input type="radio" name="critD-child" id="critDc-oui" value="oui"><label for="critDc-oui" data-i18n="yes"></label>
+            <input type="radio" name="critD-child" id="critDc-non" value="non"><label for="critDc-non" data-i18n="no"></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Critère E + collatéral -->
+      <div style="margin-top:1rem">
+        <div class="yn-row">
+          <span class="yn-label" data-i18n="critEQ"></span>
+          <div class="toggle-group">
+            <input type="radio" name="critE" id="critE-non" value="non"><label for="critE-non" data-i18n="no"></label>
+            <input type="radio" name="critE" id="critE-oui" value="oui"><label for="critE-oui" data-i18n="yes"></label>
+          </div>
+        </div>
+        <div id="critE-detail-wrap" style="display:none;margin-top:.4rem">
+          <label class="field-label" data-i18n="critEDetail"></label>
+          <input type="text" id="critE-detail">
+        </div>
+      </div>
+
+      <!-- Informations collatérales -->
+      <div style="margin-top:1rem">
+        <div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.6rem" data-i18n="collateralTitle"></div>
+        <div style="display:grid;gap:.5rem">
+          <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+            <span style="font-size:.78rem;flex:1" data-i18n="collParent"></span>
+            <div class="toggle-group" style="margin-left:auto">
+              <input type="radio" name="coll-parent" id="cp-na" value="na"><label for="cp-na">N/A</label>
+              <input type="radio" name="coll-parent" id="cp-0" value="0"><label for="cp-0">0</label>
+              <input type="radio" name="coll-parent" id="cp-1" value="1"><label for="cp-1">1</label>
+              <input type="radio" name="coll-parent" id="cp-2" value="2"><label for="cp-2">2</label>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+            <span style="font-size:.78rem;flex:1" data-i18n="collPartner"></span>
+            <div class="toggle-group">
+              <input type="radio" name="coll-partner" id="cpa-na" value="na"><label for="cpa-na">N/A</label>
+              <input type="radio" name="coll-partner" id="cpa-0" value="0"><label for="cpa-0">0</label>
+              <input type="radio" name="coll-partner" id="cpa-1" value="1"><label for="cpa-1">1</label>
+              <input type="radio" name="coll-partner" id="cpa-2" value="2"><label for="cpa-2">2</label>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+            <span style="font-size:.78rem;flex:1" data-i18n="collSchool"></span>
+            <div class="toggle-group">
+              <input type="radio" name="coll-school" id="cs-na" value="na"><label for="cs-na">N/A</label>
+              <input type="radio" name="coll-school" id="cs-0" value="0"><label for="cs-0">0</label>
+              <input type="radio" name="coll-school" id="cs-1" value="1"><label for="cs-1">1</label>
+              <input type="radio" name="coll-school" id="cs-2" value="2"><label for="cs-2">2</label>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:.6rem">
+          <label class="field-label" data-i18n="collDetails"></label>
+          <textarea id="coll-details"></textarea>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="card-title" data-i18n="qTitle"></div>
-      <div id="questions-container"></div>
-    </div>
+
+    <!-- SUBMIT -->
     <div class="submit-area">
       <div class="specialist-wrap">
         <label class="field-label" data-i18n="sendLabel"></label>
@@ -285,12 +384,13 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
       </div>
       <button id="submit-btn" data-i18n="calcBtn"></button>
       <p class="submit-note" data-i18n="submitNote"></p>
-      <div id="send-status" style="margin-top:.6rem;font-size:.83rem;font-weight:600;display:none"></div>
+      <div id="send-status"></div>
     </div>
+
   </main>
 </div>
 
-<!-- ══ PAGE CONFIRMATION (parent voit uniquement ceci) ══ -->
+<!-- ══ PAGE CONFIRMATION ══ -->
 <div id="page-confirm" class="page">
   <div class="confirm-card">
     <div class="confirm-icon">✅</div>
@@ -303,723 +403,440 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════
-// SUBSCALES
-// ═══════════════════════════════════════════════════════
-const SUBSCALE_ITEMS = {
-  fr:{"Opposition / Défiance":[1,8,11,16,21,31,40,47,62,66,67,69,70],"Inattention cognitive":[10,19,22,29,30,37,38,41,45,49,50,51,56,58,80],"Hyperactivité":[3,18,23,28,32,39,42,52,55,59,63,76,80],"Anxiété / Timidité":[4,7,14,17,24,27,33,36,43,44,46,53,65,72,75],"Perfectionnisme":[5,15,25,34,54],"Problèmes sociaux":[6,16,26,35,60,61,65,72],"Psychosomatique":[7,17,27,36,46,75]},
-  en:{"Opposition / Defiance":[1,8,11,16,21,31,40,47,62,66,67,69,70],"Cognitive Inattention":[10,19,22,29,30,37,38,41,45,49,50,51,56,58,80],"Hyperactivity":[3,18,23,28,32,39,42,52,55,59,63,76,80],"Anxious-Shy":[4,7,14,17,24,27,33,36,43,44,46,53,65,72,75],"Perfectionism":[5,15,25,34,54],"Social Problems":[6,16,26,35,60,61,65,72],"Psychosomatic":[7,17,27,36,46,75]},
-  ar:{"المعارضة / العناد":[1,8,11,16,21,31,40,47,62,66,67,69,70],"قصور الانتباه المعرفي":[10,19,22,29,30,37,38,41,45,49,50,51,56,58,80],"فرط الحركة":[3,18,23,28,32,39,42,52,55,59,63,76,80],"القلق / الخجل":[4,7,14,17,24,27,33,36,43,44,46,53,65,72,75],"الكمالية":[5,15,25,34,54],"المشكلات الاجتماعية":[6,16,26,35,60,61,65,72],"الشكاوى الجسدية":[7,17,27,36,46,75]}
-};
-
-// Seuils cliniques (T-score ≥ 65 = significatif)
-const THRESHOLDS = {
-  "Opposition / Défiance":19,"Opposition / Defiance":19,"المعارضة / العناد":19,
-  "Inattention cognitive":24,"Cognitive Inattention":24,"قصور الانتباه المعرفي":24,
-  "Hyperactivité":18,"Hyperactivity":18,"فرط الحركة":18,
-  "Anxiété / Timidité":24,"Anxious-Shy":24,"القلق / الخجل":24,
-  "Perfectionnisme":9,"Perfectionism":9,"الكمالية":9,
-  "Problèmes sociaux":15,"Social Problems":15,"المشكلات الاجتماعية":15,
-  "Psychosomatique":11,"Psychosomatic":11,"الشكاوى الجسدية":11
-};
-
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // TRANSLATIONS
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 const T = {
 fr:{
-  wTitle:"Questionnaire d'évaluation Conners",wSubtitle:"Outil clinique pour l'évaluation du comportement de l'enfant",
-  title:"Questionnaire Conners",subtitle:"Version révisée (L) 1997 — Parents",badge:"Évaluation comportementale",
-  ic1T:"Pour qui ?",ic1D:"Parents d'enfants présentant des difficultés scolaires ou comportementales",
-  ic2T:"80 items",ic2D:"Comportements observés à la maison et à l'école",
-  ic3T:"10–15 min",ic3D:"Durée estimée pour compléter le questionnaire",
-  ic4T:"Confidentiel",ic4D:"Résultats envoyés uniquement au spécialiste",
-  scaleTitle:"Échelle de cotation :",startBtn:"▶  Commencer le questionnaire",
-  welcomeNote:"Vos réponses sont strictement confidentielles et transmises uniquement au spécialiste désigné.",
-  infoTitle:"Informations sur l'enfant",
-  childName:"Nom de l'enfant",childNamePH:"Nom et prénom",
+  wTitle:"DIVA 2.0 — Entretien diagnostique TDAH adulte",
+  wSubtitle:"Entretien structuré pour le TDAH chez l'adulte basé sur les critères DSM-IV",
+  title:"DIVA 2.0",subtitle:"Entretien diagnostique pour le TDAH chez l'adulte",badge:"DSM-IV · TDAH Adulte",
+  ic1T:"Pour qui ?",ic1D:"Adultes suspectés de TDAH, évaluation rétrospective enfance et âge adulte",
+  ic2T:"18 critères",ic2D:"9 critères d'inattention + 9 critères d'hyperactivité/impulsivité",
+  ic3T:"60–90 min",ic3D:"Durée habituelle d'administration de l'entretien DIVA",
+  ic4T:"Confidentiel",ic4D:"Résultats transmis uniquement au clinicien évaluateur",
+  dsmNote:"📌 Instructions : Pour chaque critère, vous pouvez cocher les exemples que vous reconnaissez et indiquer si le symptôme était présent à l'âge adulte et/ou dans l'enfance. Tout est <strong>facultatif</strong> — répondez uniquement ce qui vous correspond. Envoyez quand vous êtes prêt.",
+  startBtn:"▶  Commencer l'entretien",
+  welcomeNote:"Cet entretien est confidentiel. Les résultats sont transmis uniquement au spécialiste désigné.",
+  infoTitle:"Informations du patient",
+  patientName:"Nom du patient",patientNamePH:"Nom et prénom",
   dob:"Date de naissance",dobDay:"Jour",dobMonth:"Mois",dobYear:"Année",
-  sex:"Sexe",sexChoose:"-- Choisir --",sexM:"Masculin",sexF:"Féminin",
-  grade:"Classe / Niveau",gradePH:"Ex : CM2, 6ème…",
-  parentName:"Nom du parent",parentNamePH:"Nom et prénom",
-  parentEmail:"Email du parent",
-  instrLabel:"Instructions :",instrText:"Pour chaque item, indiquez la fréquence observée chez votre enfant.",
-  s0:"Jamais",s1:"Légère",s2:"Moyenne",s3:"Forte",
-  ratingLabels:["Jamais","Légère","Moy.","Forte"],
-  qTitle:"Items comportementaux (80 items)",
-  sendLabel:"Email du spécialiste",
-  calcBtn:"📧 Envoyer les résultats au spécialiste",
-  submitNote:"Remplissez tous les items et saisissez l'email du spécialiste.",
-  errEmail:"⚠ Email du spécialiste invalide.",
+  sex:"Sexe",sexChoose:"-- Choisir --",sexM:"M",sexF:"F",
+  interviewDate:"Date de l'entretien",interviewDatePH:"JJ/MM/AAAA",
+  clinicianName:"Nom du clinicien",clinicianNamePH:"Nom du clinicien",
+  patientNum:"N° patient",patientNumPH:"Numéro",
+  secATitle:"Section 1 — Critères d'inattention (DSM-IV A1)",
+  secAInstr:"Les symptômes à l'âge adulte doivent être présents depuis au moins 6 mois. Les symptômes dans l'enfance se rapportent à la période 5–12 ans. Répondez librement à chaque critère. Tout est facultatif — exemples et réponses Oui/Non. Cochez et répondez uniquement ce que vous reconnaissez.",
+  secHITitle:"Section 2 — Critères d'hyperactivité-impulsivité (DSM-IV A2)",
+  secHIInstr:"Mêmes règles que la Section 1. Tout est facultatif. Répondez uniquement aux critères que vous souhaitez.",
+  secBTitle:"Section 3 — Âge de début & Altération du fonctionnement (DSM-IV B, C, D, E)",
+  critBQ:"Y a-t-il des preuves d'une persistance des symptômes tout au long de la vie (quelques symptômes présents avant 7 ans) ?",
+  critBAge:"Si Non — âge de début des symptômes (ans)",
+  critCTitle:"Critère C — Dans quels domaines les symptômes causent-ils des problèmes ?",
+  critDAdult:"Âge adulte : preuve d'une altération du fonctionnement dans ≥ 2 domaines ?",
+  critDChild:"Enfance : preuve d'une altération du fonctionnement dans ≥ 2 domaines ?",
+  critEQ:"Critère E — Les symptômes peuvent-ils être mieux expliqués par un autre diagnostic psychiatrique ?",
+  critEDetail:"Préciser le diagnostic",
+  collateralTitle:"Informations collatérales (0 = aucun support · 1 = quelque support · 2 = support net)",
+  collParent:"Parent / frère-sœur / autre membre de la famille",
+  collPartner:"Partenaire / ami proche",
+  collSchool:"Livrets scolaires",
+  collDetails:"Détails / précisions",
+  sendLabel:"Email du clinicien (destinataire des résultats)",
+  calcBtn:"📧 Envoyer le rapport au clinicien",
+  submitNote:"Saisissez l'email du clinicien et envoyez quand vous êtes prêt.",
+  errEmail:"⚠ Email du clinicien invalide.",
   sending:"⏳ Envoi en cours...",
-  errSend:"❌ Erreur d'envoi. Vérifiez votre connexion et réessayez.",
-  progressTpl:a=>`${a} / 80 réponses`,
-  missingBanner:m=>`⚠ ${m.length} réponse(s) manquante(s) :`,
-  missingChip:n=>`Item ${n}`,
-  btnMissing:n=>`⚠ ${n} manquant(s) — aller au suivant`,
-  sectionLabels:{1:"Items 1–20",21:"Items 21–40",41:"Items 41–60",61:"Items 61–80"},
+  errSend:"❌ Erreur d'envoi. Vérifiez votre connexion.",
+  progressTpl:a=>`${a} / 18 répondus`,
+  missingBanner:m=>`⚠ ${m.length} critère(s) non complété(s) :`,
+  missingChip:n=>n,
+  btnMissing:n=>``,
+  yes:"Oui",no:"Non",
+  adultLabel:"Âge adulte (6 derniers mois)",childLabel:"Enfance (5–12 ans)",
+  examplesLabel:"Exemples observés :",
+  symptomPresentAdult:"Ce symptôme est-il présent <b>actuellement</b> (6 derniers mois) ?",
+  symptomPresentChild:"Ce symptôme était-il présent dans votre <b>enfance</b> (5–12 ans) ?",
+  otherPH:"Autre exemple...",
+  optionalLabel:"Facultatif",
   confirmTitle:"Merci pour votre participation !",
-  confirmMsg:"Vos réponses ont bien été enregistrées et transmises au spécialiste. Vous pouvez fermer cette page.",
-  confirmNote:"Les résultats complets sont traités et analysés par le professionnel de santé qui vous a remis ce questionnaire.",
-  confirmBadge:"✉ Rapport envoyé au spécialiste",
-  questions:["Est colérique et rancunier","A des difficultés à faire ou compléter ses devoirs","Bouge tout le temps, comme un appareil motorisé","Est timide, vite effrayé","Se fait très rigide dans ses exigences","N'a pas d'ami(e)s","Souffre de maux d'estomac","Se querelle","Recherche la fuite, hésite, ou n'arrive pas à s'engager dans des tâches qui demandent un effort mental soutenu","A de la difficulté à se concentrer dans ses travaux et ses jeux","Argumente avec les adultes","Ne réussit pas à terminer ses tâches","Devient difficile à contrôler dans les centres d'achat ou épiceries","A peur des gens","Ne cesse de vérifier ses affaires","Perd rapidement ses camarades","Souffre de divers malaises et douleurs","Est turbulent ou très actif","A de la misère à se concentrer à l'école","Ne semble pas écouter ce qu'on lui dit","Perd le contrôle","Doit avoir une surveillance continue pour accomplir ses tâches","Se promène en courant ou grimpe partout dans des endroits interdits","Craint les nouvelles situations","Devient tatillon au niveau de la propreté","Ne sait pas comment se faire des ami(e)s","Commence à présenter des malaises ou maux d'estomac avant de partir pour l'école","Devient facile à exciter et réagit vite","Ne suit pas toutes les consignes et ne réussit pas à terminer ses travaux scolaires","Organise mal ses travaux et ses activités","Est irritable","Ne cesse de se tortiller","Craint de rester seul","Doit faire toujours les choses de la même manière","Ne reçoit pas d'invitations pour aller chez les camarades","Souffre de maux de tête","N'arrive pas à terminer ce qu'il commence","Manque de concentration ou se distrait facilement","Parle trop","Défie volontiers ou refuse de respecter les consignes de l'adulte","Ne se préoccupe pas des détails ou fait des erreurs d'inattention dans ses devoirs","Paraît incapable d'attendre en file ou son tour dans les jeux de groupe","Présente de nombreuses peurs","Se sent obligé d'accomplir certains rituels","Se distrait vite ou ne reste pas longtemps sur une tâche","Se plaint de maladies même quand il n'a rien","A des explosions de colère","Se distrait facilement quand il reçoit une consigne précise","Interrompt ou s'ingère dans les affaires des autres","Oublie facilement dans les activités du quotidien","Ne peut pas saisir les mathématiques","Se met à courir entre deux bouchées de nourriture","A peur de la noirceur, des animaux ou des insectes","Se fixe des objectifs très élevés","Bouge des mains, des pieds ou se tortille sur la chaise","Ne se concentre pas longtemps","Est susceptible ou facilement ennuyé par les autres","Néglige son écriture","N'arrive pas à poursuivre un jeu agréable ou tranquille","Reste lointain et en retrait des autres","Blâme les autres pour ses fautes","Ne tient pas en place","Est malpropre ou mal organisé à la maison ou à l'école","S'énerve si les autres dérangent ses affaires","Colle aux parents ou autres adultes","Dérange les autres enfants","Fait exprès pour ennuyer les gens","Exige une réponse immédiate à ses demandes, sinon il se frustre","Ne porte attention qu'à ce qui l'intéresse","Se montre mesquin et rancunier","Perd le nécessaire à ses travaux (crayons, livres, outils, jouets)","Se sent inférieur aux autres","Semble fatigué ou ralenti tout le temps","Est faible dans l'épellation des mots","Pleure souvent sans raison","Quitte son siège en classe ou ailleurs quand il doit rester assis","Change d'humeur de manière subite et radicale","Devient facilement exaspéré durant un effort","Se distrait facilement par les stimuli externes","Répond trop vite, avant même la fin de la question"]
+  confirmMsg:"L'entretien a bien été enregistré et transmis au clinicien. Vous pouvez fermer cette page.",
+  confirmNote:"Le rapport complet sera analysé par le professionnel de santé qui conduit cet entretien.",
+  confirmBadge:"✉ Rapport DIVA 2.0 envoyé",
+  supplementA:"Supplément — Parmi ces symptômes attentionnels, en avez-vous présenté davantage ou plus fréquemment que les autres adultes / enfants de votre âge ?",
+  supplementHI:"Supplément — Parmi ces symptômes d'hyperactivité/impulsivité, en avez-vous présenté davantage ou plus fréquemment ?",
 },
 en:{
-  wTitle:"Conners' Rating Scale",wSubtitle:"Clinical tool for assessing child behaviour",
-  title:"Conners Questionnaire",subtitle:"Revised Version (L) 1997 — Parents",badge:"Behavioural Assessment",
-  ic1T:"For whom?",ic1D:"Parents of children with learning or behavioural difficulties",
-  ic2T:"80 items",ic2D:"Behaviours observed at home and at school",
-  ic3T:"10–15 min",ic3D:"Estimated time to complete",
-  ic4T:"Confidential",ic4D:"Results sent only to the specialist",
-  scaleTitle:"Rating scale:",startBtn:"▶  Start the questionnaire",
-  welcomeNote:"Your answers are strictly confidential and sent only to the designated specialist.",
-  infoTitle:"Child Information",
-  childName:"Child's Name",childNamePH:"First and last name",
+  wTitle:"DIVA 2.0 — Diagnostic Interview ADHD Adults",
+  wSubtitle:"Structured interview for adult ADHD based on DSM-IV criteria",
+  title:"DIVA 2.0",subtitle:"Diagnostic Interview for ADHD in Adults",badge:"DSM-IV · Adult ADHD",
+  ic1T:"For whom?",ic1D:"Adults suspected of ADHD, retrospective assessment of childhood and adulthood",
+  ic2T:"18 criteria",ic2D:"9 inattention + 9 hyperactivity/impulsivity criteria",
+  ic3T:"60–90 min",ic3D:"Typical administration time for the DIVA interview",
+  ic4T:"Confidential",ic4D:"Results transmitted only to the evaluating clinician",
+  dsmNote:"📌 Instructions: For each criterion, you may tick examples you recognise and indicate whether the symptom was present in adulthood and/or childhood. Everything is <strong>optional</strong> — only answer what applies to you. Send when ready.",
+  startBtn:"▶  Start the interview",
+  welcomeNote:"This interview is confidential. Results are sent only to the designated specialist.",
+  infoTitle:"Patient Information",
+  patientName:"Patient Name",patientNamePH:"First and last name",
   dob:"Date of Birth",dobDay:"Day",dobMonth:"Month",dobYear:"Year",
-  sex:"Sex",sexChoose:"-- Select --",sexM:"Male",sexF:"Female",
-  grade:"Grade / Level",gradePH:"E.g. Year 6, Grade 5…",
-  parentName:"Parent Name",parentNamePH:"First and last name",
-  parentEmail:"Parent Email",
-  instrLabel:"Instructions:",instrText:"For each item, rate how often you observe this behaviour in your child.",
-  s0:"Never",s1:"A little",s2:"Moderate",s3:"Much",
-  ratingLabels:["Never","Little","Mod.","Much"],
-  qTitle:"Behavioural Items (80 items)",
-  sendLabel:"Specialist email",
-  calcBtn:"📧 Send Results to Specialist",
-  submitNote:"Complete all items and enter the specialist's email.",
-  errEmail:"⚠ Invalid specialist email.",
+  sex:"Sex",sexChoose:"-- Select --",sexM:"M",sexF:"F",
+  interviewDate:"Interview Date",interviewDatePH:"DD/MM/YYYY",
+  clinicianName:"Clinician Name",clinicianNamePH:"Clinician name",
+  patientNum:"Patient No.",patientNumPH:"Number",
+  secATitle:"Section 1 — Inattention Criteria (DSM-IV A1)",
+  secAInstr:"Adult symptoms must have been present for at least 6 months. Childhood symptoms refer to ages 5–12. Everything is optional — examples and Yes/No answers. Only respond to what feels relevant to you.",
+  secHITitle:"Section 2 — Hyperactivity-Impulsivity Criteria (DSM-IV A2)",
+  secHIInstr:"Same rules as Section 1. Everything is optional. Answer only the criteria you wish to.",
+  secBTitle:"Section 3 — Age of Onset & Functional Impairment (DSM-IV B, C, D, E)",
+  critBQ:"Is there evidence of lifetime persistence of symptoms (some symptoms present before age 7)?",
+  critBAge:"If No — age of symptom onset (years)",
+  critCTitle:"Criterion C — In which domains do symptoms cause problems?",
+  critDAdult:"Adulthood: evidence of functional impairment in ≥ 2 domains?",
+  critDChild:"Childhood: evidence of functional impairment in ≥ 2 domains?",
+  critEQ:"Criterion E — Can symptoms be better explained by another psychiatric diagnosis?",
+  critEDetail:"Specify the diagnosis",
+  collateralTitle:"Collateral information (0 = no/low support · 1 = some support · 2 = clear support)",
+  collParent:"Parent / sibling / other family member",
+  collPartner:"Partner / close friend",
+  collSchool:"School reports",
+  collDetails:"Details / notes",
+  sendLabel:"Clinician email (results recipient)",
+  calcBtn:"📧 Send Report to Clinician",
+  submitNote:"Enter the clinician's email and send when ready.",
+  errEmail:"⚠ Invalid clinician email.",
   sending:"⏳ Sending...",
-  errSend:"❌ Send error. Check your connection and try again.",
-  progressTpl:a=>`${a} / 80 answered`,
-  missingBanner:m=>`⚠ ${m.length} unanswered item(s):`,
-  missingChip:n=>`Item ${n}`,
-  btnMissing:n=>`⚠ ${n} missing — go to next`,
-  sectionLabels:{1:"Items 1–20",21:"Items 21–40",41:"Items 41–60",61:"Items 61–80"},
+  errSend:"❌ Send error. Check your connection.",
+  progressTpl:a=>`${a} / 18 answered`,
+  missingBanner:m=>`⚠ ${m.length} incomplete criterion/criteria:`,
+  missingChip:n=>n,
+  btnMissing:n=>``,
+  yes:"Yes",no:"No",
+  adultLabel:"Adulthood (last 6 months)",childLabel:"Childhood (ages 5–12)",
+  examplesLabel:"Observed examples:",
+  symptomPresentAdult:"Is this symptom present <b>currently</b> (last 6 months)?",
+  symptomPresentChild:"Was this symptom present in your <b>childhood</b> (ages 5–12)?",
+  otherPH:"Other example...",
+  optionalLabel:"Optional",
   confirmTitle:"Thank you for your participation!",
-  confirmMsg:"Your answers have been recorded and sent to the specialist. You may close this page.",
-  confirmNote:"The complete results are processed and analysed by the health professional who gave you this questionnaire.",
-  confirmBadge:"✉ Report sent to specialist",
-  questions:["Is angry and resentful","Has difficulty doing or completing homework","Constantly in motion, as if driven by a motor","Is shy, easily frightened","Is very demanding about having things done a certain way","Has no friends","Has stomach aches","Quarrels with others","Avoids or is reluctant to engage in tasks requiring sustained mental effort","Has difficulty concentrating in work or play","Argues with adults","Fails to finish tasks","Becomes hard to control in shopping centres or supermarkets","Is afraid of people","Keeps checking on things","Quickly loses friends","Has various aches and pains","Is restless or overactive","Has a hard time concentrating at school","Does not seem to listen to what is said","Loses control","Needs constant supervision to finish tasks","Runs about or climbs excessively in inappropriate situations","Is afraid of new situations","Is picky about cleanliness","Does not know how to make friends","Begins to have aches or stomach aches before going to school","Is easily excited and quick to react","Does not follow through on instructions and fails to complete schoolwork or chores","Has difficulty organising tasks and activities","Is irritable","Keeps squirming","Is afraid of being alone","Has to do things the same way every time","Does not receive invitations to visit friends","Has headaches","Fails to finish what they start","Is easily distracted or lacks concentration","Talks excessively","Deliberately defies or refuses to comply with adult rules","Fails to give close attention to detail or makes careless errors","Seems unable to wait in line or for their turn in group games","Has many fears","Has to perform certain rituals","Is quickly distracted or does not stick with a task for long","Complains of illness when nothing is wrong","Has explosive outbursts of anger","Is easily distracted when given a specific instruction","Interrupts or intrudes on others","Is forgetful in daily activities","Cannot grasp mathematics","Runs between mouthfuls of food","Is afraid of the dark, animals or insects","Sets very high goals for themselves","Fidgets with hands or feet or squirms in seat","Cannot concentrate for long","Is touchy or easily annoyed by others","Is careless with handwriting","Cannot sustain an enjoyable or quiet game","Keeps to themselves, withdrawn from others","Blames others for their mistakes","Cannot stay still","Is untidy or disorganised at home or school","Gets upset if others interfere with their things","Clings to parents or other adults","Disturbs other children","Deliberately annoys people","Demands immediate responses, otherwise becomes frustrated","Pays attention only to what they are interested in","Is spiteful and resentful","Loses things needed for tasks (pencils, books, tools, toys)","Feels inferior to others","Seems tired or slow all the time","Is poor at spelling","Often cries for no reason","Leaves seat in class when remaining seated is expected","Has sudden and extreme mood changes","Becomes easily frustrated when making an effort","Is easily distracted by external stimuli","Blurts out answers before questions have been completed"]
+  confirmMsg:"The interview has been recorded and sent to the clinician. You may close this page.",
+  confirmNote:"The complete report will be analysed by the health professional conducting this interview.",
+  confirmBadge:"✉ DIVA 2.0 Report sent",
+  supplementA:"Supplement — Among the above attentional symptoms, did you present more or more frequently than other adults / children your age?",
+  supplementHI:"Supplement — Among the above hyperactivity/impulsivity symptoms, did you present more or more frequently?",
 },
 ar:{
-  wTitle:"استبيان كونرز للتقييم السلوكي",wSubtitle:"أداة سريرية لتقييم سلوك الطفل",
-  title:"استبيان كونرز",subtitle:"النسخة المراجعة (L) 1997 — الوالدَين",badge:"التقييم السلوكي",
-  ic1T:"لمن؟",ic1D:"أولياء أمور الأطفال الذين يعانون من صعوبات دراسية أو سلوكية",
-  ic2T:"80 بنداً",ic2D:"سلوكيات ملاحظة في المنزل والمدرسة",
-  ic3T:"10–15 دقيقة",ic3D:"الوقت المقدر لإتمام الاستبيان",
-  ic4T:"سري",ic4D:"ترسل النتائج فقط إلى المختص",
-  scaleTitle:"سلّم التقييم:",startBtn:"▶  ابدأ الاستبيان",
-  welcomeNote:"إجاباتك سرية تماماً وتُرسل فقط إلى المختص المعيّن.",
-  infoTitle:"معلومات الطفل",
-  childName:"اسم الطفل",childNamePH:"الاسم الكامل",
+  wTitle:"DIVA 2.0 — المقابلة التشخيصية لـ ADHD عند البالغين",
+  wSubtitle:"مقابلة منظمة لـ ADHD لدى البالغين استناداً لمعايير DSM-IV",
+  title:"DIVA 2.0",subtitle:"المقابلة التشخيصية لاضطراب ADHD عند البالغين",badge:"DSM-IV · ADHD البالغين",
+  ic1T:"لمن؟",ic1D:"البالغون المشتبه في إصابتهم بـ ADHD، تقييم رجعي للطفولة والبلوغ",
+  ic2T:"18 معياراً",ic2D:"9 معايير قصور الانتباه + 9 معايير فرط الحركة/الاندفاع",
+  ic3T:"60–90 دقيقة",ic3D:"المدة المعتادة لإجراء المقابلة",
+  ic4T:"سري",ic4D:"ترسل النتائج فقط إلى الطبيب المعالج",
+  dsmNote:"📌 التعليمات: لكل معيار، يمكنك وضع علامة على الأمثلة التي تتعرف عليها والإشارة إلى وجود العَرَض. كل شيء <strong>اختياري</strong> — أجب فقط على ما ينطبق عليك. أرسل عندما تكون مستعداً.",
+  startBtn:"▶  ابدأ المقابلة",
+  welcomeNote:"هذه المقابلة سرية. تُرسل النتائج فقط إلى المختص المعيّن.",
+  infoTitle:"معلومات المريض",
+  patientName:"اسم المريض",patientNamePH:"الاسم الكامل",
   dob:"تاريخ الميلاد",dobDay:"يوم",dobMonth:"شهر",dobYear:"سنة",
   sex:"الجنس",sexChoose:"-- اختر --",sexM:"ذكر",sexF:"أنثى",
-  grade:"الصف / المستوى",gradePH:"مثال: السنة الخامسة ابتدائي",
-  parentName:"اسم الوالد",parentNamePH:"الاسم الكامل",
-  parentEmail:"البريد الإلكتروني للوالد",
-  instrLabel:"التعليمات:",instrText:"لكلّ بند، حدِّد مدى تكرار هذا السلوك لدى طفلك.",
-  s0:"أبداً",s1:"خفيف",s2:"متوسط",s3:"شديد",
-  ratingLabels:["أبداً","خفيف","متوسط","شديد"],
-  qTitle:"البنود السلوكية (80 بنداً)",
-  sendLabel:"البريد الإلكتروني للمختص",
-  calcBtn:"📧 إرسال النتائج إلى المختص",
-  submitNote:"أجب على جميع البنود وأدخل بريد المختص.",
-  errEmail:"⚠ البريد الإلكتروني للمختص غير صالح.",
+  interviewDate:"تاريخ المقابلة",interviewDatePH:"يوم/شهر/سنة",
+  clinicianName:"اسم الطبيب",clinicianNamePH:"اسم الطبيب المعالج",
+  patientNum:"رقم المريض",patientNumPH:"الرقم",
+  secATitle:"القسم 1 — معايير قصور الانتباه (DSM-IV A1)",
+  secAInstr:"يجب أن تكون الأعراض عند البالغين موجودة منذ 6 أشهر على الأقل. كل شيء اختياري — الأمثلة والإجابات. أجب فقط على ما تراه مناسباً.",
+  secHITitle:"القسم 2 — معايير فرط الحركة والاندفاع (DSM-IV A2)",
+  secHIInstr:"نفس قواعد القسم 1. كل شيء اختياري. أجب فقط على المعايير التي تريدها.",
+  secBTitle:"القسم 3 — عمر البداية والاختلال الوظيفي (DSM-IV B, C, D, E)",
+  critBQ:"هل هناك دليل على استمرار الأعراض مدى الحياة (بعض الأعراض موجودة قبل سن 7 سنوات)؟",
+  critBAge:"إذا لا — عمر بداية الأعراض (سنوات)",
+  critCTitle:"المعيار C — في أي المجالات تسبب الأعراض مشاكل؟",
+  critDAdult:"مرحلة البلوغ: هل هناك دليل على اختلال وظيفي في ≥ 2 مجالين؟",
+  critDChild:"الطفولة: هل هناك دليل على اختلال وظيفي في ≥ 2 مجالين؟",
+  critEQ:"المعيار E — هل يمكن تفسير الأعراض بشكل أفضل بتشخيص نفسي آخر؟",
+  critEDetail:"حدد التشخيص",
+  collateralTitle:"المعلومات الجانبية (0 = لا دعم · 1 = بعض الدعم · 2 = دعم واضح)",
+  collParent:"أحد الوالدين / أخ أو أخت / فرد آخر من العائلة",
+  collPartner:"الشريك / صديق مقرب",
+  collSchool:"كشوف المدرسة",
+  collDetails:"تفاصيل / ملاحظات",
+  sendLabel:"البريد الإلكتروني للطبيب (مستلم النتائج)",
+  calcBtn:"📧 إرسال التقرير إلى الطبيب",
+  submitNote:"أدخل بريد الطبيب وأرسل عندما تكون مستعداً.",
+  errEmail:"⚠ البريد الإلكتروني للطبيب غير صالح.",
   sending:"⏳ جارٍ الإرسال...",
-  errSend:"❌ خطأ في الإرسال. تحقق من اتصالك وأعد المحاولة.",
-  progressTpl:a=>`${a} / 80 إجابة`,
-  missingBanner:m=>`⚠ ${m.length} بند(بنود) غير مُجاب:`,
-  missingChip:n=>`بند ${n}`,
-  btnMissing:n=>`⚠ ${n} غير مُجاب — انتقل للتالي`,
-  sectionLabels:{1:"البنود 1–20",21:"البنود 21–40",41:"البنود 41–60",61:"البنود 61–80"},
+  errSend:"❌ خطأ في الإرسال.",
+  progressTpl:a=>`${a} / 18 تمت الإجابة`,
+  missingBanner:m=>`⚠ ${m.length} معيار(معايير) غير مكتمل:`,
+  missingChip:n=>n,
+  btnMissing:n=>``,
+  yes:"نعم",no:"لا",
+  adultLabel:"مرحلة البلوغ (آخر 6 أشهر)",childLabel:"الطفولة (5–12 سنة)",
+  examplesLabel:"أمثلة ملاحظة:",
+  symptomPresentAdult:"هل هذا العَرَض موجود <b>حالياً</b> (آخر 6 أشهر)؟",
+  symptomPresentChild:"هل كان هذا العَرَض موجوداً في <b>طفولتك</b> (5–12 سنة)؟",
+  otherPH:"مثال آخر...",
+  optionalLabel:"اختياري",
   confirmTitle:"شكراً على مشاركتك!",
-  confirmMsg:"تم تسجيل إجاباتك وإرسالها إلى المختص. يمكنك إغلاق هذه الصفحة.",
-  confirmNote:"يتم معالجة النتائج الكاملة وتحليلها من قِبل المختص الصحي الذي أعطاك هذا الاستبيان.",
-  confirmBadge:"✉ تم إرسال التقرير إلى المختص",
-  questions:["سريع الغضب والحقد","يجد صعوبة في إنجاز الواجبات المنزلية أو إكمالها","دائم الحركة كأنه يعمل بمحرك","خجول ويفزع بسرعة","متصلب جداً في مطالبه","ليس لديه أصدقاء","يعاني من آلام في المعدة","يتشاجر مع الآخرين","يتهرب أو لا يستطيع الانخراط في مهام تتطلب جهداً ذهنياً مستمراً","يجد صعوبة في التركيز في أعماله أو ألعابه","يجادل الكبار","لا ينجز مهامه حتى النهاية","يصعب ضبطه في المراكز التجارية أو المحلات","يخاف من الناس","لا يكف عن التحقق من أغراضه","يفقد أصدقاءه بسرعة","يعاني من آلام متعددة","مندفع أو نشيط جداً","يجد صعوبة في التركيز في المدرسة","لا يبدو أنه يُصغي لما يُقال له","يفقد السيطرة على نفسه","يحتاج إلى مراقبة مستمرة لإنجاز مهامه","يركض أو يتسلق في أماكن غير مناسبة","يخشى المواقف الجديدة","بالغ الاهتمام بالنظافة الشخصية","لا يعرف كيف يكوّن الصداقات","يشكو من آلام أو غثيان قبل الذهاب إلى المدرسة","سريع الاستثارة والتفاعل","لا يتّبع التعليمات ولا يُنهي واجباته","ينظم مهامه وأنشطته بشكل سيئ","سريع الانفعال","لا يكف عن الالتواء والتقلب","يخاف من الوحدة","يجب أن يفعل الأشياء دائماً بنفس الطريقة","لا يتلقى دعوات لزيارة أصدقائه","يعاني من صداع","لا يكمل ما يبدأه","يفتقر إلى التركيز أو يتشتت بسهولة","يتحدث كثيراً","يعارض أوامر الكبار أو يرفض اتباعها","لا يهتم بالتفاصيل أو يرتكب أخطاء إهمال في واجباته","يبدو غير قادر على انتظار دوره في الألعاب الجماعية","لديه مخاوف كثيرة","يجب عليه أداء طقوس معينة","يتشتت بسرعة أو لا يبقى طويلاً على مهمة واحدة","يشكو من المرض حتى حين لا يعاني من شيء","يُصاب بنوبات غضب شديدة","يتشتت بسهولة عند تلقيه تعليمة محددة","يقاطع الآخرين أو يتدخل في شؤونهم","كثير النسيان في الأنشطة اليومية","لا يستطيع فهم الرياضيات","يقوم بالجري بين اللقمة والأخرى أثناء الأكل","يخاف من الظلام أو الحيوانات أو الحشرات","يضع لنفسه أهدافاً مرتفعة جداً","يحرك يديه أو قدميه أو يتململ على الكرسي","لا يستطيع التركيز لفترة طويلة","حساس أو ينزعج بسهولة من الآخرين","يهمل كتابته","لا يستطيع الاستمرار في لعبة هادئة أو ممتعة","منعزل وبعيد عن الآخرين","يُلقي اللوم على الآخرين لأخطائه","لا يستطيع البقاء في مكانه","فوضوي أو غير منظم في المنزل أو المدرسة","ينزعج إذا تدخّل الآخرون في أغراضه","يتعلق بوالديه أو الكبار","يزعج الأطفال الآخرين","يفعل ذلك عمداً لإزعاج الناس","يطالب بردود فعل فورية وإلا أصابه الإحباط","لا ينتبه إلا لما يهمه","يُظهر الشماتة والحقد","يفقد الأدوات اللازمة لمهامه","يشعر بالدونية تجاه الآخرين","يبدو مرهقاً أو بطيئاً طوال الوقت","ضعيف في الإملاء","يبكي كثيراً دون سبب","يترك مقعده في الفصل أو في أماكن يُفترض فيها الجلوس","يتقلب مزاجه بشكل مفاجئ وحاد","يُصاب بالإحباط بسهولة أثناء بذل المجهود","يتشتت بسهولة بسبب المحفزات الخارجية","يجيب قبل اكتمال السؤال"]
+  confirmMsg:"تم تسجيل المقابلة وإرسالها إلى الطبيب. يمكنك إغلاق هذه الصفحة.",
+  confirmNote:"سيتم تحليل التقرير الكامل من قِبل المختص الصحي الذي يجري هذه المقابلة.",
+  confirmBadge:"✉ تقرير DIVA 2.0 تم إرساله",
+  supplementA:"ملحق — هل عانيت من هذه الأعراض الانتباهية أكثر من غيرك من البالغين / الأطفال في نفس عمرك؟",
+  supplementHI:"ملحق — هل عانيت من هذه الأعراض الحركية/الاندفاعية أكثر من غيرك؟",
 }
 };
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// CRITERIA DATA (FR/EN/AR) — 18 DSM-IV criteria
+// ═══════════════════════════════════════════════════════════
+const CRITERIA = {
+fr:{
+  A:[
+    { id:'A1', code:'A1a', q:"Avez-vous souvent du mal à prêter attention aux détails, ou faites-vous souvent des erreurs d'étourderie dans votre travail ou dans d'autres activités ?",
+      adult:["Fait des erreurs d'étourderie","Travaille lentement pour éviter les erreurs","Ne lit pas les instructions avec soin","Du mal à travailler de façon minutieuse","Besoin de trop de temps pour des tâches complexes","Facilement empêtré par les détails","Travaille trop rapidement et commet des erreurs"],
+      child:["Erreurs d'étourderie lors du travail scolaire","Erreurs parce qu'il ne lisait pas les questions correctement","Ne répondait pas aux questions posées au verso d'un examen","Le travail n'était pas soigné","Ne vérifiait pas ses réponses","Besoin de trop de temps pour les tâches minutieuses"]},
+    { id:'A2', code:'A1b', q:"Trouvez-vous souvent difficile de soutenir votre attention sur une tâche ?",
+      adult:["Incapable de maintenir son attention sur des tâches pendant longtemps","Facilement distrait par ses propres pensées","Difficile de suivre un film ou de lire un livre","Rapidement ennuyé","Pose des questions sur des sujets déjà discutés"],
+      child:["Du mal à maintenir l'attention lors du travail scolaire","Du mal à maintenir l'attention sur un jeu","Facilement distrait","Du mal à se concentrer","Besoin d'un environnement structuré","Rapidement ennuyé"]},
+    { id:'A3', code:'A1c', q:"Donnez-vous souvent l'impression de ne pas écouter lorsqu'on vous parle directement ?",
+      adult:["Rêveur ou préoccupé","Du mal à se concentrer pendant une conversation","Ne se rappelle pas du sujet d'une conversation","Change souvent de sujet","D'autres personnes disent que vos pensées sont ailleurs"],
+      child:["Ne sait plus ce que les parents/enseignants ont dit","Rêveur ou préoccupé","N'écoute qu'avec contact visuel ou ton élevé","Doit souvent être interpelé","Les questions doivent être répétées"]},
+    { id:'A4', code:'A1d', q:"Avez-vous souvent du mal à vous conformer aux consignes et à mener à terme vos tâches ou obligations professionnelles ?",
+      adult:["Fait plusieurs tâches en même temps sans les terminer","Du mal à finir les tâches une fois la nouveauté diminuée","Besoin de délai pour terminer","Du mal à terminer les tâches administratives","Du mal à suivre les instructions"],
+      child:["Du mal à suivre les instructions","En difficulté avec les tâches à plusieurs étapes","Ne termine pas les choses","Ne termine pas les devoirs","Besoin d'un environnement structuré"]},
+    { id:'A5', code:'A1e', q:"Trouvez-vous souvent difficile d'organiser les tâches ou les activités ?",
+      adult:["Du mal à planifier les activités quotidiennes","La maison ou l'espace de travail est en désordre","Planifie trop de tâches ou planification inefficace","Arrive en retard","Incapable d'utiliser un agenda efficacement","Faible conscience du temps","Établit des listes sans les utiliser"],
+      child:["Du mal à être prêt à temps","Chambre ou bureau en désordre","Du mal à planifier les devoirs","Fait les choses de manière confuse","Arrive en retard","Faible conscience du temps"]},
+    { id:'A6', code:'A1f', q:"Évitez-vous souvent les tâches qui nécessitent un effort mental soutenu ?",
+      adult:["Fait en premier les choses les plus faciles","Remet à plus tard les tâches ennuyeuses","Remet à plus tard jusqu'à dépasser les délais","Évite les tâches monotones","N'aime pas lire à cause de l'effort mental","Évite les tâches demandant beaucoup de concentration"],
+      child:["Évite des devoirs ou aversion pour les devoirs","Lit peu ou n'aime pas lire","Évite les tâches nécessitant beaucoup de concentration","Déteste les sujets demandant beaucoup de concentration","Remet à plus tard les tâches difficiles"]},
+    { id:'A7', code:'A1g', q:"Perdez-vous souvent les objets nécessaires à votre travail ou vos activités ?",
+      adult:["Égare portefeuille, clés ou agenda","Oublie des choses en quittant un lieu","Perd des papiers pour son travail","Perd beaucoup de temps à chercher des choses","Panique si des gens ont changé des choses de place","Range les choses au mauvais endroit"],
+      child:["Perd l'agenda, les stylos ou les affaires","Égare des jouets, habits ou devoirs","Perd beaucoup de temps à chercher","Panique si des gens ont changé des choses","Les parents/enseignants remarquent qu'il a perdu des choses"]},
+    { id:'A8', code:'A1h', q:"Vous laissez-vous facilement distraire par des stimuli externes ?",
+      adult:["Du mal à ignorer des stimuli externes","Du mal à reprendre les choses après avoir été distrait","Facilement distrait par des bruits ou événements","Facilement distrait par une conversation entre d'autres personnes","Du mal à filtrer et sélectionner des informations"],
+      child:["En classe, regarde souvent dehors","Facilement distrait par des bruits ou événements","Du mal à reprendre les choses après distraction"]},
+    { id:'A9', code:'A1i', q:"Avez-vous des oublis fréquents dans la vie quotidienne ?",
+      adult:["Oublie des rendez-vous ou obligations","Oublie les clés, l'agenda","A besoin de rappels fréquents","Retourne sur ses pas pour prendre des choses oubliées","Utilise des programmes rigides pour ne rien oublier","N'utilise pas son agenda ou oublie de le consulter"],
+      child:["Oublie des rendez-vous ou consignes","Doit souvent se faire rappeler les choses","S'arrête en chemin car il a oublié ce qu'il devait faire","Oublie d'apporter des affaires scolaires","Oublie des choses à l'école ou chez des amis"]},
+  ],
+  HI:[
+    { id:'HI1', code:'A2a', q:"Remuez-vous souvent les mains ou les pieds, ou vous tortillez-vous sur votre siège ?",
+      adult:["Du mal à rester assis immobile","Remue les jambes","Tape avec un stylo ou joue avec un objet","Tortille les cheveux ou ronge les ongles","Capable de contrôler mais cela vous stresse"],
+      child:["On dit souvent 'tiens-toi tranquille'","Remue les jambes","Tape avec un stylo ou joue avec un objet","Tortille les cheveux ou ronge les ongles","Incapable de rester assis de façon relaxée"]},
+    { id:'HI2', code:'A2b', q:"Vous levez-vous souvent dans des situations où vous êtes supposé rester assis ?",
+      adult:["Évite les réunions, conférences, cérémonies","Préfère marcher plutôt que rester assis","Ne reste jamais longtemps assis tranquille","Stressé par l'obligation de rester assis","Trouve une excuse pour marcher"],
+      child:["Se lève souvent pendant les repas ou en classe","Trouve très difficile de rester assis","On lui dit souvent de rester assis","Trouve une excuse pour marcher"]},
+    { id:'HI3', code:'A2c', q:"Vous sentez-vous souvent agité ? (chez l'adulte : sentiment subjectif d'impatience motrice)",
+      adult:["Se sent agité ou nerveux à l'intérieur","Ressent constamment le sentiment d'avoir quelque chose à faire","Trouve difficile de se relaxer"],
+      child:["Court toujours","Grimpe sur les meubles ou saute","Monte aux arbres","Se sent agité à l'intérieur"]},
+    { id:'HI4', code:'A2d', q:"Trouvez-vous souvent difficile de profiter d'un moment de détente ?",
+      adult:["Parle lorsque cela n'est pas approprié","Se met rapidement en avant en public","Bruyant dans tout type de situations","Du mal à faire des activités tranquillement","Du mal à parler doucement"],
+      child:["Fait du bruit en jouant ou en classe","Incapable de regarder la TV tranquillement","On lui demande souvent de se calmer","Se met rapidement en avant en public"]},
+    { id:'HI5', code:'A2e', q:"Êtes-vous souvent 'sur la brèche' ou comme si vous étiez 'dirigé par un moteur' ?",
+      adult:["Toujours occupé à faire quelque chose","Déborde d'énergie, toujours en mouvement","Franchit ses propres limites","Lâche difficilement prise, excessivement insistant"],
+      child:["Constamment occupé","Remarqué par son activité en classe ou à la maison","Déborde d'énergie","Toujours sur la brèche"]},
+    { id:'HI6', code:'A2f', q:"Parlez-vous souvent trop ?",
+      adult:["Parle tellement que les gens trouvent cela fatiguant","Connu pour parler de manière incessante","Trouve difficile d'arrêter de parler","Ne laisse pas l'occasion aux autres d'intervenir","Besoin de beaucoup de mots pour dire quelque chose"],
+      child:["Connu comme une 'boîte à paroles'","Les enseignants demandent souvent le silence","Les fiches scolaires mentionnent des bavardages","Puni pour avoir trop parlé","Gêne le travail des autres en parlant trop"]},
+    { id:'HI7', code:'A2g', q:"Laissez-vous souvent échapper la réponse à une question qui n'est pas encore entièrement posée ?",
+      adult:["Dit ce qu'il pense","Dit les choses sans réfléchir","Donne des réponses avant que les gens aient fini","Finit les phrases des autres","Manque de tact"],
+      child:["Dit les choses sans réfléchir","Veut être le premier à répondre","Donne la première réponse qui lui vient","Interrompt avant que les phrases soient finies","Blesse verbalement"]},
+    { id:'HI8', code:'A2h', q:"Trouvez-vous souvent difficile d'attendre votre tour ?",
+      adult:["Difficulté à attendre dans une file","Du mal à attendre dans la circulation","Du mal à attendre son tour dans les conversations","Impatient","Commence ou termine rapidement des relations par impatience"],
+      child:["Du mal à attendre son tour dans les sports ou jeux","Du mal à attendre en classe","Toujours le premier à parler ou agir","Rapidement impatient","Traverse la route sans regarder"]},
+    { id:'HI9', code:'A2i', q:"Interrompez-vous souvent les autres ou imposez-vous votre présence ?",
+      adult:["Rapide à interférer avec les autres","Interrompt les autres","Dérange sans qu'on lui ait rien demandé","Les autres disent qu'il est intrusif","Du mal à respecter les limites","A une opinion sur tout et la donne immédiatement"],
+      child:["S'immisce dans les jeux des autres","Interrompt les conversations","Réagit sur tout","Incapable d'attendre"]},
+  ]
+},
+en:{
+  A:[
+    { id:'A1', code:'A1a', q:"Do you often fail to give close attention to detail, or make careless mistakes at work or in other activities?",
+      adult:["Makes careless mistakes","Works slowly to avoid errors","Doesn't read instructions carefully","Difficulty working meticulously","Takes too long for complex tasks","Easily bogged down by details","Works too quickly and makes errors"],
+      child:["Careless mistakes in schoolwork","Errors because didn't read questions correctly","Didn't answer questions on back of exam","Others pointed out work was untidy","Didn't check answers","Too long for detailed tasks"]},
+    { id:'A2', code:'A1b', q:"Do you often have difficulty sustaining attention on a task?",
+      adult:["Cannot maintain attention on tasks for long","Easily distracted by own thoughts","Difficult to follow a film or read a book","Quickly bored","Asks questions about topics already discussed"],
+      child:["Difficulty maintaining attention on schoolwork","Difficulty maintaining attention on a game","Easily distracted","Difficulty concentrating","Needed structured environment","Quickly bored"]},
+    { id:'A3', code:'A1c', q:"Do you often seem not to listen when spoken to directly?",
+      adult:["Daydreaming or preoccupied","Difficulty concentrating in conversation","Afterwards can't remember conversation topic","Often changes subject","Others say your mind is elsewhere"],
+      child:["Doesn't remember what parents/teachers said","Daydreaming or preoccupied","Only listens with eye contact or raised voice","Often has to be called","Questions need repeating"]},
+    { id:'A4', code:'A1d', q:"Do you often fail to follow through on instructions or to finish tasks or professional duties?",
+      adult:["Does several tasks at once without finishing","Difficulty finishing once novelty wears off","Needs deadline to finish","Difficulty with administrative tasks","Difficulty following manual instructions"],
+      child:["Difficulty following instructions","Struggled with multi-step tasks","Doesn't finish things","Doesn't finish homework","Needed structured environment"]},
+    { id:'A5', code:'A1e', q:"Do you often have difficulty organising tasks or activities?",
+      adult:["Difficulty planning daily activities","Home or workspace is messy","Plans too many tasks or plans ineffectively","Often late","Unable to use diary effectively","Poor time awareness","Makes lists without using them"],
+      child:["Difficulty being ready on time","Messy room or desk","Difficulty planning tasks or homework","Does things in a muddled way","Often late","Poor time awareness"]},
+    { id:'A6', code:'A1f', q:"Do you often avoid tasks requiring sustained mental effort?",
+      adult:["Does easiest things first","Puts off boring or difficult tasks","Procrastinates until deadline is missed","Avoids monotonous tasks","Doesn't like reading due to mental effort","Avoids tasks requiring much concentration"],
+      child:["Avoids homework","Reads few books or dislikes reading","Avoids tasks requiring concentration","Dislikes subjects needing concentration","Puts off difficult tasks"]},
+    { id:'A7', code:'A1g', q:"Do you often lose things needed for tasks or activities?",
+      adult:["Misplaces wallet, keys or diary","Forgets things when leaving a place","Loses work papers","Wastes time looking for things","Panics if people move things","Puts things in wrong place"],
+      child:["Loses diary, pens, PE kit or other things","Misplaces toys, clothes or homework","Wastes time looking for things","Panics if people move things","Parents/teachers note lost items"]},
+    { id:'A8', code:'A1h', q:"Are you easily distracted by extraneous stimuli?",
+      adult:["Difficulty ignoring external stimuli","Difficulty resuming after distraction","Easily distracted by noise or events","Easily distracted by others' conversations","Difficulty filtering information"],
+      child:["Often looks out the window in class","Easily distracted by noise or events","Difficulty resuming after distraction"]},
+    { id:'A9', code:'A1i', q:"Are you often forgetful in daily activities?",
+      adult:["Forgets appointments or obligations","Forgets keys, diary etc.","Needs frequent reminders","Goes back to fetch forgotten items","Uses rigid routines to avoid forgetting","Doesn't keep diary or forgets to check it"],
+      child:["Forgets appointments or instructions","Often has to be reminded","Stops on the way because forgot what to do","Forgets to bring school things","Forgets things at school or friends' houses"]},
+  ],
+  HI:[
+    { id:'HI1', code:'A2a', q:"Do you often fidget with hands or feet, or squirm in your seat?",
+      adult:["Difficulty sitting still","Jiggles legs","Taps pen or fidgets with object","Twirls hair or bites nails","Able to control but it causes stress"],
+      child:["Often told to sit still","Jiggles legs","Taps pen or fidgets","Twirls hair or bites nails","Unable to sit in a relaxed way"]},
+    { id:'HI2', code:'A2b', q:"Do you often leave your seat in situations where remaining seated is expected?",
+      adult:["Avoids meetings, conferences, ceremonies","Prefers walking to sitting","Never sits quietly for long","Stressed by having to sit","Finds excuse to walk"],
+      child:["Often gets up during meals or in class","Finds it very difficult to sit still","Often told to sit down","Finds excuse to walk"]},
+    { id:'HI3', code:'A2c', q:"Do you often feel restless? (In adults: subjective sense of inner restlessness)",
+      adult:["Feels agitated or nervous inside","Constantly feels like there's something to do","Finds it difficult to relax"],
+      child:["Always running","Climbs furniture or jumps","Climbs trees","Feels restless inside"]},
+    { id:'HI4', code:'A2d', q:"Do you often have difficulty enjoying leisure activities quietly?",
+      adult:["Talks when inappropriate","Quickly puts self forward in public","Loud in all types of situations","Difficulty with quiet activities","Difficulty speaking quietly"],
+      child:["Makes noise playing or in class","Unable to watch TV quietly","Often asked to calm down","Quickly puts self forward in public"]},
+    { id:'HI5', code:'A2e', q:"Are you often 'on the go' or act as if 'driven by a motor'?",
+      adult:["Always busy doing something","Bursting with energy, always moving","Pushes own limits","Difficulty letting go, excessively insistent"],
+      child:["Constantly busy","Noticed for activity in class or at home","Bursting with energy","Always on the go"]},
+    { id:'HI6', code:'A2f', q:"Do you often talk excessively?",
+      adult:["Talks so much others find it exhausting","Known for talking incessantly","Finds it difficult to stop talking","Doesn't let others get a word in","Needs many words to say something"],
+      child:["Known as a 'chatterbox'","Teachers often ask for quiet","School reports mention chattering","Punished for talking too much","Disrupts others' work by talking"]},
+    { id:'HI7', code:'A2g', q:"Do you often blurt out an answer before a question has been completed?",
+      adult:["Says what they think","Says things without thinking","Gives answers before people finish speaking","Finishes others' sentences","Lacks tact"],
+      child:["Says things without thinking","Wants to be first to answer questions","Gives first answer that comes to mind","Interrupts before sentences are finished","Verbally hurtful"]},
+    { id:'HI8', code:'A2h', q:"Do you often have difficulty awaiting your turn?",
+      adult:["Difficulty waiting in a queue","Difficulty waiting in traffic","Difficulty waiting turn in conversations","Impatient","Quickly starts or ends relationships by impatience"],
+      child:["Difficulty waiting turn in sports or games","Difficulty waiting turn in class","Always first to speak or act","Quickly impatient","Crosses road without looking"]},
+    { id:'HI9', code:'A2i', q:"Do you often interrupt or intrude on others?",
+      adult:["Quick to interfere with others","Interrupts others","Intrudes without being asked","Others say they are intrusive","Difficulty respecting others' limits","Has opinion on everything and gives it immediately"],
+      child:["Interferes in others' games","Interrupts conversations","Reacts to everything","Unable to wait"]},
+  ]
+},
+ar:{
+  A:[
+    { id:'A1', code:'A1a', q:"هل تجد في الغالب صعوبة في الانتباه للتفاصيل، أو ترتكب أخطاء إهمال في عملك أو أنشطتك الأخرى؟",
+      adult:["يرتكب أخطاء إهمال","يعمل ببطء لتجنب الأخطاء","لا يقرأ التعليمات بعناية","صعوبة في العمل بدقة","يحتاج وقتاً طويلاً للمهام المعقدة","ينشغل بسهولة بالتفاصيل","يعمل بسرعة زائدة فيرتكب أخطاء"],
+      child:["أخطاء إهمال في الواجبات المدرسية","أخطاء لعدم قراءة الأسئلة بشكل صحيح","لا يجيب على أسئلة ظهر الامتحان","الآخرون يلاحظون أن عمله غير مرتب","لا يراجع إجاباته","يحتاج وقتاً طويلاً للمهام الدقيقة"]},
+    { id:'A2', code:'A1b', q:"هل تجد في الغالب صعوبة في الحفاظ على الانتباه على مهمة ما؟",
+      adult:["عاجز عن الحفاظ على الانتباه طويلاً","يتشتت بسهولة بأفكاره الخاصة","صعوبة في متابعة فيلم أو قراءة كتاب","يمل بسرعة","يطرح أسئلة عن مواضيع سبق نقاشها"],
+      child:["صعوبة في الانتباه أثناء الواجبات","صعوبة في الانتباه أثناء اللعب","يتشتت بسهولة","صعوبة في التركيز","يحتاج بيئة منظمة","يمل بسرعة"]},
+    { id:'A3', code:'A1c', q:"هل يبدو في الغالب أنك لا تستمع عندما يتحدث إليك أحد مباشرة؟",
+      adult:["شارد الذهن أو مشغول","صعوبة في التركيز أثناء المحادثة","لا يتذكر موضوع المحادثة لاحقاً","يغير الموضوع كثيراً","يقول الآخرون إن أفكاره في مكان آخر"],
+      child:["لا يتذكر ما قاله الوالدان/المعلمون","شارد الذهن","لا يستمع إلا بالتواصل البصري أو برفع الصوت","يجب نداؤه كثيراً","يجب تكرار الأسئلة"]},
+    { id:'A4', code:'A1d', q:"هل تجد في الغالب صعوبة في اتباع التعليمات وإتمام مهامك أو التزاماتك المهنية؟",
+      adult:["يقوم بمهام متعددة دون إتمامها","صعوبة في الإنهاء بعد زوال الجدة","يحتاج إلى موعد نهائي","صعوبة في المهام الإدارية","صعوبة في اتباع تعليمات الدليل"],
+      child:["صعوبة في اتباع التعليمات","صعوبة مع المهام متعددة الخطوات","لا ينهي الأشياء","لا ينهي الواجبات","يحتاج بيئة منظمة"]},
+    { id:'A5', code:'A1e', q:"هل تجد في الغالب صعوبة في تنظيم المهام أو الأنشطة؟",
+      adult:["صعوبة في تخطيط الأنشطة اليومية","المنزل أو مكان العمل في فوضى","يخطط لمهام كثيرة جداً","يصل متأخراً","عاجز عن استخدام المفكرة بفعالية","ضعف الوعي بالوقت","يضع قوائم دون استخدامها"],
+      child:["صعوبة في التجهيز في الوقت المناسب","الغرفة أو المكتب في فوضى","صعوبة في تخطيط الواجبات","يفعل الأشياء بطريقة مشوشة","يصل متأخراً","ضعف الوعي بالوقت"]},
+    { id:'A6', code:'A1f', q:"هل تتجنب في الغالب المهام التي تتطلب جهداً ذهنياً مستمراً؟",
+      adult:["يبدأ بالأشياء الأسهل","يؤجل المهام المملة أو الصعبة","يؤجل حتى تفوته المواعيد","يتجنب المهام الرتيبة","لا يحب القراءة بسبب الجهد الذهني","يتجنب المهام التي تتطلب تركيزاً"],
+      child:["يتجنب الواجبات","يقرأ قليلاً أو لا يحب القراءة","يتجنب المهام التي تتطلب تركيزاً","يكره المواد التي تحتاج تركيزاً","يؤجل المهام الصعبة"]},
+    { id:'A7', code:'A1g', q:"هل تفقد في الغالب الأشياء اللازمة لعملك أو أنشطتك؟",
+      adult:["يضع في غير محله المحفظة أو المفاتيح أو المفكرة","ينسى أشياء عند مغادرة مكان ما","يفقد أوراق العمل","يضيع وقتاً طويلاً في البحث","يصاب بالذعر إذا حرك الآخرون أشياءه","يضع الأشياء في مكان خاطئ"],
+      child:["يفقد المفكرة والأقلام وأدوات الرياضة","يضع في غير محله الألعاب أو الملابس أو الواجبات","يضيع وقتاً في البحث","يصاب بالذعر إذا حرك الآخرون أشياءه","الوالدون/المعلمون يلاحظون فقدان الأشياء"]},
+    { id:'A8', code:'A1h', q:"هل تتشتت بسهولة بالمحفزات الخارجية؟",
+      adult:["صعوبة في تجاهل المحفزات الخارجية","صعوبة في استئناف العمل بعد التشتت","يتشتت بسهولة بالأصوات أو الأحداث","يتشتت بسهولة بمحادثات الآخرين","صعوبة في تصفية المعلومات"],
+      child:["ينظر كثيراً خارج النافذة في الفصل","يتشتت بسهولة بالأصوات","صعوبة في الاستئناف بعد التشتت"]},
+    { id:'A9', code:'A1i', q:"هل تنسى كثيراً في الحياة اليومية؟",
+      adult:["ينسى المواعيد أو الالتزامات","ينسى المفاتيح والمفكرة","يحتاج إلى تذكيرات متكررة","يعود أدراجه لأخذ أشياء نسيها","يستخدم برامج صارمة لعدم النسيان","لا يحتفظ بمفكرته أو ينسى مراجعتها"],
+      child:["ينسى المواعيد أو التعليمات","يجب تذكيره دائماً","يتوقف في الطريق لأنه نسي ما كان يفعله","ينسى أدواته المدرسية","ينسى أشياء في المدرسة أو عند الأصدقاء"]},
+  ],
+  HI:[
+    { id:'HI1', code:'A2a', q:"هل تحرك يديك أو قدميك كثيراً، أو تتقلب على مقعدك؟",
+      adult:["صعوبة في الجلوس بلا حراك","يحرك ساقيه","يطرق بقلم أو يعبث بشيء","يلف شعره أو يقضم أظافره","قادر على التحكم لكن ذلك يسبب له التوتر"],
+      child:["يُقال له كثيراً 'اهدأ'","يحرك ساقيه","يطرق بقلم أو يعبث بشيء","يلف شعره أو يقضم أظافره","عاجز عن الجلوس بشكل مريح"]},
+    { id:'HI2', code:'A2b', q:"هل تغادر مقعدك في المواقف التي يُتوقع منك فيها الجلوس؟",
+      adult:["يتجنب الاجتماعات والمؤتمرات والمناسبات","يفضل المشي على الجلوس","لا يجلس هادئاً لفترة طويلة","الإلزام بالجلوس يسبب له توتراً","يجد عذراً للمشي"],
+      child:["يقوم كثيراً أثناء الوجبات أو في الفصل","يجد صعوبة كبيرة في الجلوس","يُقال له كثيراً أن يجلس","يجد عذراً للمشي"]},
+    { id:'HI3', code:'A2c', q:"هل تشعر كثيراً بالاضطراب؟ (عند البالغين: إحساس داخلي بعدم الراحة)",
+      adult:["يشعر بالاضطراب أو التوتر داخلياً","يشعر دائماً بأن لديه شيئاً ينجزه","يجد صعوبة في الاسترخاء"],
+      child:["دائم الجري","يتسلق الأثاث أو يقفز","يتسلق الأشجار","يشعر بالاضطراب داخلياً"]},
+    { id:'HI4', code:'A2d', q:"هل تجد كثيراً صعوبة في الاستمتاع بأوقات الراحة بهدوء؟",
+      adult:["يتحدث في غير الأوقات المناسبة","يُقدِّم نفسه بسرعة في الأماكن العامة","صاخب في جميع أنواع المواقف","صعوبة في الأنشطة الهادئة","صعوبة في التحدث بهدوء"],
+      child:["يُحدث ضجيجاً أثناء اللعب أو في الفصل","عاجز عن مشاهدة التلفاز بهدوء","يُطلب منه كثيراً أن يهدأ","يُقدِّم نفسه بسرعة في الأماكن العامة"]},
+    { id:'HI5', code:'A2e', q:"هل أنت كثيراً 'في حالة نشاط دائم' أو كأنك 'مدفوع بمحرك'؟",
+      adult:["دائم الانشغال بشيء ما","مليء بالطاقة، دائم الحركة","يتجاوز حدوده","يتخلى بصعوبة، مُصِرّ بشكل مفرط"],
+      child:["مشغول دائماً","يُلاحَظ بنشاطه في الفصل أو المنزل","مليء بالطاقة","دائم الحركة"]},
+    { id:'HI6', code:'A2f', q:"هل تتحدث كثيراً بإفراط؟",
+      adult:["يتحدث كثيراً لدرجة إرهاق الآخرين","معروف بالثرثرة المستمرة","يجد صعوبة في التوقف عن الكلام","لا يتيح للآخرين فرصة التدخل","يحتاج كلمات كثيرة لقول شيء"],
+      child:["معروف بـ'صندوق الكلام'","المعلمون يطلبون الصمت كثيراً","الكشوف المدرسية تذكر كثرة الكلام","عُوقب لكثرة كلامه","يُزعج عمل الآخرين بكلامه"]},
+    { id:'HI7', code:'A2g', q:"هل تُطلق الإجابة قبل أن يُكمل السائل سؤاله؟",
+      adult:["يقول ما يفكر فيه","يقول الأشياء دون تفكير","يعطي إجابات قبل أن ينتهي الناس من الكلام","يُكمل جمل الآخرين","يفتقر للياقة"],
+      child:["يقول الأشياء دون تفكير","يريد أن يكون أول من يجيب","يعطي أول إجابة تخطر ببالهn","يقاطع قبل انتهاء الجمل","يؤذي لفظياً"]},
+    { id:'HI8', code:'A2h', q:"هل تجد كثيراً صعوبة في انتظار دورك؟",
+      adult:["صعوبة في الانتظار في طابور","صعوبة في الانتظار في الازدحام","صعوبة في انتظار دوره في المحادثات","نفاد صبر","يبدأ أو ينهي العلاقات بسرعة بسبب نفاد الصبر"],
+      child:["صعوبة في انتظار الدور في الألعاب","صعوبة في الانتظار في الفصل","دائماً أول من يتكلم أو يتصرف","نفاد صبر سريع","يعبر الطريق دون النظر"]},
+    { id:'HI9', code:'A2i', q:"هل تقاطع الآخرين كثيراً أو تفرض وجودك؟",
+      adult:["سريع التدخل مع الآخرين","يقاطع الآخرين","يُزعج دون أن يُطلب منه","الآخرون يقولون إنه متطفل","صعوبة في احترام حدود الآخرين","لديه رأي في كل شيء ويُعبّر عنه فوراً"],
+      child:["يتدخل في ألعاب الآخرين","يقاطع المحادثات","يتفاعل مع كل شيء","عاجز عن الانتظار"]},
+  ]
+},
+};
+
+// Section C domains
+const SECTION_C = {
+fr:{
+  adult:[
+    { key:'travail', label:'Travail / Éducation', items:["N'a pas atteint le niveau souhaité","Travaille en deçà de son niveau","Rapidement fatigué d'un lieu de travail","Succession d'emplois à court terme","Difficulté avec le travail administratif/planification","Sous-performant au travail","A quitté un emploi ou a été renvoyé","Arrêts de travail liés aux symptômes"] },
+    { key:'relations', label:'Relations / Famille', items:["Rapidement fatigué par les relations","Débute/termine impulsivement les relations","Problèmes relationnels, disputes, manque d'intimité","Divorce à cause des symptômes","Difficultés ménagères et/ou administratives","Problèmes financiers","N'ose pas commencer une relation"] },
+    { key:'social', label:'Contacts sociaux', items:["Rapidement fatigué par les contacts sociaux","Difficulté à maintenir des contacts","Conflits dus à des problèmes de communication","Difficulté à initier des contacts","Faible auto-affirmation de soi","Inattention (oubli d'appels, d'être empathique)"] },
+    { key:'loisirs', label:'Temps libre / Loisirs', items:["Incapable de se relaxer pendant le temps libre","Obligé de pratiquer beaucoup de sport","Incapable de terminer un livre ou un film","Fatigué parce qu'affairé en permanence","Rapidement lassé par les hobbies","Accidents ou suspension de permis","Recherche de sensations/prise de risques"] },
+    { key:'estime', label:'Confiance en soi / Image de soi', items:["Doute de lui-même suite aux remarques négatives","Image de soi négative à cause des échecs","Peur de l'échec avant de nouvelles choses","Réaction excessive aux critiques","Perfectionnisme"] },
+  ],
+  child:[
+    { key:'ecole', label:'Éducation', items:["Niveau inférieur au QI prédit","Redoublement à cause de la concentration","Études inachevées","Difficulté à faire les devoirs","Commentaires des enseignants sur comportement/concentration"] },
+    { key:'famille_enf', label:'Famille', items:["Disputes fréquentes avec frères et sœurs","Punitions ou corrections fréquentes","A nécessité le soutien des parents plus longtemps"] },
+    { key:'social_enf', label:'Contacts sociaux', items:["Difficulté à maintenir des contacts","Conflits dus à des problèmes de communication","Peu d'amis","Taquiné par les autres","Exclu du groupe"] },
+    { key:'loisirs_enf', label:'Temps libre / Loisirs', items:["Incapable de se relaxer","Obligé de pratiquer beaucoup de sport","Incapable de terminer un livre ou un film","Rapidement lassé par les hobbies","Accidents"] },
+    { key:'estime_enf', label:'Confiance en soi', items:["Doute de lui-même","Image de soi négative","Peur de l'échec","Réaction excessive aux critiques","Perfectionnisme"] },
+  ]
+},
+en:{
+  adult:[
+    { key:'travail', label:'Work / Education', items:["Did not reach desired level","Works below their level","Quickly tires of a workplace","Succession of short-term jobs","Difficulty with admin/planning","Under-performing at work","Left or was fired from a job","Work absences due to symptoms"] },
+    { key:'relations', label:'Relationships / Family', items:["Quickly tires of relationships","Impulsively starts/ends relationships","Relationship problems, arguments, lack of intimacy","Divorce due to symptoms","Domestic/administrative difficulties","Financial problems","Doesn't dare start a relationship"] },
+    { key:'social', label:'Social contacts', items:["Quickly tires of social contacts","Difficulty maintaining contacts","Conflicts due to communication problems","Difficulty initiating contacts","Low self-assertiveness","Inattention (forgetting calls, empathy)"] },
+    { key:'loisirs', label:'Leisure / Hobbies', items:["Unable to relax during leisure time","Must do a lot of sport to relax","Unable to finish a book or film","Tired from being constantly busy","Quickly bored with hobbies","Accidents or driving ban","Sensation-seeking/risk-taking"] },
+    { key:'estime', label:'Self-confidence / Self-image', items:["Self-doubt from negative remarks","Negative self-image from past failures","Fear of failure with new things","Overreacts to criticism","Perfectionism"] },
+  ],
+  child:[
+    { key:'ecole', label:'Education', items:["Level below predicted IQ","Grade retention due to concentration","Incomplete education","Difficulty doing homework","Teacher comments on behaviour/concentration"] },
+    { key:'famille_enf', label:'Family', items:["Frequent arguments with siblings","Frequent punishments","Needed parental support longer than usual"] },
+    { key:'social_enf', label:'Social contacts', items:["Difficulty maintaining contacts","Conflicts due to communication problems","Few friends","Teased by others","Excluded from group"] },
+    { key:'loisirs_enf', label:'Leisure / Hobbies', items:["Unable to relax","Must do a lot of sport","Unable to finish book or film","Quickly bored with hobbies","Accidents"] },
+    { key:'estime_enf', label:'Self-confidence', items:["Self-doubt","Negative self-image","Fear of failure","Overreacts to criticism","Perfectionism"] },
+  ]
+},
+ar:{
+  adult:[
+    { key:'travail', label:'العمل / التعليم', items:["لم يصل إلى المستوى المطلوب","يعمل دون مستواه","يمل بسرعة من مكان العمل","سلسلة من الوظائف القصيرة","صعوبة في العمل الإداري/التخطيط","يؤدي أداءً دون المستوى","ترك العمل أو فُصل منه","غياب عن العمل بسبب الأعراض"] },
+    { key:'relations', label:'العلاقات / الأسرة', items:["يمل بسرعة من العلاقات","يبدأ/ينهي العلاقات باندفاع","مشاكل علاقاتية، خلافات","طلاق بسبب الأعراض","صعوبات منزلية/إدارية","مشاكل مالية","لا يجرؤ على بدء علاقة"] },
+    { key:'social', label:'الاتصالات الاجتماعية', items:["يمل بسرعة من الاتصالات الاجتماعية","صعوبة في الحفاظ على العلاقات","نزاعات بسبب مشاكل التواصل","صعوبة في بدء الاتصالات","ضعف تأكيد الذات","إهمال (نسيان المكالمات، التعاطف)"] },
+    { key:'loisirs', label:'وقت الفراغ / الهوايات', items:["عاجز عن الاسترخاء في وقت الفراغ","مضطر لممارسة الرياضة كثيراً","عاجز عن إنهاء كتاب أو فيلم","متعب من كثرة الانشغال","يمل بسرعة من الهوايات","حوادث أو إيقاف رخصة القيادة","البحث عن الإثارة/المخاطرة"] },
+    { key:'estime', label:'الثقة بالنفس / صورة الذات', items:["يشك في نفسه بسبب تعليقات سلبية","صورة ذات سلبية بسبب إخفاقات الماضي","خوف من الفشل قبل الأشياء الجديدة","رد فعل مفرط على النقد","الكمالية"] },
+  ],
+  child:[
+    { key:'ecole', label:'التعليم', items:["مستوى أقل من معامل الذكاء المتوقع","رسوب بسبب ضعف التركيز","تعليم غير مكتمل","صعوبة في الواجبات","تعليقات المعلمين على السلوك/التركيز"] },
+    { key:'famille_enf', label:'الأسرة', items:["خلافات متكررة مع الإخوة","عقوبات متكررة","احتاج دعم الوالدين لفترة أطول"] },
+    { key:'social_enf', label:'الاتصالات الاجتماعية', items:["صعوبة في الحفاظ على العلاقات","نزاعات بسبب مشاكل التواصل","أصدقاء قليلون","تعرض للتنمر","إقصاء من المجموعة"] },
+    { key:'loisirs_enf', label:'وقت الفراغ / الهوايات', items:["عاجز عن الاسترخاء","مضطر لممارسة الرياضة","عاجز عن إنهاء كتاب أو فيلم","يمل بسرعة من الهوايات","حوادث"] },
+    { key:'estime_enf', label:'الثقة بالنفس', items:["يشك في نفسه","صورة ذات سلبية","خوف من الفشل","رد فعل مفرط على النقد","الكمالية"] },
+  ]
+}
+};
+
+// ═══════════════════════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════════════════
-let currentLang='fr';
-const answers={};
+// ═══════════════════════════════════════════════════════════
+let currentLang = 'fr';
+const criteriaAnswers = {}; // criteriaAnswers['A1-adult'] = 'oui'|'non'
+const checkedExamples = {}; // checkedExamples['A1-adult-0'] = true
 
-// ═══════════════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════════════
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
-}
-function goToForm(){ showPage('page-form'); }
-
-// ═══════════════════════════════════════════════════════
-// LANG
-// ═══════════════════════════════════════════════════════
-function setLang(lang){
-  currentLang=lang;
-  const t=T[lang];
-  document.documentElement.lang=lang;
-  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
-  document.body.classList.toggle('rtl',lang==='ar');
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('onclick').includes(`'${lang}'`)));
-  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k]!==undefined)el.textContent=t[k];});
-  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(t[k])el.placeholder=t[k];});
-  ['sexChoose','sexM','sexF'].forEach((key,i)=>{const o=document.querySelectorAll('#sexe option')[i];if(o&&t[key])o.textContent=t[key];});
-  buildQuestions();
-  updateProgress();
-}
-
-// ═══════════════════════════════════════════════════════
-// QUESTIONS
-// ═══════════════════════════════════════════════════════
-function buildQuestions(){
-  const t=T[currentLang];
-  const c=document.getElementById('questions-container');
-  c.innerHTML='';
-  t.questions.forEach((q,idx)=>{
-    const num=idx+1;
-    if(t.sectionLabels[num]){const h=document.createElement('div');h.className='section-hdr';h.innerHTML=`<span>${t.sectionLabels[num]}</span>`;c.appendChild(h);}
-    const row=document.createElement('div');
-    const cc='c'+((num-1)%5);
-    row.className='q-row '+cc+(answers[num]!==undefined?' answered':'');
-    row.id=`row-${num}`;
-    row.innerHTML=`<span class="q-num">${num}</span><span class="q-text">${q}</span><div class="rating-group">${[0,1,2,3].map(v=>`<input type="radio" name="q${num}" id="q${num}v${v}" value="${v}"${answers[num]==v?' checked':''}><label for="q${num}v${v}"><span class="r-val">${v}</span><span class="r-lbl">${t.ratingLabels[v]}</span></label>`).join('')}</div>`;
-    c.appendChild(row);
-  });
-}
-
-// ═══════════════════════════════════════════════════════
-// PROGRESS
-// ═══════════════════════════════════════════════════════
-function getMissing(){const m=[];for(let i=1;i<=80;i++)if(answers[i]===undefined)m.push(i);return m;}
-function updateProgress(){
-  const t=T[currentLang];
-  const answered=80-getMissing().length;
-  const pct=Math.round((answered/80)*100);
-  document.getElementById('progress-bar-inner').style.width=pct+'%';
-  document.getElementById('progress-pct').textContent=pct+' %';
-  document.getElementById('progress-label').textContent=t.progressTpl(answered);
-  for(let i=1;i<=80;i++){const row=document.getElementById(`row-${i}`);if(!row)continue;row.classList.toggle('answered',answers[i]!==undefined);if(answers[i]!==undefined)row.classList.remove('missing-highlight');const cc='c'+((i-1)%5);if(!row.classList.contains(cc))row.classList.add(cc);}
-  if(window._tried)renderMissingBanner();
-}
-function renderMissingBanner(){
-  const t=T[currentLang];const missing=getMissing();const b=document.getElementById('missing-banner');
-  if(missing.length===0){b.style.display='none';return;}
-  b.style.display='flex';
-  b.innerHTML=`<span>${t.missingBanner(missing)}</span>${missing.map(n=>`<span class="missing-chip" onclick="scrollToItem(${n})">${t.missingChip(n)}</span>`).join('')}`;
-}
-function scrollToItem(num){
-  document.querySelectorAll('.missing-highlight').forEach(r=>r.classList.remove('missing-highlight'));
-  const row=document.getElementById(`row-${num}`);if(!row)return;
-  row.classList.add('missing-highlight');
-  window.scrollTo({top:row.getBoundingClientRect().top+window.scrollY-130,behavior:'smooth'});
-  const t=setInterval(()=>{if(answers[num]!==undefined){row.classList.remove('missing-highlight');clearInterval(t);}},300);
-  setTimeout(()=>{row.classList.remove('missing-highlight');clearInterval(t);},8000);
-}
-document.addEventListener('change',e=>{
-  if(e.target.type==='radio'&&e.target.name.startsWith('q')){
-    const num=parseInt(e.target.name.slice(1));
-    answers[num]=e.target.value;
-    updateProgress();
-    if(window._tried){
-      const m=getMissing();
-      if(m.length>0){updateSubmitBtn(m.length);const nx=m.find(n=>n>num);if(nx)setTimeout(()=>scrollToItem(nx),350);}
-      else updateSubmitBtn(0);
-    }
-  }
-});
-
-// ═══════════════════════════════════════════════════════
-// SUBMIT
-// ═══════════════════════════════════════════════════════
-document.getElementById('submit-btn').addEventListener('click',()=>{
-  window._tried=true;
-  const m=getMissing();
-  if(m.length>0){
-    const mid=window.scrollY+window.innerHeight/2;let t=m[0];
-    for(const n of m){const r=document.getElementById(`row-${n}`);if(r&&r.getBoundingClientRect().top+window.scrollY>mid){t=n;break;}}
-    renderMissingBanner();scrollToItem(t);updateSubmitBtn(m.length);return;
-  }
-  updateSubmitBtn(0);
-  sendResults();
-});
-function updateSubmitBtn(n){
-  const t=T[currentLang];const b=document.getElementById('submit-btn');
-  if(n>0){b.style.background='var(--amber)';b.textContent=t.btnMissing(n);}
-  else{b.style.background='';b.textContent=t.calcBtn;}
-}
-
-// ═══════════════════════════════════════════════════════
-// BUILD FULL CLINICAL REPORT (for specialist email only)
-// ═══════════════════════════════════════════════════════
-function buildClinicalReport(info, subscales, total, date){
-
-  const COLORS = ['#4a7abf','#3d9e6a','#c97c10','#b0508e','#6553b8','#c0392b','#0e8a8a'];
-  const allItems = T[currentLang].questions;
-  const maxTotal = 240;
-  const pctTotal = Math.round((total / maxTotal) * 100);
-
-  // ── Domain descriptions ──────────────────────────────────────────
-  const DOMAIN_INFO = {
-    "Opposition / Défiance":    { num:"D1", desc:"Évalue les comportements d'opposition, de défi et d'hostilité envers les adultes et les pairs.", items_desc:"Colère, querelles, argumentation, perte de contrôle, défiance, irritabilité, comportements mesquins." },
-    "Opposition / Defiance":    { num:"D1", desc:"Assesses oppositional, defiant, and hostile behaviours toward adults and peers.", items_desc:"Anger, quarrels, arguing, loss of control, defiance, irritability, spiteful behaviours." },
-    "المعارضة / العناد":         { num:"D1", desc:"يقيّم سلوكيات المعارضة والعناد والعدائية تجاه الكبار والأقران.", items_desc:"الغضب، المشاجرة، الجدال، فقدان السيطرة، التحدي، التهيج." },
-
-    "Inattention cognitive":    { num:"D2", desc:"Évalue les difficultés attentionnelles, les erreurs d'inattention et les problèmes d'organisation dans le contexte scolaire.", items_desc:"Distraction, oublis, difficultés de concentration, désorganisation, non-achèvement des tâches." },
-    "Cognitive Inattention":    { num:"D2", desc:"Assesses attentional difficulties, inattentive errors, and organisational problems in academic contexts.", items_desc:"Distraction, forgetfulness, concentration difficulties, disorganisation, task non-completion." },
-    "قصور الانتباه المعرفي":     { num:"D2", desc:"يقيّم صعوبات الانتباه وأخطاء الإهمال ومشاكل التنظيم في السياق الدراسي.", items_desc:"التشتت، النسيان، صعوبات التركيز، سوء التنظيم، عدم إتمام المهام." },
-
-    "Hyperactivité":            { num:"D3", desc:"Évalue le niveau d'agitation motrice, l'impulsivité et l'hyperactivité comportementale.", items_desc:"Agitation permanente, grimper, courir, parler excessivement, réponses impulsives, tortillements." },
-    "Hyperactivity":            { num:"D3", desc:"Assesses motor restlessness, impulsivity, and behavioural hyperactivity.", items_desc:"Constant agitation, climbing, running, excessive talking, impulsive responses, squirming." },
-    "فرط الحركة":               { num:"D3", desc:"يقيّم مستوى الاندفاع الحركي والتسرع وفرط النشاط السلوكي.", items_desc:"الحركة المستمرة، التسلق، الجري، الكلام المفرط، الاستجابات الاندفاعية." },
-
-    "Anxiété / Timidité":       { num:"D4", desc:"Évalue les manifestations anxieuses, les peurs et les comportements d'inhibition sociale.", items_desc:"Timidité, peurs multiples, plaintes somatiques, rituels, attachement excessif, évitement." },
-    "Anxious-Shy":              { num:"D4", desc:"Assesses anxiety manifestations, fears, and social inhibition behaviours.", items_desc:"Shyness, multiple fears, somatic complaints, rituals, excessive attachment, avoidance." },
-    "القلق / الخجل":            { num:"D4", desc:"يقيّم مظاهر القلق والمخاوف وسلوكيات التثبيط الاجتماعي.", items_desc:"الخجل، المخاوف المتعددة، الشكاوى الجسدية، الطقوس، التعلق المفرط، التجنب." },
-
-    "Perfectionnisme":          { num:"D5", desc:"Évalue la rigidité comportementale, les exigences élevées envers soi-même et les comportements de vérification.", items_desc:"Rigidité dans les exigences, vérification compulsive, objectifs très élevés, rituels de routine." },
-    "Perfectionism":            { num:"D5", desc:"Assesses behavioural rigidity, high self-demands, and checking behaviours.", items_desc:"Rigid demands, compulsive checking, very high goals, routine rituals." },
-    "الكمالية":                 { num:"D5", desc:"يقيّم الصرامة السلوكية والمطالب المرتفعة تجاه الذات وسلوكيات التحقق.", items_desc:"الصرامة في المطالب، التحقق القهري، الأهداف المرتفعة جداً، طقوس الروتين." },
-
-    "Problèmes sociaux":        { num:"D6", desc:"Évalue les difficultés d'intégration sociale, les relations avec les pairs et l'isolement.", items_desc:"Absence d'amis, perte rapide de camarades, isolement, refus d'invitations, inaptitude sociale." },
-    "Social Problems":          { num:"D6", desc:"Assesses social integration difficulties, peer relationships, and isolation.", items_desc:"No friends, rapid loss of peers, isolation, refusal of invitations, social ineptitude." },
-    "المشكلات الاجتماعية":      { num:"D6", desc:"يقيّم صعوبات الاندماج الاجتماعي والعلاقة مع الأقران والعزلة.", items_desc:"غياب الأصدقاء، فقدان الرفاق بسرعة، العزلة، رفض الدعوات، العجز الاجتماعي." },
-
-    "Psychosomatique":          { num:"D7", desc:"Évalue les plaintes physiques sans cause organique évidente, souvent liées au stress et à l'anxiété scolaire.", items_desc:"Maux de tête, maux d'estomac, douleurs diverses, plaintes avant l'école, fatigue inexpliquée." },
-    "Psychosomatic":            { num:"D7", desc:"Assesses physical complaints without obvious organic cause, often linked to stress and school anxiety.", items_desc:"Headaches, stomach aches, various pains, complaints before school, unexplained fatigue." },
-    "الشكاوى الجسدية":          { num:"D7", desc:"يقيّم الشكاوى الجسدية بدون سبب عضوي واضح، وغالباً مرتبطة بضغط الدراسة.", items_desc:"الصداع، آلام المعدة، آلام متنوعة، شكاوى قبل المدرسة، الإرهاق غير المبرر." },
-  };
-
-  // ── T-score approximation (mean=50, SD=10) ──────────────────────
-  // Based on Conners 1997 normative data approximation
-  function getTScore(rawScore, maxScore) {
-    const pct = rawScore / maxScore;
-    // Approximate T-score: T = 50 + 10 * ((pct - 0.25) / 0.15)
-    const t = Math.round(50 + 10 * ((pct - 0.25) / 0.18));
-    return Math.min(Math.max(t, 40), 90);
-  }
-
-  function getTInterpretation(tScore) {
-    if (tScore >= 70) return { label: currentLang==='ar'?'مرتفع جداً — إشكالي':currentLang==='en'?'Very Elevated — Clinically Significant':'Très élevé — Cliniquement significatif', color:'#c0392b', zone:'danger' };
-    if (tScore >= 65) return { label: currentLang==='ar'?'مرتفع — يستوجب الانتباه':currentLang==='en'?'Elevated — Warrants Attention':'Élevé — Mérite attention', color:'#e05c5c', zone:'high' };
-    if (tScore >= 60) return { label: currentLang==='ar'?'فوق المتوسط':currentLang==='en'?'Above Average':'Au-dessus de la moyenne', color:'#e8a020', zone:'moderate' };
-    if (tScore >= 50) return { label: currentLang==='ar'?'متوسط':currentLang==='en'?'Average':'Dans la moyenne', color:'#5aab6d', zone:'normal' };
-    return { label: currentLang==='ar'?'دون المتوسط':currentLang==='en'?'Below Average':'En dessous de la moyenne', color:'#4a7abf', zone:'low' };
-  }
-
-  // ── SVG bar-gauge for each domain ───────────────────────────────
-  function makeDomainGauge(rawScore, maxScore, color, tScore) {
-    const pct = Math.min(Math.round((rawScore / maxScore) * 100), 100);
-    const tPct = Math.min(Math.round(((tScore - 40) / 50) * 100), 100); // 40-90 range
-    const threshold65Pct = Math.round(((65 - 40) / 50) * 100); // where T=65 falls
-    return `
-    <svg width="100%" height="28" viewBox="0 0 300 28" xmlns="http://www.w3.org/2000/svg" style="display:block">
-      <!-- Background track -->
-      <rect x="0" y="8" width="300" height="12" rx="6" fill="#eef0f6"/>
-      <!-- Zone colors: normal (green), moderate (amber), high (red) -->
-      <rect x="0" y="8" width="${threshold65Pct*3}" height="12" rx="6" fill="#e8f5ee" opacity="0.6"/>
-      <rect x="${threshold65Pct*3}" y="8" width="${300-threshold65Pct*3}" height="12" rx="6" fill="#fdf0ef" opacity="0.6"/>
-      <!-- Score fill -->
-      <rect x="0" y="8" width="${pct*3}" height="12" rx="6" fill="${color}"/>
-      <!-- T=65 threshold line -->
-      <line x1="${threshold65Pct*3}" y1="4" x2="${threshold65Pct*3}" y2="24" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="3,2"/>
-      <!-- Score label -->
-      <text x="${Math.min(pct*3+4, 280)}" y="19" font-size="10" font-weight="700" fill="${color}">${rawScore}/${maxScore}</text>
-      <!-- T-score label -->
-      <text x="290" y="7" font-size="9" fill="#9aa3b8" text-anchor="end">T=${tScore}</text>
-    </svg>`;
-  }
-
-  // ── Build per-domain cards ───────────────────────────────────────
-  let domainCards = '';
-  let significantCount = 0;
-  let clinicalNotes = '';
-  let subRows = '';
-  let flaggedRows = '';
-
-  const domainData = [];
-
-  Object.entries(subscales).forEach(([name, items], i) => {
-    const s = items.reduce((acc, j) => acc + parseInt(answers[j] || 0), 0);
-    const max = items.length * 3;
-    const pct = Math.round((s / max) * 100);
-    const tScore = getTScore(s, max);
-    const interp = getTInterpretation(tScore);
-    const threshold = THRESHOLDS[name] || Math.round(max * 0.6);
-    const significant = s >= threshold;
-    if (significant) significantCount++;
-    const info_d = DOMAIN_INFO[name] || { num: `D${i+1}`, desc: '', items_desc: '' };
-    const col = COLORS[i];
-
-    domainData.push({ name, s, max, pct, tScore, interp, significant, col, info_d, items });
-
-    // Items in this domain with their scores
-    let domainItemRows = '';
-    items.forEach(itemNum => {
-      const v = parseInt(answers[itemNum] || 0);
-      const ibg = v===3?'#c0392b':v===2?'#e8a020':v===1?'#5aab6d':'#e4e8f2';
-      const ifc = v===0?'#9aa3b8':'#fff';
-      domainItemRows += `
-        <tr style="background:${itemNum%2===0?'#fff':'#f8f9fc'}">
-          <td style="padding:5px 8px;font-size:11px;color:#9aa3b8;font-weight:700;white-space:nowrap">${itemNum}</td>
-          <td style="padding:5px 8px;font-size:11px;color:#2c3e50;line-height:1.4">${allItems[itemNum - 1]}</td>
-          <td style="padding:5px 8px;text-align:center">
-            <span style="display:inline-block;background:${ibg};color:${ifc};border-radius:10px;padding:2px 8px;font-size:11px;font-weight:700">${v}</span>
-          </td>
-        </tr>`;
-    });
-
-    // Status badge
-    const statusBadge = significant
-      ? `<span style="background:#fdf0ef;color:#c0392b;border:1.5px solid #c0392b;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">⚠ Seuil atteint — T=${tScore}</span>`
-      : `<span style="background:#e8f5ee;color:#27ae60;border:1.5px solid #27ae60;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">✓ Dans la norme — T=${tScore}</span>`;
-
-    if (significant) {
-      clinicalNotes += `<li style="margin-bottom:7px;font-size:12px;color:#2c3e50"><b>${info_d.num} — ${name}</b> : Score brut ${s}/${max} · T-score = ${tScore} · ${interp.label}. Exploration clinique recommandée.</li>`;
-    }
-
-    // Summary table row
-    subRows += `
-      <tr>
-        <td style="padding:9px 11px;border-bottom:1px solid #e8eaf0;font-size:12px;font-weight:700;color:#1a2744">${info_d.num}</td>
-        <td style="padding:9px 11px;border-bottom:1px solid #e8eaf0;font-size:12px;color:#1a2744">${name}</td>
-        <td style="padding:9px 11px;border-bottom:1px solid #e8eaf0;font-size:12px;text-align:center;font-weight:700;color:${interp.color}">${s} / ${max}</td>
-        <td style="padding:9px 11px;border-bottom:1px solid #e8eaf0;font-size:12px;text-align:center;font-weight:800;color:${interp.color}">${tScore}</td>
-        <td style="padding:9px 11px;border-bottom:1px solid #e8eaf0;font-size:12px;color:${interp.color};font-weight:600">${interp.label}</td>
-      </tr>`;
-
-    // Full domain card
-    domainCards += `
-    <div style="margin-bottom:20px;border:1.5px solid #e4e8f2;border-radius:10px;overflow:hidden;border-top:4px solid ${col}">
-
-      <!-- Domain header -->
-      <div style="background:#f8f9fc;padding:12px 16px;display:flex;align-items:flex-start;gap:12px">
-        <div style="background:${col};color:#fff;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">${info_d.num}</div>
-        <div style="flex:1">
-          <div style="font-size:14px;font-weight:700;color:#1a2744">${name}</div>
-          <div style="font-size:11px;color:#5a6478;margin-top:3px;line-height:1.5">${info_d.desc}</div>
-        </div>
-        <div style="flex-shrink:0;text-align:right">${statusBadge}</div>
-      </div>
-
-      <!-- Gauge + scores -->
-      <div style="padding:14px 16px;background:#fff">
-
-        <!-- Score boxes row -->
-        <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
-          <div style="background:#f2f4f9;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px">
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#9aa3b8;letter-spacing:.06em">Score brut</div>
-            <div style="font-size:22px;font-weight:900;color:${interp.color};line-height:1.1">${s}</div>
-            <div style="font-size:10px;color:#9aa3b8">/ ${max}</div>
-          </div>
-          <div style="background:#f2f4f9;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px">
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#9aa3b8;letter-spacing:.06em">T-Score</div>
-            <div style="font-size:22px;font-weight:900;color:${interp.color};line-height:1.1">${tScore}</div>
-            <div style="font-size:10px;color:#9aa3b8">Seuil : 65</div>
-          </div>
-          <div style="background:#f2f4f9;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px">
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#9aa3b8;letter-spacing:.06em">Percentile</div>
-            <div style="font-size:22px;font-weight:900;color:${interp.color};line-height:1.1">${pct}</div>
-            <div style="font-size:10px;color:#9aa3b8">%</div>
-          </div>
-          <div style="background:${significant?'#fdf0ef':'#e8f5ee'};border-radius:8px;padding:8px 14px;flex:1;min-width:120px;display:flex;align-items:center">
-            <div>
-              <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#9aa3b8;letter-spacing:.06em">Interprétation</div>
-              <div style="font-size:12px;font-weight:700;color:${interp.color};margin-top:3px;line-height:1.4">${interp.label}</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Visual gauge bar -->
-        <div style="margin-bottom:6px">
-          <div style="font-size:10px;color:#9aa3b8;margin-bottom:4px;display:flex;justify-content:space-between">
-            <span>T=40 (Bas)</span><span style="color:#c0392b">│ T=65 (Seuil clinique)</span><span>T=90 (Élevé)</span>
-          </div>
-          ${makeDomainGauge(s, max, interp.color, tScore)}
-        </div>
-
-        <!-- Items of this domain -->
-        <details style="margin-top:10px">
-          <summary style="cursor:pointer;font-size:11px;font-weight:700;color:#5a6478;padding:5px 0">${currentLang==='ar'?'عرض البنود المرتبطة بهذا المجال':currentLang==='en'?'▸ View items for this domain':'▸ Voir les items de ce domaine'} (${items.length} items)</summary>
-          <table style="width:100%;border-collapse:collapse;margin-top:8px">
-            <thead><tr style="background:#f2f4f9">
-              <th style="padding:5px 8px;font-size:10px;font-weight:700;color:#9aa3b8;text-align:left;width:30px">#</th>
-              <th style="padding:5px 8px;font-size:10px;font-weight:700;color:#9aa3b8;text-align:left">Comportement</th>
-              <th style="padding:5px 8px;font-size:10px;font-weight:700;color:#9aa3b8;text-align:center;width:45px">Cote</th>
-            </tr></thead>
-            <tbody>${domainItemRows}</tbody>
-          </table>
-        </details>
-      </div>
-    </div>`;
-  });
-
-  // ── Flagged items ────────────────────────────────────────────────
-  for (let i = 1; i <= 80; i++) {
-    const v = parseInt(answers[i] || 0);
-    if (v >= 2) {
-      const badge = v===3 ? 'background:#c0392b' : 'background:#e8a020';
-      flaggedRows += `<tr><td style="padding:6px 9px;border-bottom:1px solid #eee;font-size:11px;color:#9aa3b8;font-weight:700">${i}</td><td style="padding:6px 9px;border-bottom:1px solid #eee;font-size:11px;color:#2c3e50">${allItems[i-1]}</td><td style="padding:6px 9px;border-bottom:1px solid #eee;text-align:center"><span style="display:inline-block;${badge};color:#fff;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700">${v}/3</span></td></tr>`;
-    }
-  }
-  if (!flaggedRows) flaggedRows = `<tr><td colspan="3" style="padding:10px;font-size:12px;color:#888;text-align:center">Aucun item coté 2 ou 3</td></tr>`;
-
-  // ── Global interpretation ────────────────────────────────────────
-  const pctTotal2 = Math.round((total / maxTotal) * 100);
-  const interpGlobal = pctTotal2 > 66
-    ? 'Le profil global est <b>cliniquement significatif</b>. Plusieurs dimensions sont atteintes au-delà du seuil critique (T≥65). Une évaluation diagnostique approfondie (TDAH, troubles anxieux, troubles oppositionnels) est fortement recommandée.'
-    : pctTotal2 > 40
-    ? 'Le profil global présente des <b>scores modérés</b>. Certaines dimensions dépassent la moyenne normative. Un suivi clinique et une observation renforcée sont conseillés.'
-    : 'Le profil global se situe <b>dans les limites normatives</b>. Les scores obtenus ne suggèrent pas de préoccupation clinique majeure au moment de cette évaluation.';
-
-  const tGlobal = Math.round(50 + 10 * ((pctTotal2/100 - 0.25) / 0.18));
-  const tGlobalClamped = Math.min(Math.max(tGlobal, 40), 90);
-  const globalColor = tGlobalClamped >= 65 ? '#c0392b' : tGlobalClamped >= 55 ? '#e8a020' : '#27ae60';
-
-  return `<!DOCTYPE html>
-<html><head><meta charset="UTF-8">
-<style>
-  body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:0;background:#f4f6fb;color:#2c3e50;}
-  .wrap{max-width:700px;margin:0 auto;background:#fff;}
-  details>summary{list-style:none;} details>summary::-webkit-details-marker{display:none;}
-</style>
-</head><body><div class="wrap">
-
-<!-- ══ EN-TÊTE ══ -->
-<div style="background:#1a2744;padding:26px 28px;color:#fff">
-  <div style="display:flex;align-items:center;gap:14px">
-    <div style="font-size:34px">📋</div>
-    <div>
-      <div style="font-size:18px;font-weight:700">Rapport Clinique — Questionnaire Conners</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px">Version révisée (L) 1997 &nbsp;|&nbsp; Généré le ${date}</div>
-      <div style="margin-top:6px;display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,.8)">🔒 Confidentiel — Réservé au professionnel de santé</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ INFOS ENFANT ══ -->
-<div style="background:#f8f9fc;padding:18px 28px;border-bottom:2px solid #e4e8f2">
-  <div style="font-size:12px;font-weight:700;text-transform:uppercase;color:#9aa3b8;letter-spacing:.06em;margin-bottom:10px">Informations</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Enfant</div><div style="font-size:14px;font-weight:700;color:#1a2744">${info.nom}</div></div>
-    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Naissance</div><div style="font-size:13px;font-weight:600;color:#1a2744">${info.ddn}</div></div>
-    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Sexe / Classe</div><div style="font-size:13px;font-weight:600;color:#1a2744">${info.sexe} &nbsp;|&nbsp; ${info.degre}</div></div>
-    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Parent</div><div style="font-size:13px;color:#1a2744">${info.parentNom}</div></div>
-    <div style="grid-column:2/-1"><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Email parent</div><div style="font-size:12px;color:#5a6478">${info.parentEmail}</div></div>
-  </div>
-</div>
-
-<!-- ══ SCORE TOTAL ══ -->
-<div style="background:linear-gradient(135deg,#1a2744 0%,#2d7d6f 100%);padding:22px 28px;color:#fff">
-  <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
-    <div style="text-align:center;min-width:100px">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:4px">Score total brut</div>
-      <div style="font-size:50px;font-weight:900;line-height:1;color:${globalColor==='#c0392b'?'#ff9999':globalColor==='#e8a020'?'#ffd580':'#99ffcc'}">${total}</div>
-      <div style="font-size:13px;opacity:.65">/ ${maxTotal}</div>
-    </div>
-    <div style="text-align:center;min-width:90px">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:4px">T-Score global</div>
-      <div style="font-size:50px;font-weight:900;line-height:1;color:${globalColor==='#c0392b'?'#ff9999':globalColor==='#e8a020'?'#ffd580':'#99ffcc'}">${tGlobalClamped}</div>
-      <div style="font-size:11px;opacity:.65">Seuil clinique : T=65</div>
-    </div>
-    <div style="flex:1;min-width:180px">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;opacity:.7;margin-bottom:6px">Profil global (${pctTotal2}%)</div>
-      <div style="background:rgba(255,255,255,.18);border-radius:20px;height:12px;overflow:hidden;margin-bottom:8px">
-        <div style="width:${pctTotal2}%;height:100%;background:#fff;border-radius:20px"></div>
-      </div>
-      <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;font-size:12px;line-height:1.6">${interpGlobal}</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ LÉGENDE T-SCORES ══ -->
-<div style="padding:14px 28px;background:#f8f9fc;border-bottom:2px solid #e4e8f2">
-  <div style="font-size:11px;font-weight:700;color:#5a6478;margin-bottom:8px">📖 Guide d'interprétation des T-Scores</div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <span style="background:#e8f5ee;color:#27ae60;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700">T &lt; 50 — Bas</span>
-    <span style="background:#eef4ff;color:#4a7abf;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700">T 50–59 — Moyen</span>
-    <span style="background:#fff7ed;color:#e8a020;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700">T 60–64 — Au-dessus de la moyenne</span>
-    <span style="background:#fdf0ef;color:#e05c5c;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700">T 65–69 — ⚠ Élevé</span>
-    <span style="background:#fdf0ef;color:#c0392b;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;border:1.5px solid #c0392b">T ≥ 70 — 🚨 Très élevé / Cliniquement significatif</span>
-  </div>
-</div>
-
-<!-- ══ TABLEAU RÉCAPITULATIF ══ -->
-<div style="padding:20px 28px">
-  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:12px;padding-bottom:7px;border-bottom:2px solid #e4e8f2">📊 Récapitulatif des 7 domaines</div>
-  <table style="width:100%;border-collapse:collapse">
-    <thead>
-      <tr style="background:#1a2744;color:#fff">
-        <th style="padding:9px 11px;text-align:left;font-size:11px;width:32px">N°</th>
-        <th style="padding:9px 11px;text-align:left;font-size:11px">Domaine</th>
-        <th style="padding:9px 11px;text-align:center;font-size:11px">Score brut</th>
-        <th style="padding:9px 11px;text-align:center;font-size:11px">T-Score</th>
-        <th style="padding:9px 11px;text-align:left;font-size:11px">Interprétation</th>
-      </tr>
-    </thead>
-    <tbody>${subRows}</tbody>
-  </table>
-</div>
-
-${significantCount > 0 ? `
-<!-- ══ ALERTES CLINIQUES ══ -->
-<div style="padding:0 28px 20px">
-  <div style="background:#fdf0ef;border-left:4px solid #c0392b;border-radius:0 10px 10px 0;padding:16px 18px">
-    <div style="font-size:13px;font-weight:700;color:#c0392b;margin-bottom:10px">🚨 Alertes cliniques — ${significantCount} domaine(s) significatif(s)</div>
-    <ul style="margin:0;padding-left:16px">${clinicalNotes}</ul>
-  </div>
-</div>` : `
-<div style="padding:0 28px 20px">
-  <div style="background:#e8f5ee;border-left:4px solid #27ae60;border-radius:0 10px 10px 0;padding:14px 18px">
-    <div style="font-size:13px;font-weight:700;color:#27ae60">✅ Aucun domaine cliniquement significatif détecté</div>
-    <div style="font-size:12px;color:#2c3e50;margin-top:5px">Tous les scores se situent en dessous du seuil clinique (T&lt;65).</div>
-  </div>
-</div>`}
-
-<!-- ══ DÉTAIL PAR DOMAINE ══ -->
-<div style="padding:0 28px 20px">
-  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid #e4e8f2">🔬 Analyse détaillée par domaine</div>
-  ${domainCards}
-</div>
-
-<!-- ══ ITEMS COTÉS 2 OU 3 ══ -->
-<div style="padding:0 28px 20px">
-  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:12px;padding-bottom:7px;border-bottom:2px solid #e4e8f2">🔍 Items nécessitant une attention clinique (cotés 2 ou 3)</div>
-  <table style="width:100%;border-collapse:collapse">
-    <thead><tr style="background:#f2f4f9">
-      <th style="padding:7px 9px;font-size:11px;font-weight:700;color:#5a6478;text-align:left;width:30px">#</th>
-      <th style="padding:7px 9px;font-size:11px;font-weight:700;color:#5a6478;text-align:left">Comportement</th>
-      <th style="padding:7px 9px;font-size:11px;font-weight:700;color:#5a6478;text-align:center;width:55px">Cote</th>
-    </tr></thead>
-    <tbody>${flaggedRows}</tbody>
-  </table>
-</div>
-
-<!-- ══ TOUTES LES RÉPONSES ══ -->
-<div style="padding:0 28px 20px">
-  <details>
-    <summary style="cursor:pointer;font-size:14px;font-weight:700;color:#1a2744;padding-bottom:7px;border-bottom:2px solid #e4e8f2;margin-bottom:12px">📋 Détail complet des 80 réponses ▸</summary>
-    <table style="width:100%;border-collapse:collapse;font-size:11px">
-      <thead><tr style="background:#f2f4f9">
-        <th style="padding:6px 8px;text-align:left;font-weight:700;color:#5a6478;width:28px">#</th>
-        <th style="padding:6px 8px;text-align:left;font-weight:700;color:#5a6478">Item</th>
-        <th style="padding:6px 8px;text-align:center;font-weight:700;color:#5a6478;width:40px">Cote</th>
-      </tr></thead>
-      <tbody>
-        ${Array.from({length:80},(_,i)=>{
-          const v=parseInt(answers[i+1]||0);
-          const bg=v===3?'#c0392b':v===2?'#e8a020':v===1?'#5aab6d':'#e4e8f2';
-          const fc=v===0?'#9aa3b8':'#fff';
-          return `<tr style="background:${i%2===0?'#fff':'#f8f9fc'}"><td style="padding:5px 8px;color:#9aa3b8;font-weight:700">${i+1}</td><td style="padding:5px 8px;color:#2c3e50;line-height:1.35">${allItems[i]}</td><td style="padding:5px 8px;text-align:center"><span style="display:inline-block;background:${bg};color:${fc};border-radius:8px;padding:2px 8px;font-size:10px;font-weight:700">${v}</span></td></tr>`;
-        }).join('')}
-      </tbody>
-    </table>
-  </details>
-</div>
-
-<!-- ══ PIED DE PAGE ══ -->
-<div style="background:#1a2744;padding:14px 28px;text-align:center;color:rgba(255,255,255,.45);font-size:10px;line-height:1.8">
-  Rapport clinique généré automatiquement — Questionnaire Conners version révisée (L) 1997<br>
-  Traduction : Dr Claude Jolicoeur, pédopsychiatre, Montréal, 1999<br>
-  🔒 <b style="color:rgba(255,255,255,.6)">Confidentiel — Document réservé au professionnel de santé. Ne pas transmettre au patient.</b>
-</div>
-
-</div></body></html>`;
-}
-
-// ═══════════════════════════════════════════════════════
-// SEND — uniquement au spécialiste, rien au parent
-// ═══════════════════════════════════════════════════════
-function sendResults(){
-  const t=T[currentLang];
-  const specialist=document.getElementById('specialist-email').value.trim();
-  const status=document.getElementById('send-status');
-  status.style.display='none';
-
-  if(!specialist||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(specialist)){
-    status.className='';status.style.color='var(--red-soft)';status.style.display='block';
-    status.textContent=t.errEmail;
-    document.getElementById('specialist-email').focus();
-    document.getElementById('specialist-email').scrollIntoView({behavior:'smooth',block:'center'});
-    return;
-  }
-
-  const info={
-    nom:document.getElementById('nom').value||'—',
-    ddn:getDOB(),
-    sexe:document.getElementById('sexe').value||'—',
-    degre:document.getElementById('degre').value||'—',
-    parentNom:document.getElementById('parent-nom').value||'—',
-    parentEmail:document.getElementById('parent-email').value||'—',
-  };
-
-  const subscales=SUBSCALE_ITEMS[currentLang];
-  const total=Object.values(answers).reduce((a,b)=>a+parseInt(b||0),0);
-  const locale=currentLang==='ar'?'ar-DZ':currentLang==='en'?'en-GB':'fr-FR';
-  const date=new Date().toLocaleDateString(locale);
-
-  // Build plain text subscale summary
-  let subLines='';
-  Object.entries(subscales).forEach(([name,items])=>{
-    const s=items.reduce((acc,j)=>acc+parseInt(answers[j]||0),0);
-    const max=items.length*3;
-    const p=Math.round((s/max)*100);
-    const thr=THRESHOLDS[name]||Math.round(max*0.6);
-    subLines+=`${name}: ${s}/${max} (${p}%) ${s>=thr?'⚠ SIGNIFICATIF':''}\n`;
-  });
-
-  // Build flagged items text
-  let flagged='';
-  for(let i=1;i<=80;i++) if(parseInt(answers[i]||0)>=2) flagged+=`Item ${i} (${answers[i]}/3): ${T[currentLang].questions[i-1]}\n`;
-  if(!flagged) flagged='Aucun item coté 2 ou 3';
-
-  // Build full HTML report
-  const html_report=buildClinicalReport(info,subscales,total,date);
-
-  // Update button
-  const btn=document.getElementById('submit-btn');
-  const orig=btn.textContent;
-  btn.textContent=t.sending;btn.disabled=true;
-
-  // Send to specialist ONLY
-  emailjs.send('psycholab_gmail','template_e9ua9l5',{
-    to_email:   specialist,
-    child_name: info.nom,
-    child_dob:  info.ddn,
-    child_sex:  info.sexe,
-    child_grade:info.degre,
-    parent_name:info.parentNom,
-    parent_email:info.parentEmail,
-    subscale_scores:subLines,
-    total_score:`${total} / 240 (${Math.round((total/240)*100)}%)`,
-    flagged_items:flagged,
-    html_table: html_report,   // full clinical report in email body
-    date:       date,
-  })
-  .then(()=>{
-    btn.disabled=false;
-    // ← Parent sees ONLY the confirmation page
-    showPage('page-confirm');
-    setLang(currentLang); // refresh i18n on confirm page
-  })
-  .catch(err=>{
-    console.error(err);
-    btn.textContent=orig;btn.disabled=false;
-    status.style.color='var(--red-soft)';status.style.display='block';
-    status.textContent=t.errSend;
-  });
-}
-
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // DRUM DATE
-// ═══════════════════════════════════════════════════════
-const drumState={day:1,month:1,year:2015};
-const drumMax={day:31,month:12,year:new Date().getFullYear()};
-const drumMin={day:1,month:1,year:1990};
+// ═══════════════════════════════════════════════════════════
+const drumState={day:1,month:1,year:1985};
+const drumMax={day:31,month:12,year:new Date().getFullYear()-15};
+const drumMin={day:1,month:1,year:1940};
 function drumStep(field,dir){
   drumState[field]+=dir;
   if(drumState[field]>drumMax[field])drumState[field]=drumMin[field];
@@ -1030,9 +847,529 @@ function drumStep(field,dir){
 }
 function getDOB(){return String(drumState.day).padStart(2,'0')+'/'+String(drumState.month).padStart(2,'0')+'/'+drumState.year;}
 
-// ═══════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
+function goToForm(){ showPage('page-form'); }
+
+// ═══════════════════════════════════════════════════════════
+// LANG
+// ═══════════════════════════════════════════════════════════
+function setLang(lang){
+  currentLang=lang;
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.body.classList.toggle('rtl',lang==='ar');
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('onclick').includes(`'${lang}'`)));
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]!==undefined)el.textContent=T[lang][k];});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(T[lang][k])el.placeholder=T[lang][k];});
+  ['sexChoose','sexM','sexF'].forEach((key,i)=>{const o=document.querySelectorAll('#sexe option')[i];if(o&&T[lang][key])o.textContent=T[lang][key];});
+  buildCriteria();
+  buildSectionC();
+  updateProgress();
+}
+
+// ═══════════════════════════════════════════════════════════
+// BUILD CRITERIA CARDS
+// ═══════════════════════════════════════════════════════════
+function buildCriteria(){
+  const t = T[currentLang];
+  ['A','HI'].forEach(section=>{
+    const container = document.getElementById('criteria-'+section);
+    container.innerHTML='';
+    const data = CRITERIA[currentLang][section];
+    const color = section==='A'?'var(--blue)':'var(--red)';
+
+    data.forEach((cr,idx)=>{
+      const adultKey = cr.id+'-adult';
+      const childKey = cr.id+'-child';
+      const adultVal = criteriaAnswers[adultKey];
+      const childVal = criteriaAnswers[childKey];
+      const done = adultVal && childVal;
+
+      const card = document.createElement('div');
+      card.className = 'criterion-card';
+      card.id = 'card-'+cr.id;
+
+      const statusText = done
+        ? `✓ ${adultVal==='oui'?t.yes:t.no} / ${childVal==='oui'?t.yes:t.no}`
+        : '—';
+      const statusColor = done ? (adultVal==='oui'||childVal==='oui'?'#c0392b':'#27ae60') : '#9aa3b8';
+
+      // Build examples HTML for adult and child
+      const makeExamples = (examples, prefix) => {
+        let html = `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+          <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-400)">${t.examplesLabel}</div>
+          <div style="font-size:.68rem;color:var(--gray-400);font-style:italic;background:var(--gray-100);border-radius:10px;padding:.15rem .5rem">${t.optionalLabel}</div>
+        </div>`;
+        examples.forEach((ex,i)=>{
+          const cbId = `cb-${prefix}-${i}`;
+          const checked = checkedExamples[cbId]?'checked':'';
+          html += `<label class="example-item"><input type="checkbox" id="${cbId}" ${checked} onchange="toggleExample('${cbId}')"><label for="${cbId}" style="font-size:.77rem;line-height:1.45;color:var(--navy)">${ex}</label></label>`;
+        });
+        html += `<div class="other-input"><input type="text" id="other-${prefix}" placeholder="${t.otherPH}" style="font-size:.76rem;padding:.35rem .6rem" value="${checkedExamples['other-'+prefix]||''}"></div>`;
+        return html;
+      };
+
+      card.innerHTML = `
+        <div class="criterion-header" onclick="toggleCard('${cr.id}')">
+          <div class="criterion-num" style="background:${color}">${idx+1}</div>
+          <div class="criterion-question">${cr.q}</div>
+          <div class="criterion-status" style="background:${done?'#f0f9f4':'var(--gray-100)'};color:${statusColor};border:1.5px solid ${statusColor}">${statusText}</div>
+        </div>
+        <div class="criterion-body" id="body-${cr.id}">
+          <div class="age-cols">
+            <div class="age-col">
+              <div class="age-col-title" style="color:var(--blue)">
+                <span class="age-dot" style="background:var(--blue)"></span>
+                ${t.adultLabel}
+              </div>
+              ${makeExamples(cr.adult, cr.id+'-adult-ex')}
+              <div class="present-toggle present-toggle-adult">
+                <span style="flex:1;line-height:1.5">${t.symptomPresentAdult}</span>
+                <div class="toggle-group" style="flex-shrink:0">
+                  <input type="radio" name="${adultKey}" id="${adultKey}-oui" value="oui" ${adultVal==='oui'?'checked':''} onchange="setCriterion('${adultKey}','oui','${cr.id}')">
+                  <label for="${adultKey}-oui" onclick="setCriterion('${adultKey}','oui','${cr.id}')" style="min-width:52px;text-align:center">✓ ${t.yes}</label>
+                  <input type="radio" name="${adultKey}" id="${adultKey}-non" value="non" ${adultVal==='non'?'checked':''} onchange="setCriterion('${adultKey}','non','${cr.id}')">
+                  <label for="${adultKey}-non" onclick="setCriterion('${adultKey}','non','${cr.id}')" style="min-width:52px;text-align:center">✗ ${t.no}</label>
+                </div>
+              </div>
+            </div>
+            <div class="age-col">
+              <div class="age-col-title" style="color:var(--amber)">
+                <span class="age-dot" style="background:var(--amber)"></span>
+                ${t.childLabel}
+              </div>
+              ${makeExamples(cr.child, cr.id+'-child-ex')}
+              <div class="present-toggle present-toggle-child">
+                <span style="flex:1;line-height:1.5">${t.symptomPresentChild}</span>
+                <div class="toggle-group" style="flex-shrink:0">
+                  <input type="radio" name="${childKey}" id="${childKey}-oui" value="oui" ${childVal==='oui'?'checked':''} onchange="setCriterion('${childKey}','oui','${cr.id}')">
+                  <label for="${childKey}-oui" onclick="setCriterion('${childKey}','oui','${cr.id}')" style="min-width:52px;text-align:center">✓ ${t.yes}</label>
+                  <input type="radio" name="${childKey}" id="${childKey}-non" value="non" ${childVal==='non'?'checked':''} onchange="setCriterion('${childKey}','non','${cr.id}')">
+                  <label for="${childKey}-non" onclick="setCriterion('${childKey}','non','${cr.id}')" style="min-width:52px;text-align:center">✗ ${t.no}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      container.appendChild(card);
+    });
+
+    // Supplement question
+    const supDiv = document.createElement('div');
+    supDiv.style.cssText='background:var(--gray-50);border-radius:8px;padding:.7rem .9rem;margin-top:.5rem;border:1.5px solid var(--gray-200)';
+    const supKey = 'sup-'+section;
+    const supAdult = criteriaAnswers[supKey+'-adult'];
+    const supChild = criteriaAnswers[supKey+'-child'];
+    supDiv.innerHTML=`
+      <div style="font-size:.78rem;color:var(--gray-600);margin-bottom:.5rem">${t['supplement'+section]}</div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:.4rem;font-size:.76rem"><span>${t.adultLabel}:</span>
+          <div class="toggle-group">
+            <input type="radio" name="${supKey}-adult" id="${supKey}-adult-oui" value="oui" ${supAdult==='oui'?'checked':''}><label for="${supKey}-adult-oui">${t.yes}</label>
+            <input type="radio" name="${supKey}-adult" id="${supKey}-adult-non" value="non" ${supAdult==='non'?'checked':''}><label for="${supKey}-adult-non">${t.no}</label>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.4rem;font-size:.76rem"><span>${t.childLabel}:</span>
+          <div class="toggle-group">
+            <input type="radio" name="${supKey}-child" id="${supKey}-child-oui" value="oui" ${supChild==='oui'?'checked':''}><label for="${supKey}-child-oui">${t.yes}</label>
+            <input type="radio" name="${supKey}-child" id="${supKey}-child-non" value="non" ${supChild==='non'?'checked':''}><label for="${supKey}-child-non">${t.no}</label>
+          </div>
+        </div>
+      </div>`;
+    container.appendChild(supDiv);
+  });
+}
+
+function toggleCard(id){
+  const body = document.getElementById('body-'+id);
+  body.classList.toggle('open');
+}
+function toggleExample(id){
+  checkedExamples[id] = document.getElementById(id).checked;
+}
+function setCriterion(key, val, cardId){
+  // Prevent double-firing from both onchange and onclick
+  if(criteriaAnswers[key] === val) return;
+  criteriaAnswers[key] = val;
+  // Check the correct radio visually
+  const radio = document.querySelector(`input[name="${key}"][value="${val}"]`);
+  if(radio) radio.checked = true;
+  // Auto-advance: if both adult+child set, show next
+  const base = key.replace('-adult','').replace('-child','');
+  const otherKey = key.includes('-adult') ? base+'-child' : base+'-adult';
+  if(criteriaAnswers[otherKey]){
+    // Both answered — collapse after short delay
+    setTimeout(()=>{
+      const body = document.getElementById('body-'+base);
+      if(body) body.classList.remove('open');
+    }, 500);
+  }
+  updateProgress();
+}
+
+// ═══════════════════════════════════════════════════════════
+// BUILD SECTION C
+// ═══════════════════════════════════════════════════════════
+function buildSectionC(){
+  const container = document.getElementById('criteria-C');
+  container.innerHTML='';
+  const data = SECTION_C[currentLang];
+  const t = T[currentLang];
+
+  ['adult','child'].forEach(age=>{
+    const ageLabel = age==='adult'?t.adultLabel:t.childLabel;
+    const ageColor = age==='adult'?'var(--blue)':'var(--amber)';
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText=`margin-bottom:.8rem`;
+    let html=`<div style="font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:${ageColor};margin-bottom:.5rem;padding:.3rem .6rem;background:${age==='adult'?'var(--blue-light)':'var(--amber-light)'};border-radius:6px;display:inline-block">${ageLabel}</div>`;
+    data[age].forEach(domain=>{
+      html+=`<div class="domain-section"><div class="domain-title">${domain.label}</div>`;
+      domain.items.forEach((item,i)=>{
+        const cbId=`sec-c-${age}-${domain.key}-${i}`;
+        const checked=checkedExamples[cbId]?'checked':'';
+        html+=`<label class="example-item" style="display:flex;align-items:flex-start;gap:.5rem;margin-bottom:.35rem;cursor:pointer"><input type="checkbox" id="${cbId}" ${checked} onchange="toggleExample('${cbId}')"><span style="font-size:.78rem;line-height:1.45">${item}</span></label>`;
+      });
+      html+=`</div>`;
+    });
+    wrapper.innerHTML=html;
+    container.appendChild(wrapper);
+  });
+
+  // Criterion E handler
+  document.addEventListener('change', e=>{
+    if(e.target.name==='critE'){
+      criteriaAnswers['critE']=e.target.value;
+      document.getElementById('critE-detail-wrap').style.display=e.target.value==='oui'?'block':'none';
+    }
+    if(e.target.name==='critB'){
+      criteriaAnswers['critB']=e.target.value;
+      document.getElementById('critB-age-wrap').style.display=e.target.value==='non'?'block':'none';
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// PROGRESS
+// ═══════════════════════════════════════════════════════════
+function getMissing(){
+  const missing=[];
+  const allA=['A1','A2','A3','A4','A5','A6','A7','A8','A9'];
+  const allHI=['HI1','HI2','HI3','HI4','HI5','HI6','HI7','HI8','HI9'];
+  [...allA,...allHI].forEach(id=>{
+    if(!criteriaAnswers[id+'-adult']||!criteriaAnswers[id+'-child']) missing.push(id);
+  });
+  return missing;
+}
+function updateProgress(){
+  const t=T[currentLang];
+  const missing=getMissing();
+  const answered=18-missing.length;
+  const pct=Math.round((answered/18)*100);
+  document.getElementById('progress-bar-inner').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+' %';
+  document.getElementById('progress-label').textContent=t.progressTpl(answered);
+}
+function renderMissingBanner(){
+  const t=T[currentLang];const missing=getMissing();const b=document.getElementById('missing-banner');
+  if(missing.length===0){b.style.display='none';return;}
+  b.style.display='flex';
+  b.innerHTML=`<span>${t.missingBanner(missing)}</span>${missing.map(n=>`<span class="missing-chip" onclick="scrollToCard('${n}')">${t.missingChip(n)}</span>`).join('')}`;
+}
+function scrollToCard(id){
+  const card=document.getElementById('card-'+id);if(!card)return;
+  document.getElementById('body-'+id).classList.add('open');
+  const y=card.getBoundingClientRect().top+window.scrollY-130;
+  window.scrollTo({top:y,behavior:'smooth'});
+  card.style.boxShadow='0 0 0 3px var(--amber)';
+  setTimeout(()=>card.style.boxShadow='',4000);
+}
+
+// ═══════════════════════════════════════════════════════════
+// SUBMIT
+// ═══════════════════════════════════════════════════════════
+document.getElementById('submit-btn').addEventListener('click',()=>{
+  // No validation — all answers are optional
+  sendResults();
+});
+
+// ═══════════════════════════════════════════════════════════
+// BUILD CLINICAL REPORT
+// ═══════════════════════════════════════════════════════════
+function buildDivaReport(info, date){
+  const t=T[currentLang];
+  const dataA=CRITERIA[currentLang].A;
+  const dataHI=CRITERIA[currentLang].HI;
+
+  // Count scores
+  let scoreA_adult=0,scoreA_child=0,scoreHI_adult=0,scoreHI_child=0;
+  dataA.forEach(cr=>{if(criteriaAnswers[cr.id+'-adult']==='oui')scoreA_adult++;if(criteriaAnswers[cr.id+'-child']==='oui')scoreA_child++;});
+  dataHI.forEach(cr=>{if(criteriaAnswers[cr.id+'-adult']==='oui')scoreHI_adult++;if(criteriaAnswers[cr.id+'-child']==='oui')scoreHI_child++;});
+
+  const critB=criteriaAnswers['critB']||'—';
+  const critBAge=document.getElementById('critB-age').value||'';
+  const critDAdult=document.querySelector('input[name="critD-adult"]:checked')?.value||'—';
+  const critDChild=document.querySelector('input[name="critD-child"]:checked')?.value||'—';
+  const critE=criteriaAnswers['critE']||'—';
+  const critEDetail=document.getElementById('critE-detail').value||'';
+  const collParent=document.querySelector('input[name="coll-parent"]:checked')?.value||'N/A';
+  const collPartner=document.querySelector('input[name="coll-partner"]:checked')?.value||'N/A';
+  const collSchool=document.querySelector('input[name="coll-school"]:checked')?.value||'N/A';
+  const collDetails=document.getElementById('coll-details').value||'—';
+
+  // TDAH subtype
+  const diagAdultA=scoreA_adult>=6, diagAdultHI=scoreHI_adult>=6;
+  const diagChildA=scoreA_child>=6, diagChildHI=scoreHI_child>=6;
+  let subtype='', subtypeColor='#27ae60';
+  if((diagAdultA||diagAdultHI)&&critB==='oui'&&critDAdult==='oui'){
+    if(diagAdultA&&diagAdultHI){subtype='314.01 — Type combiné (TDAH-C)';subtypeColor='#c0392b';}
+    else if(diagAdultA){subtype='314.00 — Type inattentif prédominant (TDAH-PI)';subtypeColor='#e8a020';}
+    else{subtype='314.01 — Type hyperactif/impulsif prédominant (TDAH-HIP)';subtypeColor='#8b0000';}
+  } else {subtype='Critères insuffisants pour le diagnostic de TDAH';subtypeColor='#27ae60';}
+
+  // Criteria rows
+  const makeCrRows=(data,section)=>data.map((cr,i)=>{
+    const av=criteriaAnswers[cr.id+'-adult']==='oui', cv=criteriaAnswers[cr.id+'-child']==='oui';
+    const aColor=av?'#c0392b':'#27ae60', cColor=cv?'#c0392b':'#27ae60';
+    return `<tr style="background:${i%2===0?'#fff':'#f8f9fc'}">
+      <td style="padding:7px 10px;font-size:11px;font-weight:700;color:#9aa3b8">${cr.code}</td>
+      <td style="padding:7px 10px;font-size:11px;color:#2c3e50;line-height:1.4">${cr.q}</td>
+      <td style="padding:7px 10px;text-align:center"><span style="display:inline-block;background:${aColor};color:#fff;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700">${av?'Oui':'Non'}</span></td>
+      <td style="padding:7px 10px;text-align:center"><span style="display:inline-block;background:${cColor};color:#fff;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700">${cv?'Oui':'Non'}</span></td>
+    </tr>`;
+  }).join('');
+
+  const scoreBar=(score,max,color)=>{
+    const pct=Math.min(Math.round((score/max)*100),100);
+    return `<div style="display:flex;align-items:center;gap:8px">
+      <div style="font-size:22px;font-weight:900;color:${color};min-width:30px">${score}</div>
+      <div>
+        <div style="font-size:10px;color:#9aa3b8">/ ${max}</div>
+        <div style="background:#eef0f6;border-radius:10px;height:8px;width:80px;overflow:hidden">
+          <div style="width:${pct}%;height:100%;background:${color};border-radius:10px"></div>
+        </div>
+      </div>
+    </div>`;
+  };
+
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>body{font-family:Arial,sans-serif;margin:0;background:#f4f6fb;}
+.wrap{max-width:700px;margin:0 auto;background:#fff;}
+details>summary{list-style:none;cursor:pointer;} details>summary::-webkit-details-marker{display:none;}</style>
+</head><body><div class="wrap">
+
+<!-- EN-TÊTE -->
+<div style="background:#1a2744;padding:24px 28px;color:#fff">
+  <div style="display:flex;align-items:center;gap:14px">
+    <div style="font-size:32px">🧠</div>
+    <div>
+      <div style="font-size:18px;font-weight:700">Rapport DIVA 2.0 — Entretien diagnostique TDAH adulte</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px">Basé sur les critères DSM-IV &nbsp;|&nbsp; Généré le ${date}</div>
+      <div style="margin-top:6px;display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-size:11px;color:rgba(255,255,255,.8)">🔒 Confidentiel — Réservé au clinicien</div>
+    </div>
+  </div>
+</div>
+
+<!-- INFOS PATIENT -->
+<div style="background:#f8f9fc;padding:18px 28px;border-bottom:2px solid #e4e8f2">
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Patient</div><div style="font-size:14px;font-weight:700;color:#1a2744">${info.nom}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Naissance</div><div style="font-size:13px;font-weight:600;color:#1a2744">${info.dob}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Sexe</div><div style="font-size:13px;font-weight:600;color:#1a2744">${info.sexe}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">N° patient</div><div style="font-size:13px;color:#1a2744">${info.patientNum}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Clinicien</div><div style="font-size:13px;color:#1a2744">${info.clinician}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#9aa3b8">Date entretien</div><div style="font-size:13px;color:#1a2744">${info.interviewDate}</div></div>
+  </div>
+</div>
+
+<!-- DIAGNOSTIC FINAL -->
+<div style="background:${subtype.includes('insuffisants')?'linear-gradient(135deg,#1a2744,#2d7d6f)':'linear-gradient(135deg,#1a2744,#6c3483)'};padding:22px 28px;color:#fff">
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:6px">Conclusion diagnostique</div>
+  <div style="font-size:20px;font-weight:900;color:${subtype.includes('insuffisants')?'#99ffcc':'#e8c3ff'}">${subtype}</div>
+  <div style="margin-top:10px;font-size:12px;opacity:.8;line-height:1.6">
+    Critères A (adulte) : ${scoreA_adult}/9 inattention · ${scoreHI_adult}/9 HI &nbsp;|&nbsp; 
+    Critères A (enfance) : ${scoreA_child}/9 inattention · ${scoreHI_child}/9 HI
+  </div>
+</div>
+
+<!-- SCORES RÉSUMÉ -->
+<div style="padding:20px 28px;border-bottom:2px solid #e4e8f2">
+  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:14px">📊 Scores DSM-IV — Résumé</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
+    <div style="background:#eaf2fb;border-radius:10px;padding:12px;border-top:3px solid #2471a3">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#2471a3;margin-bottom:6px">Inattention Adulte</div>
+      ${scoreBar(scoreA_adult,9,scoreA_adult>=6?'#c0392b':'#2471a3')}
+      <div style="font-size:11px;margin-top:5px;font-weight:700;color:${scoreA_adult>=6?'#c0392b':'#27ae60'}">${scoreA_adult>=6?'⚠ ≥6 Significatif':'✓ <6'}</div>
+    </div>
+    <div style="background:#fdf0ef;border-radius:10px;padding:12px;border-top:3px solid #c0392b">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#c0392b;margin-bottom:6px">HI Adulte</div>
+      ${scoreBar(scoreHI_adult,9,scoreHI_adult>=6?'#c0392b':'#6c3483')}
+      <div style="font-size:11px;margin-top:5px;font-weight:700;color:${scoreHI_adult>=6?'#c0392b':'#27ae60'}">${scoreHI_adult>=6?'⚠ ≥6 Significatif':'✓ <6'}</div>
+    </div>
+    <div style="background:#fef6e8;border-radius:10px;padding:12px;border-top:3px solid #e8a020">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#e8a020;margin-bottom:6px">Inattention Enfance</div>
+      ${scoreBar(scoreA_child,9,scoreA_child>=6?'#c0392b':'#e8a020')}
+      <div style="font-size:11px;margin-top:5px;font-weight:700;color:${scoreA_child>=6?'#c0392b':'#27ae60'}">${scoreA_child>=6?'⚠ ≥6 Significatif':'✓ <6'}</div>
+    </div>
+    <div style="background:#f4ecf7;border-radius:10px;padding:12px;border-top:3px solid #6c3483">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#6c3483;margin-bottom:6px">HI Enfance</div>
+      ${scoreBar(scoreHI_child,9,scoreHI_child>=6?'#c0392b':'#6c3483')}
+      <div style="font-size:11px;margin-top:5px;font-weight:700;color:${scoreHI_child>=6?'#c0392b':'#27ae60'}">${scoreHI_child>=6?'⚠ ≥6 Significatif':'✓ <6'}</div>
+    </div>
+  </div>
+</div>
+
+<!-- FORMULAIRE DE COTATION DSM-IV -->
+<div style="padding:20px 28px;border-bottom:2px solid #e4e8f2">
+  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:12px">📋 Formulaire de cotation (DSM-IV)</div>
+  <table style="width:100%;border-collapse:collapse;font-size:12px">
+    ${[
+      ['Critère A — Enfance (A ≥6)', scoreA_child>=6, 'Inattention'],
+      ['Critère A — Enfance (HI ≥6)', scoreHI_child>=6, 'Hyperactivité/Impulsivité'],
+      ['Critère A — Adulte (A ≥6)', scoreA_adult>=6, 'Inattention'],
+      ['Critère A — Adulte (HI ≥6)', scoreHI_adult>=6, 'Hyperactivité/Impulsivité'],
+      ['Critère B — Persistance vie entière', critB==='oui', ''],
+      ['Critère C/D — Retentissement adulte ≥2 domaines', critDAdult==='oui', ''],
+      ['Critère C/D — Retentissement enfance ≥2 domaines', critDChild==='oui', ''],
+      ['Critère E — Non expliqué par autre diagnostic', critE!=='oui', ''],
+    ].map(([label,met,sub],i)=>`
+      <tr style="background:${i%2===0?'#fff':'#f8f9fc'}">
+        <td style="padding:8px 10px;font-size:12px;color:#2c3e50">${label}${sub?` <span style="color:#9aa3b8;font-size:10px">(${sub})</span>`:''}</td>
+        <td style="padding:8px 10px;text-align:right"><span style="display:inline-block;background:${met?'#27ae60':'#e74c3c'};color:#fff;border-radius:10px;padding:3px 12px;font-size:11px;font-weight:700">${met?'✓ Oui':'✗ Non'}</span></td>
+      </tr>`).join('')}
+  </table>
+  <div style="margin-top:10px;background:#f8f9fc;border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6">
+    <b>Critère E détail :</b> ${critEDetail||'—'}<br>
+    <b>Âge de début :</b> ${critB==='non'?critBAge+' ans':'Avant 7 ans (critère B satisfait)'}<br>
+    <b>Collatéral famille :</b> ${collParent} &nbsp;|&nbsp; <b>Partenaire :</b> ${collPartner} &nbsp;|&nbsp; <b>Livrets scolaires :</b> ${collSchool}<br>
+    <b>Détails :</b> ${collDetails}
+  </div>
+</div>
+
+<!-- DÉTAIL CRITÈRES INATTENTION -->
+<div style="padding:20px 28px;border-bottom:2px solid #e4e8f2">
+  <details open>
+    <summary style="font-size:14px;font-weight:700;color:#2471a3;padding-bottom:10px;border-bottom:2px solid #eaf2fb;margin-bottom:12px">🔵 Critères d'Inattention (A1) — Détail</summary>
+    <table style="width:100%;border-collapse:collapse">
+      <thead><tr style="background:#2471a3;color:#fff">
+        <th style="padding:8px 10px;text-align:left;font-size:11px;width:50px">Code</th>
+        <th style="padding:8px 10px;text-align:left;font-size:11px">Critère</th>
+        <th style="padding:8px 10px;text-align:center;font-size:11px;width:65px">Adulte</th>
+        <th style="padding:8px 10px;text-align:center;font-size:11px;width:65px">Enfance</th>
+      </tr></thead>
+      <tbody>${makeCrRows(dataA,'A')}</tbody>
+      <tfoot><tr style="background:#eaf2fb">
+        <td colspan="2" style="padding:8px 10px;font-size:12px;font-weight:700;color:#2471a3">Total inattention</td>
+        <td style="padding:8px 10px;text-align:center;font-weight:800;color:${scoreA_adult>=6?'#c0392b':'#2471a3'}">${scoreA_adult}/9</td>
+        <td style="padding:8px 10px;text-align:center;font-weight:800;color:${scoreA_child>=6?'#c0392b':'#e8a020'}">${scoreA_child}/9</td>
+      </tr></tfoot>
+    </table>
+  </details>
+</div>
+
+<!-- DÉTAIL CRITÈRES HI -->
+<div style="padding:20px 28px;border-bottom:2px solid #e4e8f2">
+  <details open>
+    <summary style="font-size:14px;font-weight:700;color:#c0392b;padding-bottom:10px;border-bottom:2px solid #fdf0ef;margin-bottom:12px">🔴 Critères Hyperactivité-Impulsivité (A2) — Détail</summary>
+    <table style="width:100%;border-collapse:collapse">
+      <thead><tr style="background:#c0392b;color:#fff">
+        <th style="padding:8px 10px;text-align:left;font-size:11px;width:50px">Code</th>
+        <th style="padding:8px 10px;text-align:left;font-size:11px">Critère</th>
+        <th style="padding:8px 10px;text-align:center;font-size:11px;width:65px">Adulte</th>
+        <th style="padding:8px 10px;text-align:center;font-size:11px;width:65px">Enfance</th>
+      </tr></thead>
+      <tbody>${makeCrRows(dataHI,'HI')}</tbody>
+      <tfoot><tr style="background:#fdf0ef">
+        <td colspan="2" style="padding:8px 10px;font-size:12px;font-weight:700;color:#c0392b">Total HI</td>
+        <td style="padding:8px 10px;text-align:center;font-weight:800;color:${scoreHI_adult>=6?'#c0392b':'#6c3483'}">${scoreHI_adult}/9</td>
+        <td style="padding:8px 10px;text-align:center;font-weight:800;color:${scoreHI_child>=6?'#c0392b':'#e8a020'}">${scoreHI_child}/9</td>
+      </tr></tfoot>
+    </table>
+  </details>
+</div>
+
+<!-- PIED DE PAGE -->
+<div style="background:#1a2744;padding:14px 28px;text-align:center;color:rgba(255,255,255,.45);font-size:10px;line-height:1.8">
+  Rapport DIVA 2.0 généré automatiquement &nbsp;|&nbsp; Kooij JJS &amp; Francken MH, DIVA Foundation, 2010 &nbsp;|&nbsp; Traduction française Caci et al., 2012<br>
+  🔒 <b style="color:rgba(255,255,255,.65)">Confidentiel — Document réservé exclusivement au clinicien. Ne pas transmettre au patient.</b>
+</div>
+
+</div></body></html>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// SEND
+// ═══════════════════════════════════════════════════════════
+function sendResults(){
+  const t=T[currentLang];
+  const specialist=document.getElementById('specialist-email').value.trim();
+  const status=document.getElementById('send-status');
+  status.style.display='none';
+
+  if(!specialist||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(specialist)){
+    status.style.color='var(--red)';status.style.display='block';
+    status.textContent=t.errEmail;
+    document.getElementById('specialist-email').focus();
+    return;
+  }
+
+  const info={
+    nom:document.getElementById('nom').value||'—',
+    dob:getDOB(),
+    sexe:document.getElementById('sexe').value||'—',
+    patientNum:document.getElementById('patient-num').value||'—',
+    clinician:document.getElementById('clinician').value||'—',
+    interviewDate:document.getElementById('interview-date').value||'—',
+  };
+
+  const locale=currentLang==='ar'?'ar-DZ':currentLang==='en'?'en-GB':'fr-FR';
+  const date=new Date().toLocaleDateString(locale);
+  const html_report=buildDivaReport(info,date);
+
+  // Count for plain text
+  let scoreA_adult=0,scoreA_child=0,scoreHI_adult=0,scoreHI_child=0;
+  CRITERIA[currentLang].A.forEach(cr=>{if(criteriaAnswers[cr.id+'-adult']==='oui')scoreA_adult++;if(criteriaAnswers[cr.id+'-child']==='oui')scoreA_child++;});
+  CRITERIA[currentLang].HI.forEach(cr=>{if(criteriaAnswers[cr.id+'-adult']==='oui')scoreHI_adult++;if(criteriaAnswers[cr.id+'-child']==='oui')scoreHI_child++;});
+
+  let subtype='Critères insuffisants';
+  if(scoreA_adult>=6&&scoreHI_adult>=6)subtype='314.01 Type combiné';
+  else if(scoreA_adult>=6)subtype='314.00 Type inattentif prédominant';
+  else if(scoreHI_adult>=6)subtype='314.01 Type hyperactif/impulsif prédominant';
+
+  const btn=document.getElementById('submit-btn');
+  const orig=btn.textContent;
+  btn.textContent=t.sending;btn.disabled=true;
+
+  emailjs.send('psycholab_gmail','template_e9ua9l5',{
+    to_email:   specialist,
+    child_name: info.nom,
+    child_dob:  info.dob,
+    child_sex:  info.sexe,
+    child_grade:`N° ${info.patientNum}`,
+    parent_name:info.clinician,
+    parent_email:'DIVA 2.0',
+    subscale_scores:`Inattention adulte: ${scoreA_adult}/9\nHI adulte: ${scoreHI_adult}/9\nInattention enfance: ${scoreA_child}/9\nHI enfance: ${scoreHI_child}/9`,
+    total_score:subtype,
+    flagged_items:`Critère B: ${criteriaAnswers['critB']||'—'}\nRetentissement adulte: ${document.querySelector('input[name="critD-adult"]:checked')?.value||'—'}\nRetentissement enfance: ${document.querySelector('input[name="critD-child"]:checked')?.value||'—'}`,
+    html_table:html_report,
+    date:date,
+  })
+  .then(()=>{
+    btn.disabled=false;
+    showPage('page-confirm');
+    setLang(currentLang);
+  })
+  .catch(err=>{
+    console.error(err);
+    btn.textContent=orig;btn.disabled=false;
+    status.style.color='var(--red)';status.style.display='block';
+    status.textContent=t.errSend;
+  });
+}
+
+// ── INIT ──
 setLang('fr');
 </script>
 </body>
