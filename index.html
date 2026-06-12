@@ -1223,9 +1223,12 @@ function updateProgress(){
   });
   const total=36;
   const pct=Math.round((answered/total)*100);
-  document.getElementById('progress-bar-inner').style.width=pct+'%';
-  document.getElementById('progress-pct').textContent=pct+'%';
-  document.getElementById('progress-label').textContent=t.progressTpl(answered,total);
+  const barInner=document.getElementById('progress-bar-inner');
+  const barPct=document.getElementById('progress-pct');
+  const barLabel=document.getElementById('progress-label');
+  if(barInner) barInner.style.width=pct+'%';
+  if(barPct) barPct.textContent=pct+'%';
+  if(barLabel) barLabel.textContent=t.progressTpl(answered,total);
   // Update card visual state
   allIds.forEach(id=>{
     const card=document.getElementById('card-'+id);
@@ -1672,7 +1675,7 @@ function sendResults(){
 
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(compact))));
   const BASE_URL = 'https://psycholab-conseil.github.io/Conners--Test/';
-  const reportUrl = BASE_URL + 'diva_final.html?d=' + encoded;
+  const reportUrl = BASE_URL + 'diva_final.html?d=' + encodeURIComponent(encoded);
 
   let subtype='Critères insuffisants pour le diagnostic';
   if(scoreA_adult>=6&&scoreHI_adult>=6)subtype='314.01 — Type combiné (TDAH-C)';
@@ -1810,7 +1813,8 @@ async function loadData(){
   const enc = params.get('d') || params.get('data');
   if(!enc){ showError(); return null; }
   try{
-    const compact = JSON.parse(decodeURIComponent(escape(atob(enc))));
+    const decoded = enc.includes('%') ? decodeURIComponent(enc) : enc;
+    const compact = JSON.parse(decodeURIComponent(escape(atob(decoded))));
     // Expand compact format to full payload
     if(compact.i){
       return {
