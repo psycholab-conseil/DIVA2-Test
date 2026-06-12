@@ -559,7 +559,8 @@ fr:{
   errEmail:"⚠ Email du clinicien invalide.",
   sending:"⏳ Envoi en cours...",
   errSend:"❌ Erreur d'envoi. Vérifiez votre connexion.",
-  progressTpl:a=>`${a} / 18 répondus`,
+  progressTpl:(a,t)=>`${a} / ${t} réponses`,
+  partial:'En cours',
   missingBanner:m=>`⚠ ${m.length} critère(s) non complété(s) :`,
   missingChip:n=>n,
   btnMissing:n=>``,
@@ -618,7 +619,8 @@ en:{
   errEmail:"⚠ Invalid clinician email.",
   sending:"⏳ Sending...",
   errSend:"❌ Send error. Check your connection.",
-  progressTpl:a=>`${a} / 18 answered`,
+  progressTpl:(a,t)=>`${a} / ${t} answered`,
+  partial:'Partial',
   missingBanner:m=>`⚠ ${m.length} incomplete criterion/criteria:`,
   missingChip:n=>n,
   btnMissing:n=>``,
@@ -677,7 +679,8 @@ ar:{
   errEmail:"⚠ البريد الإلكتروني للطبيب غير صالح.",
   sending:"⏳ جارٍ الإرسال...",
   errSend:"❌ خطأ في الإرسال.",
-  progressTpl:a=>`${a} / 18 تمت الإجابة`,
+  progressTpl:(a,t)=>`${a} / ${t} إجابة`,
+  partial:'جزئي',
   missingBanner:m=>`⚠ ${m.length} معيار(معايير) غير مكتمل:`,
   missingChip:n=>n,
   btnMissing:n=>``,
@@ -1097,6 +1100,16 @@ function buildCriteria(){
       </div>`;
     container.appendChild(supDiv);
   });
+  // Auto-open first unanswered criterion
+  const allIds=['A1','A2','A3','A4','A5','A6','A7','A8','A9',
+                'HI1','HI2','HI3','HI4','HI5','HI6','HI7','HI8','HI9'];
+  for(const id of allIds){
+    if(!criteriaAnswers[id+'-adult']||!criteriaAnswers[id+'-child']){
+      const body=document.getElementById('body-'+id);
+      if(body) body.classList.add('open');
+      break;
+    }
+  }
 }
 
 function toggleCard(id){
@@ -1107,23 +1120,42 @@ function toggleExample(id){
   checkedExamples[id] = document.getElementById(id).checked;
 }
 function setCriterion(key, val, cardId){
-  // Prevent double-firing from both onchange and onclick
-  if(criteriaAnswers[key] === val) return;
+  // Prevent double-firing from onclick+onchange on same click
+  if(criteriaAnswers[key] === val){ updateProgress(); return; }
   criteriaAnswers[key] = val;
-  // Check the correct radio visually
-  const radio = document.querySelector(`input[name="${key}"][value="${val}"]`);
+  // Sync radio button visually
+  const radio = document.querySelector('input[name="'+key+'"][value="'+val+'"]');
   if(radio) radio.checked = true;
-  // Auto-advance: if both adult+child set, show next
+  // Update progress immediately
+  updateProgress();
+  // Auto-advance: if both adult+child answered, collapse card and open next
   const base = key.replace('-adult','').replace('-child','');
   const otherKey = key.includes('-adult') ? base+'-child' : base+'-adult';
   if(criteriaAnswers[otherKey]){
-    // Both answered — collapse after short delay
     setTimeout(()=>{
       const body = document.getElementById('body-'+base);
       if(body) body.classList.remove('open');
-    }, 500);
+      // Open next unanswered criterion
+      const allIds=['A1','A2','A3','A4','A5','A6','A7','A8','A9',
+                    'HI1','HI2','HI3','HI4','HI5','HI6','HI7','HI8','HI9'];
+      const currentIdx = allIds.indexOf(base);
+      for(let i=currentIdx+1;i<allIds.length;i++){
+        const nid=allIds[i];
+        if(!criteriaAnswers[nid+'-adult']||!criteriaAnswers[nid+'-child']){
+          const nextBody=document.getElementById('body-'+nid);
+          const nextCard=document.getElementById('card-'+nid);
+          if(nextBody) nextBody.classList.add('open');
+          if(nextCard){
+            setTimeout(()=>{
+              const y=nextCard.getBoundingClientRect().top+window.scrollY-130;
+              window.scrollTo({top:y,behavior:'smooth'});
+            },100);
+          }
+          break;
+        }
+      }
+    }, 400);
   }
-  updateProgress();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1181,12 +1213,44 @@ function getMissing(){
 }
 function updateProgress(){
   const t=T[currentLang];
-  const missing=getMissing();
-  const answered=18-missing.length;
-  const pct=Math.round((answered/18)*100);
+  // Count individual answers (each adult/child response = 1 point, max 36)
+  const allIds=['A1','A2','A3','A4','A5','A6','A7','A8','A9',
+                'HI1','HI2','HI3','HI4','HI5','HI6','HI7','HI8','HI9'];
+  let answered=0;
+  allIds.forEach(id=>{
+    if(criteriaAnswers[id+'-adult']) answered++;
+    if(criteriaAnswers[id+'-child']) answered++;
+  });
+  const total=36;
+  const pct=Math.round((answered/total)*100);
   document.getElementById('progress-bar-inner').style.width=pct+'%';
-  document.getElementById('progress-pct').textContent=pct+' %';
-  document.getElementById('progress-label').textContent=t.progressTpl(answered);
+  document.getElementById('progress-pct').textContent=pct+'%';
+  document.getElementById('progress-label').textContent=t.progressTpl(answered,total);
+  // Update card visual state
+  allIds.forEach(id=>{
+    const card=document.getElementById('card-'+id);
+    if(!card) return;
+    const av=criteriaAnswers[id+'-adult'];
+    const cv=criteriaAnswers[id+'-child'];
+    const done=av&&cv;
+    const partial=av||cv;
+    const numEl=card.querySelector('.criterion-num');
+    const statusEl=card.querySelector('.criterion-status');
+    if(numEl){
+      numEl.style.background=done?'var(--teal)':partial?'var(--amber)':'var(--blue)';
+    }
+    if(statusEl&&done){
+      statusEl.style.background='#e8f5ee';
+      statusEl.style.color='#27ae60';
+      statusEl.style.borderColor='#27ae60';
+      statusEl.textContent='✓ '+( av==='oui'?t.yes:t.no)+' / '+(cv==='oui'?t.yes:t.no);
+    } else if(statusEl&&partial){
+      statusEl.style.background='#fef6e8';
+      statusEl.style.color='var(--amber)';
+      statusEl.style.borderColor='var(--amber)';
+      statusEl.textContent='◐ '+t.partial;
+    }
+  });
 }
 function renderMissingBanner(){
   const t=T[currentLang];const missing=getMissing();const b=document.getElementById('missing-banner');
