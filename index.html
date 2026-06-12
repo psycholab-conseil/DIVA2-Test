@@ -1582,25 +1582,44 @@ function sendResults(){
     date:new Date().toISOString(),
   };
 
-  // ── Generate short ID and store in window.storage ──
-  const sessionId = 'diva_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,6);
+  // ── Build compressed URL (works across all browsers/sessions) ──
+  // Compress payload: only keep what's needed for report
+  const compact = {
+    i: {
+      n: info.nom, d: info.dob, s: info.sexe,
+      p: info.patientNum, c: info.clinician,
+      dt: info.interviewDate, l: info.lang
+    },
+    a: criteriaAnswers,
+    ex: checkedExamples,
+    sc: [scoreA_adult, scoreA_child, scoreHI_adult, scoreHI_child],
+    b: criteriaAnswers['critB']||'',
+    ba: document.getElementById('critB-age').value||'',
+    da: document.querySelector('input[name="critD-adult"]:checked')?.value||'',
+    dc: document.querySelector('input[name="critD-child"]:checked')?.value||'',
+    e: criteriaAnswers['critE']||'',
+    ed: document.getElementById('critE-detail').value||'',
+    cp: document.querySelector('input[name="coll-parent"]:checked')?.value||'',
+    cpa: document.querySelector('input[name="coll-partner"]:checked')?.value||'',
+    cs: document.querySelector('input[name="coll-school"]:checked')?.value||'',
+    cd: document.getElementById('coll-details').value||'',
+    ts: new Date().toISOString(),
+  };
+
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(compact))));
+  const BASE_URL = 'https://psycholab-conseil.github.io/Conners--Test/';
+  const reportUrl = BASE_URL + 'diva_final.html?d=' + encoded;
 
   let subtype='Critères insuffisants pour le diagnostic';
   if(scoreA_adult>=6&&scoreHI_adult>=6)subtype='314.01 — Type combiné (TDAH-C)';
   else if(scoreA_adult>=6)subtype='314.00 — Type inattentif prédominant (TDAH-PI)';
   else if(scoreHI_adult>=6)subtype='314.01 — Type hyperactif/impulsif (TDAH-HIP)';
 
-  const BASE_URL='https://psycholab-conseil.github.io/Conners--Test/';
-
   const btn=document.getElementById('submit-btn');
   const orig=btn.textContent;
   btn.textContent=t.sending; btn.disabled=true;
 
-  // Store data in window.storage (shared=true so report page can read it)
-  window.storage.set(sessionId, JSON.stringify(payload), true)
-  .then(()=>{
-    // Short clean URL with just the session ID
-    const reportUrl = BASE_URL + 'diva_final.html?id=' + sessionId;
+  Promise.resolve().then(()=>{
 
     const scoreColor = (n) => n>=6?'#c0392b':'#27ae60';
 
@@ -1680,7 +1699,7 @@ function sendResults(){
     console.error('Error:',err);
     btn.textContent=orig; btn.disabled=false;
     status.style.color='var(--red)'; status.style.display='block';
-    status.textContent=t.errSend+' ('+JSON.stringify(err)+')';
+    status.textContent=t.errSend;
   });
 }
 
@@ -1726,24 +1745,46 @@ const CRIT_LABELS = {
 async function loadData(){
   const params = new URLSearchParams(window.location.search);
 
-  // New: short ID stored in window.storage
-  const sessionId = params.get('id');
-  if(sessionId){
-    try{
-      const result = await window.storage.get(sessionId, true);
-      if(result && result.value){
-        return JSON.parse(result.value);
-      }
-    }catch(e){ console.error('Storage error:',e); }
+  // Primary: compact format ?d=
+  const enc = params.get('d') || params.get('data');
+  if(!enc){ showError(); return null; }
+  try{
+    const compact = JSON.parse(decodeURIComponent(escape(atob(enc))));
+    // Expand compact format to full payload
+    if(compact.i){
+      return {
+        info:{
+          nom:compact.i.n||'—', dob:compact.i.d||'—', sexe:compact.i.s||'—',
+          patientNum:compact.i.p||'—', clinician:compact.i.c||'—',
+          interviewDate:compact.i.dt||'—', lang:compact.i.l||'fr'
+        },
+        criteriaAnswers: compact.a||{},
+        checkedExamples: compact.ex||{},
+        scores:{
+          scoreA_adult:  compact.sc?compact.sc[0]:0,
+          scoreA_child:  compact.sc?compact.sc[1]:0,
+          scoreHI_adult: compact.sc?compact.sc[2]:0,
+          scoreHI_child: compact.sc?compact.sc[3]:0,
+        },
+        critB:     compact.b||'',
+        critBAge:  compact.ba||'',
+        critDAdult:compact.da||'',
+        critDChild:compact.dc||'',
+        critE:     compact.e||'',
+        critEDetail:compact.ed||'',
+        collParent: compact.cp||'',
+        collPartner:compact.cpa||'',
+        collSchool: compact.cs||'',
+        collDetails:compact.cd||'',
+        date:      compact.ts||new Date().toISOString(),
+      };
+    }
+    // Legacy full format
+    return compact;
+  }catch(e){
+    console.error('loadData error:',e);
     showError(); return null;
   }
-
-  // Legacy: base64 data in URL (fallback)
-  const encoded = params.get('data');
-  if(!encoded){ showError(); return null; }
-  try{
-    return JSON.parse(decodeURIComponent(escape(atob(encoded))));
-  }catch(e){ showError(); return null; }
 }
 
 function showError(){
@@ -2010,7 +2051,7 @@ async function downloadPDF(){
 // Auto-show rapport if ?data= param present in URL
 async function checkRapportMode(){
   const params = new URLSearchParams(window.location.search);
-  if(params.get('id') || params.get('data')){
+  if(params.get('d') || params.get('data')){
     const lb = document.getElementById('lang-bar');
     if(lb) lb.style.display='none';
     showPage('page-rapport');
