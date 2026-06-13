@@ -1767,15 +1767,8 @@ function sendResults(){
   });
 }
 
-// ── INIT ──
-setLang('fr');
 
 
-// ═══════════════════════════════════════════════════════
-// RAPPORT PAGE SCRIPTS
-// ═══════════════════════════════════════════════════════
-
-// ═══════════════════════════════════════════════════════
 // CRITERIA LABELS (French only for report page)
 // ═══════════════════════════════════════════════════════
 const CRIT_LABELS = {
@@ -2104,30 +2097,51 @@ async function downloadPDF(){
       pdf.addImage(sc.toDataURL('image/jpeg',.88),'JPEG',margin,margin,contentW,sliceH);
       remaining-=sliceH;
     }
-    const nom = document.querySelector('.info-cell-val')?.textContent||'patient';
-    pdf.save(`DIVA2_${nom}_${new Date().toISOString().slice(0,10)}.pdf`);
-  }catch(e){console.error(e);alert('Erreur PDF. Utilisez Imprimer.');}
+    const nom=document.querySelector('.info-cell-val')?.textContent||'patient';
+    pdf.save('DIVA2_'+nom+'_'+new Date().toISOString().slice(0,10)+'.pdf');
+  }catch(e){ console.error(e); alert('Erreur PDF. Utilisez Imprimer.'); }
   overlay.classList.remove('show');
 }
 
-// ═══════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════
-// Auto-show rapport if ?data= param present in URL
-async function checkRapportMode(){
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', function(){
   const params = new URLSearchParams(window.location.search);
   if(params.get('d') || params.get('data')){
+    // RAPPORT MODE
     const lb = document.getElementById('lang-bar');
-    if(lb) lb.style.display='none';
-    showPage('page-rapport');
-    // Show loading indicator
+    if(lb) lb.style.display = 'none';
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const rp = document.getElementById('page-rapport');
+    if(rp) rp.classList.add('active');
     const rc = document.getElementById('report-content');
-    if(rc) rc.innerHTML = '<div style="text-align:center;padding:4rem 1rem;color:#6c3483"><div style="font-size:2.5rem;margin-bottom:1rem">⏳</div><div style="font-size:1rem;font-weight:600">Chargement du rapport...</div></div>';
-    const data = await loadData();
-    if(data){ if(rc) rc.innerHTML=''; buildReport(data); }
+    if(rc) rc.innerHTML = '<div style="text-align:center;padding:5rem 1rem"><div style="font-size:3rem">⏳</div><div style="font-size:1rem;font-weight:700;color:#1a2744;margin-top:.8rem">Chargement du rapport...</div></div>';
+    // Decode and build report
+    const enc = params.get('d') || params.get('data');
+    try{
+      const decoded = enc.includes('%25') ? decodeURIComponent(decodeURIComponent(enc)) : (enc.includes('%') ? decodeURIComponent(enc) : enc);
+      const compact = JSON.parse(decodeURIComponent(escape(atob(decoded))));
+      let data;
+      if(compact.i){
+        data = {
+          info:{ nom:compact.i.n||'—', dob:compact.i.d||'—', sexe:compact.i.s||'—', patientNum:compact.i.p||'—', clinician:compact.i.c||'—', interviewDate:compact.i.dt||'—', lang:compact.i.l||'fr' },
+          criteriaAnswers:compact.a||{}, checkedExamples:compact.ex||{},
+          scores:{ scoreA_adult:compact.sc?compact.sc[0]:0, scoreA_child:compact.sc?compact.sc[1]:0, scoreHI_adult:compact.sc?compact.sc[2]:0, scoreHI_child:compact.sc?compact.sc[3]:0 },
+          critB:compact.b||'', critBAge:compact.ba||'', critDAdult:compact.da||'', critDChild:compact.dc||'',
+          critE:compact.e||'', critEDetail:compact.ed||'', collParent:compact.cp||'', collPartner:compact.cpa||'',
+          collSchool:compact.cs||'', collDetails:compact.cd||'', date:compact.ts||new Date().toISOString(),
+        };
+      } else { data = compact; }
+      if(rc) rc.innerHTML = '';
+      buildReport(data);
+    }catch(e){
+      console.error('Report error:',e);
+      if(rc) rc.innerHTML = '<div style="text-align:center;padding:3rem;color:#c0392b"><div style="font-size:2rem">⚠️</div><div style="font-weight:600;margin-top:.5rem">Lien invalide ou expiré</div></div>';
+    }
+  } else {
+    // PATIENT MODE
+    setLang('fr');
   }
-}
-checkRapportMode();
+});
 
 </script>
 </body>
