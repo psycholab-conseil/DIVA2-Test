@@ -1651,14 +1651,18 @@ function sendResults(){
 
   // ── Build compressed URL (works across all browsers/sessions) ──
   // Compress payload: only keep what's needed for report
+  // Compress answers: 'oui'->'o', 'non'->'n' to reduce URL size
+  const compressedAnswers = {};
+  Object.keys(criteriaAnswers).forEach(k => {
+    compressedAnswers[k] = criteriaAnswers[k]==='oui'?'o': criteriaAnswers[k]==='non'?'n': criteriaAnswers[k];
+  });
   const compact = {
     i: {
       n: info.nom, d: info.dob, s: info.sexe,
       p: info.patientNum, c: info.clinician,
       dt: info.interviewDate, l: info.lang
     },
-    a: criteriaAnswers,
-    ex: checkedExamples,
+    a: compressedAnswers,
     sc: [scoreA_adult, scoreA_child, scoreHI_adult, scoreHI_child],
     b: criteriaAnswers['critB']||'',
     ba: document.getElementById('critB-age').value||'',
@@ -2124,7 +2128,13 @@ document.addEventListener('DOMContentLoaded', function(){
       if(compact.i){
         data = {
           info:{ nom:compact.i.n||'—', dob:compact.i.d||'—', sexe:compact.i.s||'—', patientNum:compact.i.p||'—', clinician:compact.i.c||'—', interviewDate:compact.i.dt||'—', lang:compact.i.l||'fr' },
-          criteriaAnswers:compact.a||{}, checkedExamples:compact.ex||{},
+          criteriaAnswers:(function(){
+            const ca={}; 
+            Object.keys(compact.a||{}).forEach(k=>{
+              ca[k]=compact.a[k]==='o'?'oui':compact.a[k]==='n'?'non':compact.a[k];
+            }); 
+            return ca;
+          })(), checkedExamples:{},
           scores:{ scoreA_adult:compact.sc?compact.sc[0]:0, scoreA_child:compact.sc?compact.sc[1]:0, scoreHI_adult:compact.sc?compact.sc[2]:0, scoreHI_child:compact.sc?compact.sc[3]:0 },
           critB:compact.b||'', critBAge:compact.ba||'', critDAdult:compact.da||'', critDChild:compact.dc||'',
           critE:compact.e||'', critEDetail:compact.ed||'', collParent:compact.cp||'', collPartner:compact.cpa||'',
