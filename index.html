@@ -1675,7 +1675,7 @@ function sendResults(){
 
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(compact))));
   const BASE_URL = 'https://psycholab-conseil.github.io/Conners--Test/';
-  const reportUrl = BASE_URL + 'diva_final.html?d=' + encodeURIComponent(encoded);
+  const reportUrl = BASE_URL + '?d=' + encodeURIComponent(encoded);
 
   let subtype='Critères insuffisants pour le diagnostic';
   if(scoreA_adult>=6&&scoreHI_adult>=6)subtype='314.01 — Type combiné (TDAH-C)';
