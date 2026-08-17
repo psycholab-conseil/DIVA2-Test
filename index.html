@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DIVA 2.0 — Entretien diagnostique TDAH adulte</title>
+<title>DIVA-5 — Entretien diagnostique TDAH adulte</title>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("p6Lc3MHeM0w-YeGUO");</script>
 <style>
@@ -208,6 +208,7 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
       <div class="info-card"><div class="ic-icon">📋</div><div class="ic-title" data-i18n="ic2T"></div><div class="ic-desc" data-i18n="ic2D"></div></div>
       <div class="info-card"><div class="ic-icon">⏱</div><div class="ic-title" data-i18n="ic3T"></div><div class="ic-desc" data-i18n="ic3D"></div></div>
       <div class="info-card"><div class="ic-icon">🔒</div><div class="ic-title" data-i18n="ic4T"></div><div class="ic-desc" data-i18n="ic4D"></div></div>
+      <div class="info-card" style="border-top:3px solid var(--red)"><div class="ic-icon">🎂</div><div class="ic-title" data-i18n="ic5T"></div><div class="ic-desc" data-i18n="ic5D"></div></div>
     </div>
     <div class="dsm-note" data-i18n="dsmNote"></div>
     <button class="start-btn" onclick="goToForm()" data-i18n="startBtn"></button>
@@ -250,7 +251,8 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
           </div>
         </div>
         <div><label class="field-label" data-i18n="sex"></label><select id="sexe"><option value="" data-i18n="sexChoose"></option><option value="M" data-i18n="sexM"></option><option value="F" data-i18n="sexF"></option></select></div>
-        <div><label class="field-label" data-i18n="interviewDate"></label><input type="text" id="interview-date" data-i18n-ph="interviewDatePH"></div>
+        <div><label class="field-label" data-i18n="interviewDate"></label><input type="date" id="interview-date" onchange="updateAgeCheck()"></div>
+        <div style="grid-column:1/-1" id="age-check-wrap"></div>
         <div><label class="field-label" data-i18n="clinicianName"></label><input type="text" id="clinician" data-i18n-ph="clinicianNamePH"></div>
         <div><label class="field-label" data-i18n="patientNum"></label><input type="text" id="patient-num" data-i18n-ph="patientNumPH"></div>
       </div>
@@ -409,13 +411,14 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
 // ═══════════════════════════════════════════════════════════
 const T = {
 fr:{
-  wTitle:"DIVA 2.0 — Entretien diagnostique TDAH adulte",
-  wSubtitle:"Entretien structuré pour le TDAH chez l'adulte basé sur les critères DSM-IV",
-  title:"DIVA 2.0",subtitle:"Entretien diagnostique pour le TDAH chez l'adulte",badge:"DSM-IV · TDAH Adulte",
+  wTitle:"DIVA-5 — Entretien diagnostique TDAH adulte",
+  wSubtitle:"Entretien structuré pour le TDAH chez l'adulte basé sur les critères DSM-5",
+  title:"DIVA-5",subtitle:"Entretien diagnostique pour le TDAH chez l'adulte (3e édition)",badge:"DSM-5 · TDAH Adulte",
   ic1T:"Pour qui ?",ic1D:"Adultes suspectés de TDAH, évaluation rétrospective enfance et âge adulte",
   ic2T:"18 critères",ic2D:"9 critères d'inattention + 9 critères d'hyperactivité/impulsivité",
   ic3T:"60–90 min",ic3D:"Durée habituelle d'administration de l'entretien DIVA",
   ic4T:"Confidentiel",ic4D:"Résultats transmis uniquement au clinicien évaluateur",
+  ic5T:"18 ans et plus",ic5D:"Tranche d'âge validée par la DIVA-5. Pour un patient mineur (5–17 ans), utiliser la Young DIVA-5, un instrument distinct.",
   dsmNote:"📌 Instructions : Pour chaque critère, vous pouvez cocher les exemples que vous reconnaissez et indiquer si le symptôme était présent à l'âge adulte et/ou dans l'enfance. Tout est <strong>facultatif</strong> — répondez uniquement ce qui vous correspond. Envoyez quand vous êtes prêt.",
   startBtn:"▶  Commencer l'entretien",
   welcomeNote:"Cet entretien est confidentiel. Les résultats sont transmis uniquement au spécialiste désigné.",
@@ -424,18 +427,20 @@ fr:{
   dob:"Date de naissance",dobDay:"Jour",dobMonth:"Mois",dobYear:"Année",
   sex:"Sexe",sexChoose:"-- Choisir --",sexM:"M",sexF:"F",
   interviewDate:"Date de l'entretien",interviewDatePH:"JJ/MM/AAAA",
+  ageOk:"✓ Âge du patient au moment de l'entretien : {age} ans — dans la tranche d'âge validée par la DIVA-5 (≥ 18 ans).",
+  ageWarnMinor:"⚠ Âge du patient au moment de l'entretien : {age} ans — la DIVA-5 est validée pour les adultes (≥ 18 ans). Pour un patient mineur, utilisez la Young DIVA-5 (5–17 ans), un instrument distinct et adapté.",
   clinicianName:"Nom du clinicien",clinicianNamePH:"Nom du clinicien",
   patientNum:"N° patient",patientNumPH:"Numéro",
-  secATitle:"Section 1 — Critères d'inattention (DSM-IV A1)",
+  secATitle:"Section 1 — Critères d'inattention (DSM-5, Critère A1)",
   secAInstr:"Les symptômes à l'âge adulte doivent être présents depuis au moins 6 mois. Les symptômes dans l'enfance se rapportent à la période 5–12 ans. Répondez librement à chaque critère. Tout est facultatif — exemples et réponses Oui/Non. Cochez et répondez uniquement ce que vous reconnaissez.",
-  secHITitle:"Section 2 — Critères d'hyperactivité-impulsivité (DSM-IV A2)",
+  secHITitle:"Section 2 — Critères d'hyperactivité-impulsivité (DSM-5, Critère A2)",
   secHIInstr:"Mêmes règles que la Section 1. Tout est facultatif. Répondez uniquement aux critères que vous souhaitez.",
-  secBTitle:"Section 3 — Âge de début & Altération du fonctionnement (DSM-IV B, C, D, E)",
-  critBQ:"Y a-t-il des preuves d'une persistance des symptômes tout au long de la vie (quelques symptômes présents avant 7 ans) ?",
+  secBTitle:"Section 3 — Altération du fonctionnement due aux symptômes (Critères B, C, D du DSM-5) + Critère E",
+  critBQ:"Avez-vous toujours eu ces symptômes de déficit attentionnel et/ou d'hyperactivité/impulsivité ? (Oui = quelques symptômes étaient présents avant l'âge de 12 ans)",
   critBAge:"Si Non — âge de début des symptômes (ans)",
-  critCTitle:"Critère C — Dans quels domaines les symptômes causent-ils des problèmes ?",
-  critDAdult:"Âge adulte : preuve d'une altération du fonctionnement dans ≥ 2 domaines ?",
-  critDChild:"Enfance : preuve d'une altération du fonctionnement dans ≥ 2 domaines ?",
+  critCTitle:"Critère C — Dans quels domaines ces symptômes vous causent-ils ou vous ont-ils causé des problèmes ?",
+  critDAdult:"Critère D — Âge adulte : preuve d'une altération du fonctionnement dans deux domaines au moins ?",
+  critDChild:"Critère D — Enfance : preuve d'une altération du fonctionnement dans deux domaines au moins ?",
   critEQ:"Critère E — Les symptômes peuvent-ils être mieux expliqués par un autre diagnostic psychiatrique ?",
   critEDetail:"Préciser le diagnostic",
   collateralTitle:"Informations collatérales (0 = aucun support · 1 = quelque support · 2 = support net)",
@@ -464,18 +469,19 @@ fr:{
   confirmTitle:"Merci pour votre participation !",
   confirmMsg:"L'entretien a bien été enregistré et transmis au clinicien. Vous pouvez fermer cette page.",
   confirmNote:"Le rapport complet sera analysé par le professionnel de santé qui conduit cet entretien.",
-  confirmBadge:"✉ Rapport DIVA 2.0 envoyé",
+  confirmBadge:"✉ Rapport DIVA-5 envoyé",
   supplementA:"Supplément — Parmi ces symptômes attentionnels, en avez-vous présenté davantage ou plus fréquemment que les autres adultes / enfants de votre âge ?",
   supplementHI:"Supplément — Parmi ces symptômes d'hyperactivité/impulsivité, en avez-vous présenté davantage ou plus fréquemment ?",
 },
 en:{
-  wTitle:"DIVA 2.0 — Diagnostic Interview ADHD Adults",
-  wSubtitle:"Structured interview for adult ADHD based on DSM-IV criteria",
-  title:"DIVA 2.0",subtitle:"Diagnostic Interview for ADHD in Adults",badge:"DSM-IV · Adult ADHD",
+  wTitle:"DIVA-5 — Diagnostic Interview ADHD Adults",
+  wSubtitle:"Structured interview for adult ADHD based on DSM-5 criteria",
+  title:"DIVA-5",subtitle:"Diagnostic Interview for ADHD in Adults (3rd edition)",badge:"DSM-5 · Adult ADHD",
   ic1T:"For whom?",ic1D:"Adults suspected of ADHD, retrospective assessment of childhood and adulthood",
   ic2T:"18 criteria",ic2D:"9 inattention + 9 hyperactivity/impulsivity criteria",
   ic3T:"60–90 min",ic3D:"Typical administration time for the DIVA interview",
   ic4T:"Confidential",ic4D:"Results transmitted only to the evaluating clinician",
+  ic5T:"18 years and older",ic5D:"Age range validated by the DIVA-5. For a minor patient (ages 5–17), use the Young DIVA-5, a separate instrument.",
   dsmNote:"📌 Instructions: For each criterion, you may tick examples you recognise and indicate whether the symptom was present in adulthood and/or childhood. Everything is <strong>optional</strong> — only answer what applies to you. Send when ready.",
   startBtn:"▶  Start the interview",
   welcomeNote:"This interview is confidential. Results are sent only to the designated specialist.",
@@ -484,14 +490,16 @@ en:{
   dob:"Date of Birth",dobDay:"Day",dobMonth:"Month",dobYear:"Year",
   sex:"Sex",sexChoose:"-- Select --",sexM:"M",sexF:"F",
   interviewDate:"Interview Date",interviewDatePH:"DD/MM/YYYY",
+  ageOk:"✓ Patient age at interview: {age} years — within the DIVA-5 validated age range (≥ 18 years).",
+  ageWarnMinor:"⚠ Patient age at interview: {age} years — DIVA-5 is validated for adults (≥ 18 years). For a minor, use the Young DIVA-5 (ages 5–17), a separate, age-appropriate instrument.",
   clinicianName:"Clinician Name",clinicianNamePH:"Clinician name",
   patientNum:"Patient No.",patientNumPH:"Number",
-  secATitle:"Section 1 — Inattention Criteria (DSM-IV A1)",
+  secATitle:"Section 1 — Inattention Criteria (DSM-5, Criterion A1)",
   secAInstr:"Adult symptoms must have been present for at least 6 months. Childhood symptoms refer to ages 5–12. Everything is optional — examples and Yes/No answers. Only respond to what feels relevant to you.",
-  secHITitle:"Section 2 — Hyperactivity-Impulsivity Criteria (DSM-IV A2)",
+  secHITitle:"Section 2 — Hyperactivity-Impulsivity Criteria (DSM-5, Criterion A2)",
   secHIInstr:"Same rules as Section 1. Everything is optional. Answer only the criteria you wish to.",
-  secBTitle:"Section 3 — Age of Onset & Functional Impairment (DSM-IV B, C, D, E)",
-  critBQ:"Is there evidence of lifetime persistence of symptoms (some symptoms present before age 7)?",
+  secBTitle:"Section 3 — Age of Onset & Functional Impairment (DSM-5, Criteria B, C, D, E)",
+  critBQ:"Is there evidence of lifetime persistence of symptoms (several symptoms present before age 12)?",
   critBAge:"If No — age of symptom onset (years)",
   critCTitle:"Criterion C — In which domains do symptoms cause problems?",
   critDAdult:"Adulthood: evidence of functional impairment in ≥ 2 domains?",
@@ -524,18 +532,19 @@ en:{
   confirmTitle:"Thank you for your participation!",
   confirmMsg:"The interview has been recorded and sent to the clinician. You may close this page.",
   confirmNote:"The complete report will be analysed by the health professional conducting this interview.",
-  confirmBadge:"✉ DIVA 2.0 Report sent",
+  confirmBadge:"✉ DIVA-5 Report sent",
   supplementA:"Supplement — Among the above attentional symptoms, did you present more or more frequently than other adults / children your age?",
   supplementHI:"Supplement — Among the above hyperactivity/impulsivity symptoms, did you present more or more frequently?",
 },
 ar:{
-  wTitle:"DIVA 2.0 — المقابلة التشخيصية لـ ADHD عند البالغين",
-  wSubtitle:"مقابلة منظمة لـ ADHD لدى البالغين استناداً لمعايير DSM-IV",
-  title:"DIVA 2.0",subtitle:"المقابلة التشخيصية لاضطراب ADHD عند البالغين",badge:"DSM-IV · ADHD البالغين",
+  wTitle:"DIVA-5 — المقابلة التشخيصية لـ ADHD عند البالغين",
+  wSubtitle:"مقابلة منظمة لـ ADHD لدى البالغين استناداً لمعايير DSM-5",
+  title:"DIVA-5",subtitle:"المقابلة التشخيصية لاضطراب ADHD عند البالغين (الإصدار الثالث)",badge:"DSM-5 · ADHD البالغين",
   ic1T:"لمن؟",ic1D:"البالغون المشتبه في إصابتهم بـ ADHD، تقييم رجعي للطفولة والبلوغ",
   ic2T:"18 معياراً",ic2D:"9 معايير قصور الانتباه + 9 معايير فرط الحركة/الاندفاع",
   ic3T:"60–90 دقيقة",ic3D:"المدة المعتادة لإجراء المقابلة",
   ic4T:"سري",ic4D:"ترسل النتائج فقط إلى الطبيب المعالج",
+  ic5T:"18 سنة فما فوق",ic5D:"الفئة العمرية المعتمدة لـ DIVA-5. للمريض القاصر (5–17 سنة)، استخدم Young DIVA-5، وهي أداة منفصلة.",
   dsmNote:"📌 التعليمات: لكل معيار، يمكنك وضع علامة على الأمثلة التي تتعرف عليها والإشارة إلى وجود العَرَض. كل شيء <strong>اختياري</strong> — أجب فقط على ما ينطبق عليك. أرسل عندما تكون مستعداً.",
   startBtn:"▶  ابدأ المقابلة",
   welcomeNote:"هذه المقابلة سرية. تُرسل النتائج فقط إلى المختص المعيّن.",
@@ -544,14 +553,16 @@ ar:{
   dob:"تاريخ الميلاد",dobDay:"يوم",dobMonth:"شهر",dobYear:"سنة",
   sex:"الجنس",sexChoose:"-- اختر --",sexM:"ذكر",sexF:"أنثى",
   interviewDate:"تاريخ المقابلة",interviewDatePH:"يوم/شهر/سنة",
+  ageOk:"✓ عمر المريض عند المقابلة: {age} سنة — ضمن الفئة العمرية المعتمدة لـ DIVA-5 (≥ 18 سنة).",
+  ageWarnMinor:"⚠ عمر المريض عند المقابلة: {age} سنة — DIVA-5 معتمدة للبالغين (≥ 18 سنة). للقاصرين، استخدم Young DIVA-5 (5–17 سنة)، وهي أداة منفصلة وملائمة.",
   clinicianName:"اسم الطبيب",clinicianNamePH:"اسم الطبيب المعالج",
   patientNum:"رقم المريض",patientNumPH:"الرقم",
-  secATitle:"القسم 1 — معايير قصور الانتباه (DSM-IV A1)",
+  secATitle:"القسم 1 — معايير قصور الانتباه (DSM-5، المعيار A1)",
   secAInstr:"يجب أن تكون الأعراض عند البالغين موجودة منذ 6 أشهر على الأقل. كل شيء اختياري — الأمثلة والإجابات. أجب فقط على ما تراه مناسباً.",
-  secHITitle:"القسم 2 — معايير فرط الحركة والاندفاع (DSM-IV A2)",
+  secHITitle:"القسم 2 — معايير فرط الحركة والاندفاع (DSM-5، المعيار A2)",
   secHIInstr:"نفس قواعد القسم 1. كل شيء اختياري. أجب فقط على المعايير التي تريدها.",
-  secBTitle:"القسم 3 — عمر البداية والاختلال الوظيفي (DSM-IV B, C, D, E)",
-  critBQ:"هل هناك دليل على استمرار الأعراض مدى الحياة (بعض الأعراض موجودة قبل سن 7 سنوات)؟",
+  secBTitle:"القسم 3 — عمر البداية والاختلال الوظيفي (DSM-5، المعايير B, C, D, E)",
+  critBQ:"هل هناك دليل على استمرار الأعراض مدى الحياة (عدة أعراض موجودة قبل سن 12 عاماً)؟",
   critBAge:"إذا لا — عمر بداية الأعراض (سنوات)",
   critCTitle:"المعيار C — في أي المجالات تسبب الأعراض مشاكل؟",
   critDAdult:"مرحلة البلوغ: هل هناك دليل على اختلال وظيفي في ≥ 2 مجالين؟",
@@ -584,74 +595,75 @@ ar:{
   confirmTitle:"شكراً على مشاركتك!",
   confirmMsg:"تم تسجيل المقابلة وإرسالها إلى الطبيب. يمكنك إغلاق هذه الصفحة.",
   confirmNote:"سيتم تحليل التقرير الكامل من قِبل المختص الصحي الذي يجري هذه المقابلة.",
-  confirmBadge:"✉ تقرير DIVA 2.0 تم إرساله",
+  confirmBadge:"✉ تقرير DIVA-5 تم إرساله",
   supplementA:"ملحق — هل عانيت من هذه الأعراض الانتباهية أكثر من غيرك من البالغين / الأطفال في نفس عمرك؟",
   supplementHI:"ملحق — هل عانيت من هذه الأعراض الحركية/الاندفاعية أكثر من غيرك؟",
 }
 };
 
 // ═══════════════════════════════════════════════════════════
-// CRITERIA DATA (FR/EN/AR) — 18 DSM-IV criteria
+// CRITERIA DATA (FR/EN/AR) — 18 DSM-5 criteria (item wording unchanged from DSM-IV-TR;
+// onset age and adult threshold updated to DSM-5)
 // ═══════════════════════════════════════════════════════════
 const CRITERIA = {
 fr:{
   A:[
-    { id:'A1', code:'A1a', q:"Avez-vous souvent du mal à prêter attention aux détails, ou faites-vous souvent des erreurs d'étourderie dans votre travail ou dans d'autres activités ?",
-      adult:["Fait des erreurs d'étourderie","Travaille lentement pour éviter les erreurs","Ne lit pas les instructions avec soin","Du mal à travailler de façon minutieuse","Besoin de trop de temps pour des tâches complexes","Facilement empêtré par les détails","Travaille trop rapidement et commet des erreurs"],
-      child:["Erreurs d'étourderie lors du travail scolaire","Erreurs parce qu'il ne lisait pas les questions correctement","Ne répondait pas aux questions posées au verso d'un examen","Le travail n'était pas soigné","Ne vérifiait pas ses réponses","Besoin de trop de temps pour les tâches minutieuses"]},
-    { id:'A2', code:'A1b', q:"Trouvez-vous souvent difficile de soutenir votre attention sur une tâche ?",
-      adult:["Incapable de maintenir son attention sur des tâches pendant longtemps","Facilement distrait par ses propres pensées","Difficile de suivre un film ou de lire un livre","Rapidement ennuyé","Pose des questions sur des sujets déjà discutés"],
-      child:["Du mal à maintenir l'attention lors du travail scolaire","Du mal à maintenir l'attention sur un jeu","Facilement distrait","Du mal à se concentrer","Besoin d'un environnement structuré","Rapidement ennuyé"]},
-    { id:'A3', code:'A1c', q:"Donnez-vous souvent l'impression de ne pas écouter lorsqu'on vous parle directement ?",
-      adult:["Rêveur ou préoccupé","Du mal à se concentrer pendant une conversation","Ne se rappelle pas du sujet d'une conversation","Change souvent de sujet","D'autres personnes disent que vos pensées sont ailleurs"],
-      child:["Ne sait plus ce que les parents/enseignants ont dit","Rêveur ou préoccupé","N'écoute qu'avec contact visuel ou ton élevé","Doit souvent être interpelé","Les questions doivent être répétées"]},
-    { id:'A4', code:'A1d', q:"Avez-vous souvent du mal à vous conformer aux consignes et à mener à terme vos tâches ou obligations professionnelles ?",
-      adult:["Fait plusieurs tâches en même temps sans les terminer","Du mal à finir les tâches une fois la nouveauté diminuée","Besoin de délai pour terminer","Du mal à terminer les tâches administratives","Du mal à suivre les instructions"],
-      child:["Du mal à suivre les instructions","En difficulté avec les tâches à plusieurs étapes","Ne termine pas les choses","Ne termine pas les devoirs","Besoin d'un environnement structuré"]},
-    { id:'A5', code:'A1e', q:"Trouvez-vous souvent difficile d'organiser les tâches ou les activités ?",
-      adult:["Du mal à planifier les activités quotidiennes","La maison ou l'espace de travail est en désordre","Planifie trop de tâches ou planification inefficace","Arrive en retard","Incapable d'utiliser un agenda efficacement","Faible conscience du temps","Établit des listes sans les utiliser"],
-      child:["Du mal à être prêt à temps","Chambre ou bureau en désordre","Du mal à planifier les devoirs","Fait les choses de manière confuse","Arrive en retard","Faible conscience du temps"]},
-    { id:'A6', code:'A1f', q:"Évitez-vous souvent les tâches qui nécessitent un effort mental soutenu ?",
-      adult:["Fait en premier les choses les plus faciles","Remet à plus tard les tâches ennuyeuses","Remet à plus tard jusqu'à dépasser les délais","Évite les tâches monotones","N'aime pas lire à cause de l'effort mental","Évite les tâches demandant beaucoup de concentration"],
-      child:["Évite des devoirs ou aversion pour les devoirs","Lit peu ou n'aime pas lire","Évite les tâches nécessitant beaucoup de concentration","Déteste les sujets demandant beaucoup de concentration","Remet à plus tard les tâches difficiles"]},
-    { id:'A7', code:'A1g', q:"Perdez-vous souvent les objets nécessaires à votre travail ou vos activités ?",
-      adult:["Égare portefeuille, clés ou agenda","Oublie des choses en quittant un lieu","Perd des papiers pour son travail","Perd beaucoup de temps à chercher des choses","Panique si des gens ont changé des choses de place","Range les choses au mauvais endroit"],
-      child:["Perd l'agenda, les stylos ou les affaires","Égare des jouets, habits ou devoirs","Perd beaucoup de temps à chercher","Panique si des gens ont changé des choses","Les parents/enseignants remarquent qu'il a perdu des choses"]},
-    { id:'A8', code:'A1h', q:"Vous laissez-vous facilement distraire par des stimuli externes ?",
-      adult:["Du mal à ignorer des stimuli externes","Du mal à reprendre les choses après avoir été distrait","Facilement distrait par des bruits ou événements","Facilement distrait par une conversation entre d'autres personnes","Du mal à filtrer et sélectionner des informations"],
-      child:["En classe, regarde souvent dehors","Facilement distrait par des bruits ou événements","Du mal à reprendre les choses après distraction"]},
-    { id:'A9', code:'A1i', q:"Avez-vous des oublis fréquents dans la vie quotidienne ?",
-      adult:["Oublie des rendez-vous ou obligations","Oublie les clés, l'agenda","A besoin de rappels fréquents","Retourne sur ses pas pour prendre des choses oubliées","Utilise des programmes rigides pour ne rien oublier","N'utilise pas son agenda ou oublie de le consulter"],
-      child:["Oublie des rendez-vous ou consignes","Doit souvent se faire rappeler les choses","S'arrête en chemin car il a oublié ce qu'il devait faire","Oublie d'apporter des affaires scolaires","Oublie des choses à l'école ou chez des amis"]},
+    { id:'A1', code:'A1', q:"Avez-vous souvent du mal à prêter attention aux détails, ou faites-vous souvent des erreurs d'étourderie dans votre travail ou dans d'autres activités ? Comment était-ce dans votre enfance (dans le travail scolaire ou dans d'autres activités) ?",
+      adult:["Fait des erreurs d'étourderie","Travaille lentement pour éviter les erreurs","Le travail est imprécis","Ne lit pas les instructions avec soin","Néglige ou manque des détails","Besoin de trop de temps pour mener à leur terme des tâches minutieuses ou comportant de nombreux détails","Facilement empêtré par les détails","Commet des erreurs parce que travaille trop rapidement"],
+      child:["Erreurs d'étourderie dans le travail scolaire","Erreurs parce qu'il ne lisait pas les questions correctement","Néglige ou manque des détails","Le travail est imprécis","Ne répondait pas à des questions parce qu'il ne les lisait pas correctement","Ne répondait pas aux questions posées au verso d'un examen","Les autres faisaient remarquer que le travail n'était pas soigné","Ne vérifiait pas ses réponses dans les devoirs scolaires","Besoin de trop de temps pour mener à leur terme des tâches minutieuses ou comportant de nombreux détails"]},
+    { id:'A2', code:'A2', q:"Trouvez-vous souvent difficile de maintenir votre attention sur des tâches ? Comment était-ce dans votre enfance (dans les activités de jeu) ? (* sauf si le patient trouve le sujet particulièrement intéressant, par exemple ordinateur ou hobby)",
+      adult:["Incapable de maintenir longtemps l'attention sur des tâches*","Facilement distrait par ses propres pensées ou associations d'idées","Facilement distrait par des pensées sans rapport avec la tâche ou le contexte","Du mal à rester concentré pendant des conférences et/ou des conversations","Difficile de suivre un film jusqu'à la fin, ou de lire un livre*","Rapidement ennuyé par les choses*","Pose des questions sur des sujets déjà discutés"],
+      child:["Du mal à maintenir l'attention lors du travail scolaire","Du mal à maintenir l'attention sur un jeu*","Du mal à rester concentré pendant des cours et/ou des conversations","Facilement distrait","Du mal à se concentrer*","Besoin d'un environnement structuré pour ne pas être distrait","Rapidement lassé dans ses activités*"]},
+    { id:'A3', code:'A3', q:"Donnez-vous souvent l'impression de ne pas écouter lorsqu'on vous parle directement ? Comment était-ce dans votre enfance ?",
+      adult:["Rêveur ou préoccupé","Du mal à se concentrer pendant une conversation","Après-coup, ne se rappelle pas du sujet d'une conversation","Change souvent de sujet dans une conversation","D'autres personnes vous disent que vos pensées sont ailleurs","L'esprit est ailleurs, même en l'absence d'une distraction évidente"],
+      child:["Ne sait plus ce que les parents/enseignants ont dit","Rêveur ou préoccupé","Besoin d'un contact visuel ou qu'on élève la voix pour écouter","L'esprit est ailleurs, même en l'absence d'une distraction évidente","Souvent il faut l'appeler plusieurs fois","Les questions doivent être répétées"]},
+    { id:'A4', code:'A4', q:"Avez-vous souvent du mal à suivre les consignes et à mener à terme vos tâches domestiques ou vos obligations professionnelles au travail ? Comment était-ce dans votre enfance (dans le travail scolaire) ?",
+      adult:["Fait plusieurs tâches en même temps sans les terminer","Commence quelque chose mais perd très vite sa concentration et est facilement détourné du but","Besoin de fixer une durée limite pour terminer les tâches","Du mal à terminer les tâches administratives","Du mal à suivre les instructions dans un manuel"],
+      child:["Du mal à suivre les consignes","En difficulté lorsque les tâches comprennent plusieurs étapes successives","Commence quelque chose mais perd très vite sa concentration et est facilement détourné du but","Ne termine pas les choses","Ne termine pas les devoirs ou ne les rend pas","A besoin de structure pour pouvoir terminer les tâches"]},
+    { id:'A5', code:'A5', q:"Trouvez-vous souvent difficile d'organiser les tâches ou les activités ? Comment était-ce dans votre enfance ?",
+      adult:["Du mal à planifier les activités de la vie quotidienne","Du mal à gérer des tâches séquentielles","La maison et/ou l'espace de travail est en désordre","Du mal à maintenir en ordre des documents ou des effets personnels","Travaille de manière brouillonne ou désorganisée","Planifie trop de tâches ou planification inefficace","Prévoit régulièrement de faire plusieurs choses au même moment (doublons)","Arrive en retard","Ne respecte pas les dates limites","Incapable d'utiliser un agenda ou un journal personnel de manière efficace","Rigide pour arriver à respecter le planning","Faible conscience et mauvaise gestion du temps","Établit des plannings sans les utiliser","Besoin qu'un tiers structure les choses"],
+      child:["Du mal à être prêt à temps","Chambre / bureau en désordre et/ou travail brouillon","Du mal à maintenir en ordre des documents ou des effets personnels","Du mal à jouer seul","Du mal à planifier des tâches ou ses devoirs","Ne respecte pas les dates limites","Fait les choses de manière embrouillée","Arrive en retard","Faible conscience du temps","Du mal à s'occuper seul"]},
+    { id:'A6', code:'A6', q:"Évitez-vous souvent (ou avez-vous en aversion, ou faites-vous à contrecœur) les tâches qui nécessitent un effort mental soutenu ? Comment était-ce dans votre enfance ?",
+      adult:["Fait en premier les choses les plus faciles ou les plus agréables","Remet souvent à plus tard les tâches ennuyeuses ou difficiles","Remet à plus tard les tâches jusqu'à dépasser les échéances","Évite les tâches monotones, comme les tâches administratives","Évite de rédiger des rapports, remplir des formulaires ou vérifier des documents longs","N'aime pas lire à cause de l'effort mental","Évite des tâches qui demandent beaucoup de concentration"],
+      child:["Évite les devoirs ou les a en aversion","Lit peu de livres ou n'aime pas lire à cause de l'effort mental","Évite des tâches qui demandent beaucoup de concentration","Déteste les sujets scolaires qui demandent beaucoup de concentration","Remet à plus tard les tâches ennuyeuses ou difficiles"]},
+    { id:'A7', code:'A7', q:"Perdez-vous souvent les objets nécessaires à votre travail ou vos activités ? Comment était-ce dans votre enfance ?",
+      adult:["Égare outils, paperasse, lunettes, téléphone portable, portefeuille, clés, ou agenda","Oublie des choses en quittant un lieu","Perd des papiers pour son travail","Perd beaucoup de temps à chercher des choses","Panique si des gens ont changé des choses de place","Range les choses au mauvais endroit","Perd des notes, listes ou numéros de téléphone"],
+      child:["Perd son matériel scolaire, crayons, livres, ou d'autres choses encore","Égare des jouets, habits ou devoirs scolaires","Perd beaucoup de temps à chercher des choses","Panique si des gens ont changé des choses de place","Les parents et/ou les enseignants font remarquer qu'il a perdu des choses"]},
+    { id:'A8', code:'A8', q:"Vous laissez-vous souvent facilement distraire par des stimuli externes ? Comment était-ce dans votre enfance ?",
+      adult:["Du mal à ignorer des stimuli externes","Du mal à reprendre le fil après avoir été distrait","Facilement distrait par des bruits ou des événements","Facilement distrait par une conversation entre d'autres personnes","Du mal à filtrer et/ou sélectionner des informations"],
+      child:["En classe, il regarde souvent dehors","Facilement distrait par des bruits ou des événements","Du mal à reprendre le fil après avoir été distrait"]},
+    { id:'A9', code:'A9', q:"Oubliez-vous souvent ce que vous avez à faire dans vos activités quotidiennes ? Comment était-ce dans votre enfance ?",
+      adult:["Oublie des rendez-vous ou des obligations","Oublie les clés, l'agenda, etc.","A besoin de rappels fréquents concernant les rendez-vous","Oublie de payer des factures ou de rappeler des personnes","Retourne à la maison pour récupérer des choses oubliées","Utilise des listes de manière rigide pour être sûr de ne rien oublier","Ne tient pas à jour son agenda et/ou oublie de consulter son agenda","Oublie de faire ses corvées ou ses courses"],
+      child:["Oublie des rendez-vous ou des consignes","Oublie de faire ses corvées ou ses courses","On doit souvent lui rappeler les choses","S'arrête en chemin parce qu'il a oublié ce qu'il devait faire","Oublie d'apporter des affaires à l'école","Oublie des choses à l'école ou chez des amis"]},
   ],
   HI:[
-    { id:'HI1', code:'A2a', q:"Remuez-vous souvent les mains ou les pieds, ou vous tortillez-vous sur votre siège ?",
-      adult:["Du mal à rester assis immobile","Remue les jambes","Tape avec un stylo ou joue avec un objet","Tortille les cheveux ou ronge les ongles","Capable de contrôler mais cela vous stresse"],
-      child:["On dit souvent 'tiens-toi tranquille'","Remue les jambes","Tape avec un stylo ou joue avec un objet","Tortille les cheveux ou ronge les ongles","Incapable de rester assis de façon relaxée"]},
-    { id:'HI2', code:'A2b', q:"Vous levez-vous souvent dans des situations où vous êtes supposé rester assis ?",
-      adult:["Évite les réunions, conférences, cérémonies","Préfère marcher plutôt que rester assis","Ne reste jamais longtemps assis tranquille","Stressé par l'obligation de rester assis","Trouve une excuse pour marcher"],
-      child:["Se lève souvent pendant les repas ou en classe","Trouve très difficile de rester assis","On lui dit souvent de rester assis","Trouve une excuse pour marcher"]},
-    { id:'HI3', code:'A2c', q:"Vous sentez-vous souvent agité ? (chez l'adulte : sentiment subjectif d'impatience motrice)",
+    { id:'HI1', code:'HI1', q:"Remuez-vous souvent les mains ou les pieds, tapotez-vous souvent des doigts ou tapez-vous souvent des pieds, ou vous tortillez-vous souvent sur votre siège ? Comment était-ce dans votre enfance ?",
+      adult:["Du mal à rester assis immobile","Remue les jambes","Tapote avec un stylo ou joue avec un objet","Tortille les cheveux ou ronge les ongles","Capable de contrôler l'agitation mais ressent du stress"],
+      child:["Les parents disent souvent des choses comme « tiens-toi tranquille »","Remue les jambes","Tapote avec un stylo ou joue avec un objet","Tortille les cheveux ou ronge les ongles","Incapable de rester assis de façon relaxée","Capable de contrôler l'agitation mais ressent du stress"]},
+    { id:'HI2', code:'HI2', q:"Vous levez-vous souvent dans des situations où vous êtes supposé rester assis ? Comment était-ce dans votre enfance ?",
+      adult:["Se lève souvent de son siège au bureau ou sur son lieu de travail","Évite les réunions, les conférences, les cérémonies religieuses, etc.","Préfère marcher plutôt que rester assis","Ne reste jamais longtemps assis tranquille, bouge sans cesse","Stressé par l'obligation de rester assis","Cherche des excuses pour pouvoir se déplacer"],
+      child:["Se lève souvent pendant les repas ou quitte sa place en classe","Trouve très difficile de rester assis en classe ou pendant les repas","On lui dit souvent de rester assis","Cherche des excuses pour pouvoir se déplacer"]},
+    { id:'HI3', code:'HI3', q:"Vous sentez-vous souvent agité ? Comment était-ce dans votre enfance ?",
       adult:["Se sent agité ou nerveux à l'intérieur","Ressent constamment le sentiment d'avoir quelque chose à faire","Trouve difficile de se relaxer"],
-      child:["Court toujours","Grimpe sur les meubles ou saute","Monte aux arbres","Se sent agité à l'intérieur"]},
-    { id:'HI4', code:'A2d', q:"Trouvez-vous souvent difficile de profiter d'un moment de détente ?",
-      adult:["Parle lorsque cela n'est pas approprié","Se met rapidement en avant en public","Bruyant dans tout type de situations","Du mal à faire des activités tranquillement","Du mal à parler doucement"],
-      child:["Fait du bruit en jouant ou en classe","Incapable de regarder la TV tranquillement","On lui demande souvent de se calmer","Se met rapidement en avant en public"]},
-    { id:'HI5', code:'A2e', q:"Êtes-vous souvent 'sur la brèche' ou comme si vous étiez 'dirigé par un moteur' ?",
-      adult:["Toujours occupé à faire quelque chose","Déborde d'énergie, toujours en mouvement","Franchit ses propres limites","Lâche difficilement prise, excessivement insistant"],
-      child:["Constamment occupé","Remarqué par son activité en classe ou à la maison","Déborde d'énergie","Toujours sur la brèche"]},
-    { id:'HI6', code:'A2f', q:"Parlez-vous souvent trop ?",
-      adult:["Parle tellement que les gens trouvent cela fatiguant","Connu pour parler de manière incessante","Trouve difficile d'arrêter de parler","Ne laisse pas l'occasion aux autres d'intervenir","Besoin de beaucoup de mots pour dire quelque chose"],
-      child:["Connu comme une 'boîte à paroles'","Les enseignants demandent souvent le silence","Les fiches scolaires mentionnent des bavardages","Puni pour avoir trop parlé","Gêne le travail des autres en parlant trop"]},
-    { id:'HI7', code:'A2g', q:"Laissez-vous souvent échapper la réponse à une question qui n'est pas encore entièrement posée ?",
-      adult:["Dit ce qu'il pense","Dit les choses sans réfléchir","Donne des réponses avant que les gens aient fini","Finit les phrases des autres","Manque de tact"],
-      child:["Dit les choses sans réfléchir","Veut être le premier à répondre","Donne la première réponse qui lui vient","Interrompt avant que les phrases soient finies","Blesse verbalement"]},
-    { id:'HI8', code:'A2h', q:"Trouvez-vous souvent difficile d'attendre votre tour ?",
-      adult:["Difficulté à attendre dans une file","Du mal à attendre dans la circulation","Du mal à attendre son tour dans les conversations","Impatient","Commence ou termine rapidement des relations par impatience"],
-      child:["Du mal à attendre son tour dans les sports ou jeux","Du mal à attendre en classe","Toujours le premier à parler ou agir","Rapidement impatient","Traverse la route sans regarder"]},
-    { id:'HI9', code:'A2i', q:"Interrompez-vous souvent les autres ou imposez-vous votre présence ?",
-      adult:["Rapide à interférer avec les autres","Interrompt les autres","Dérange sans qu'on lui ait rien demandé","Les autres disent qu'il est intrusif","Du mal à respecter les limites","A une opinion sur tout et la donne immédiatement"],
-      child:["S'immisce dans les jeux des autres","Interrompt les conversations","Réagit sur tout","Incapable d'attendre"]},
+      child:["Toujours court alors cela n'est pas approprié","Grimpe sur les meubles ou saute sur les fauteuils","Monte aux arbres","Se sent agité à l'intérieur"]},
+    { id:'HI4', code:'HI4', q:"Trouvez-vous souvent difficile de profiter tranquillement d'un moment de détente ? Comment était-ce dans votre enfance (dans les activités de jeu) ?",
+      adult:["Parle pendant les activités alors que cela n'est pas approprié","Se met rapidement en avant en public","Bruyant dans tout type de situations","Du mal à faire des activités tranquillement","Du mal à parler doucement"],
+      child:["Parle à voix haute en jouant ou en classe","Incapable de regarder la TV ou un film tranquillement","On lui demande souvent de se calmer ou d'être plus tranquille","Se met rapidement en avant en public"]},
+    { id:'HI5', code:'HI5', q:"Êtes-vous souvent « sur la brèche » ou comme si vous étiez « dirigé par un moteur » ? Comment était-ce dans votre enfance ?",
+      adult:["Toujours occupé à faire quelque chose","Pas à l'aise de devoir rester assis pour une longue durée, par exemple au restaurant ou dans des réunions","Déborde d'énergie, toujours en mouvement","On vous trouve agité ou difficile à suivre","Dépasse ses propres limites","Lâche difficilement prise, excessivement insistant"],
+      child:["Constamment occupé","On vous trouve agité ou difficile à suivre","Pas à l'aise de devoir rester assis pour une longue durée","Se fait remarquer par son activité en classe ou à la maison","Déborde d'énergie","Toujours sur la brèche, monté sur ressorts"]},
+    { id:'HI6', code:'HI6', q:"Parlez-vous souvent trop ? Comment était-ce dans votre enfance ?",
+      adult:["Parle tellement que les gens trouvent cela fatiguant","Connu pour parler de manière incessante","Trouve difficile d'arrêter de parler","Tendance à trop parler","Ne laisse pas l'occasion aux autres d'intervenir dans une conversation","Besoin de beaucoup de mots pour dire quelque chose"],
+      child:["Connu comme un « moulin à paroles »","Les enfants ou les enseignants demandent souvent de se taire","Les bulletins scolaires mentionnent souvent des bavardages","Puni pour avoir trop parlé","Gêne le travail scolaire des autres en parlant trop","Ne laisse pas les autres parler dans une conversation"]},
+    { id:'HI7', code:'HI7', q:"Laissez-vous souvent échapper la réponse à une question qui n'est pas encore entièrement posée ? Comment était-ce dans votre enfance ?",
+      adult:["Pipelette, dit ce qu'il pense","Dit les choses sans réfléchir","Donne des réponses avant que les gens aient fini de parler","Finit les phrases des autres","Manque de tact"],
+      child:["Pipelette, dit les choses sans réfléchir","Veut être le premier à répondre aux questions en classe","Donne la première réponse qui lui vient à l'esprit","Interrompt les autres avant que les phrases soient finies","Du mal à attendre son tour dans des conversations","Donne l'impression de manquer de tact"]},
+    { id:'HI8', code:'HI8', q:"Trouvez-vous souvent difficile d'attendre votre tour ? Comment était-ce dans votre enfance ?",
+      adult:["Difficulté à attendre dans une file d'attente, veut doubler dans une file d'attente","Du mal à attendre patiemment dans la circulation ou les embouteillages","Impatient","Démarre rapidement ou met brutalement un terme à des relations ou des emplois par impatience"],
+      child:["Du mal à attendre son tour dans les activités en groupe","Du mal à attendre son tour en classe","Toujours le premier à parler ou agir","Rapidement impatient","Traverse la route sans regarder"]},
+    { id:'HI9', code:'HI9', q:"Interrompez-vous souvent les autres ou imposez-vous votre présence ? Comment était-ce dans votre enfance ?",
+      adult:["Prompt à gêner les autres","Impose sa présence aux autres (intrusif)","Dérange les autres dans leurs activités sans qu'on lui ait rien demandé, ou fait à leur place","Les autres font remarquer qu'il est intrusif","Du mal à respecter les limites des autres","A une opinion sur tout et la donne immédiatement"],
+      child:["Interrompt les autres dans leurs jeux ou leurs activités","Utilise les affaires des autres sans leur demander ou sans leur permission","Interrompt les conversations des autres","Réagit sur tout","Incapable d'attendre"]},
   ]
 },
 en:{
@@ -780,18 +792,18 @@ ar:{
 const SECTION_C = {
 fr:{
   adult:[
-    { key:'travail', label:'Travail / Éducation', items:["N'a pas atteint le niveau souhaité","Travaille en deçà de son niveau","Rapidement fatigué d'un lieu de travail","Succession d'emplois à court terme","Difficulté avec le travail administratif/planification","Sous-performant au travail","A quitté un emploi ou a été renvoyé","Arrêts de travail liés aux symptômes"] },
-    { key:'relations', label:'Relations / Famille', items:["Rapidement fatigué par les relations","Débute/termine impulsivement les relations","Problèmes relationnels, disputes, manque d'intimité","Divorce à cause des symptômes","Difficultés ménagères et/ou administratives","Problèmes financiers","N'ose pas commencer une relation"] },
-    { key:'social', label:'Contacts sociaux', items:["Rapidement fatigué par les contacts sociaux","Difficulté à maintenir des contacts","Conflits dus à des problèmes de communication","Difficulté à initier des contacts","Faible auto-affirmation de soi","Inattention (oubli d'appels, d'être empathique)"] },
-    { key:'loisirs', label:'Temps libre / Loisirs', items:["Incapable de se relaxer pendant le temps libre","Obligé de pratiquer beaucoup de sport","Incapable de terminer un livre ou un film","Fatigué parce qu'affairé en permanence","Rapidement lassé par les hobbies","Accidents ou suspension de permis","Recherche de sensations/prise de risques"] },
-    { key:'estime', label:'Confiance en soi / Image de soi', items:["Doute de lui-même suite aux remarques négatives","Image de soi négative à cause des échecs","Peur de l'échec avant de nouvelles choses","Réaction excessive aux critiques","Perfectionnisme"] },
+    { key:'travail', label:'Travail / Éducation', items:["N'a pas atteint le niveau d'étude pour travailler","Travaille en deçà du niveau d'études","Rapidement fatigué d'un lieu de travail","Succession de plusieurs emplois à court terme","Difficulté avec le travail administratif/la planification","N'obtient pas de promotions","Sous-performant au travail","A quitté un emploi après une dispute ou a été renvoyé","Arrêts de travail ou invalidité liés aux symptômes","Retentissement atténué par un niveau intellectuel élevé","Retentissement atténué par la structure externe"] },
+    { key:'relations', label:'Relations et/ou famille', items:["Rapidement fatigué par les relations","Débute/termine impulsivement les relations","Relations conjugales inégales du fait des symptômes","Problèmes relationnels, nombreuses disputes, manque d'intimité","Divorce du fait des symptômes","Problèmes sexuels du fait des symptômes","Problèmes avec l'éducation à cause des symptômes","Difficultés ménagères et/ou administratives","Problèmes financiers ou jeux d'argent","N'ose pas commencer une relation"] },
+    { key:'social', label:'Contacts sociaux', items:["Rapidement fatigué par les contacts sociaux","Difficulté à maintenir des contacts sociaux","Conflits résultant de problèmes de communication","Difficulté à initier des contacts sociaux","Faible affirmation de soi du fait d'expériences négatives","Inattention (par exemple, oubli d'envoyer une carte, d'être empathique, d'appeler au téléphone, etc.)"] },
+    { key:'loisirs', label:'Temps libre / Hobby', items:["Incapable de se relaxer complètement pendant le temps libre","Obligé de pratiquer beaucoup de sport pour se relaxer","Blessures liées à une pratique sportive excessive","Incapable de terminer un livre ou de regarder un film jusqu'à la fin","Fatigué parce qu'affairé en permanence","Rapidement lassé par les hobbies","Accidents ou suspension de permis de conduire suite à une conduite imprudente","Recherche de sensations et/ou prise trop fréquente de risques","Problèmes avec la police/la justice","Hyperphagie/Binge eating"] },
+    { key:'estime', label:'Confiance en soi / Image de soi', items:["Doute de lui-même du fait des remarques négatives des autres","Image de soi négative du fait des échecs du passé","Peur de l'échec au moment de commencer de nouvelles choses","Réaction excessive aux critiques","Perfectionnisme","Affecté par les symptômes du TDAH"] },
   ],
   child:[
-    { key:'ecole', label:'Éducation', items:["Niveau inférieur au QI prédit","Redoublement à cause de la concentration","Études inachevées","Difficulté à faire les devoirs","Commentaires des enseignants sur comportement/concentration"] },
-    { key:'famille_enf', label:'Famille', items:["Disputes fréquentes avec frères et sœurs","Punitions ou corrections fréquentes","A nécessité le soutien des parents plus longtemps"] },
-    { key:'social_enf', label:'Contacts sociaux', items:["Difficulté à maintenir des contacts","Conflits dus à des problèmes de communication","Peu d'amis","Taquiné par les autres","Exclu du groupe"] },
-    { key:'loisirs_enf', label:'Temps libre / Loisirs', items:["Incapable de se relaxer","Obligé de pratiquer beaucoup de sport","Incapable de terminer un livre ou un film","Rapidement lassé par les hobbies","Accidents"] },
-    { key:'estime_enf', label:'Confiance en soi', items:["Doute de lui-même","Image de soi négative","Peur de l'échec","Réaction excessive aux critiques","Perfectionnisme"] },
+    { key:'ecole', label:'Éducation', items:["Niveau d'études inférieur à celui prédit par le QI","Redoublements à cause de problèmes de concentration","Études inachevées/Renvoi d'un établissement scolaire","Plus d'années que nécessaire pour terminer les études","A obtenu un niveau d'étude conforme au QI mais avec beaucoup d'efforts","Difficulté à faire les devoirs","Éducation spéciale à cause des symptômes","Commentaires des enseignants sur le comportement ou la concentration","Retentissement atténué par un niveau intellectuel élevé","Retentissement atténué par la structure externe"] },
+    { key:'famille_enf', label:'Famille', items:["Disputes fréquentes avec frères et sœurs","Punitions ou corrections fréquentes","Peu de contacts avec la famille à cause des conflits","A nécessité le soutien des parents pour une période plus longue que la normale"] },
+    { key:'social_enf', label:'Contacts sociaux', items:["Difficulté à maintenir des contacts sociaux","Conflits du fait de problèmes de communication","Difficulté à initier des contacts sociaux","Faible affirmation de soi du fait d'expériences négatives","Peu d'amis","Taquiné par les autres","Exclu du groupe ou n'est pas invité à participer aux activités du groupe","Joue les petits durs"] },
+    { key:'loisirs_enf', label:'Temps libre / Hobby', items:["Incapable de se relaxer vraiment pendant le temps libre","Obligé de pratiquer beaucoup de sport pour se relaxer","Blessures liées à une pratique sportive excessive","Incapable de terminer un livre ou de regarder un film jusqu'à la fin","Fatigué parce qu'affairé en permanence","Rapidement lassé par les hobbies","Recherche de sensations et/ou prise trop fréquente de risques","Problèmes avec la police/la justice","Accidents plus fréquents"] },
+    { key:'estime_enf', label:'Confiance en soi / Image de soi', items:["Doute de lui-même du fait des remarques négatives des autres","Image de soi négative du fait des échecs du passé","Peur de l'échec au moment de commencer de nouvelles choses","Réaction excessive aux critiques","Perfectionnisme"] },
   ]
 },
 en:{
@@ -848,8 +860,46 @@ function drumStep(field,dir){
   const el=document.getElementById('drum-'+field);
   el.textContent=field==='year'?drumState[field]:String(drumState[field]).padStart(2,'0');
   el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),200);
+  updateAgeCheck();
 }
 function getDOB(){return String(drumState.day).padStart(2,'0')+'/'+String(drumState.month).padStart(2,'0')+'/'+drumState.year;}
+
+// ═══════════════════════════════════════════════════════════
+// AGE CHECK — DIVA-5 is validated for adults (≥18 ans).
+// Compares date de naissance (DOB) with date de l'entretien and
+// warns if the patient falls outside the tool's target age range.
+// ═══════════════════════════════════════════════════════════
+const AGE_MIN_ADULT = 18;
+function computeAge(dobDay, dobMonth, dobYear, interviewDateStr){
+  if(!interviewDateStr) return null;
+  const iv = new Date(interviewDateStr);
+  if(isNaN(iv.getTime())) return null;
+  const dob = new Date(dobYear, dobMonth-1, dobDay);
+  if(isNaN(dob.getTime())) return null;
+  let years = iv.getFullYear() - dob.getFullYear();
+  const monthDiff = iv.getMonth() - dob.getMonth();
+  const dayDiff = iv.getDate() - dob.getDate();
+  if(monthDiff<0 || (monthDiff===0 && dayDiff<0)) years--;
+  if(years<0 || years>130) return null;
+  return years;
+}
+function updateAgeCheck(){
+  const wrap = document.getElementById('age-check-wrap');
+  if(!wrap) return;
+  const t = T[currentLang];
+  const ivVal = document.getElementById('interview-date')?.value || '';
+  const age = computeAge(drumState.day, drumState.month, drumState.year, ivVal);
+  if(age===null){ wrap.innerHTML=''; return; }
+  let msg, bg, border, color;
+  if(age < AGE_MIN_ADULT){
+    msg = t.ageWarnMinor.replace('{age}', age);
+    bg = 'var(--red-light)'; border = 'var(--red)'; color = '#8b1a10';
+  } else {
+    msg = t.ageOk.replace('{age}', age);
+    bg = 'var(--teal-light)'; border = 'var(--teal)'; color = '#1a5c50';
+  }
+  wrap.innerHTML = `<div style="margin-top:.3rem;padding:.6rem .8rem;border-radius:8px;background:${bg};border-left:4px solid ${border};font-size:.78rem;line-height:1.5;color:${color}">${msg}</div>`;
+}
 
 // ═══════════════════════════════════════════════════════════
 // NAVIGATION
@@ -872,6 +922,7 @@ function setLang(lang){
   buildCriteria();
   buildSectionC();
   updateProgress();
+  updateAgeCheck();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1126,13 +1177,13 @@ function buildDivaReport(info, date){
   const collDetails=document.getElementById('coll-details').value||'—';
 
   // TDAH subtype
-  const diagAdultA=scoreA_adult>=6, diagAdultHI=scoreHI_adult>=6;
-  const diagChildA=scoreA_child>=6, diagChildHI=scoreHI_child>=6;
+  const diagAdultA=scoreA_adult>=5, diagAdultHI=scoreHI_adult>=5; // DSM-5: seuil adulte = 5/9
+  const diagChildA=scoreA_child>=6, diagChildHI=scoreHI_child>=6; // seuil enfance (retrospectif, <17 ans) = 6/9
   let subtype='', subtypeColor='#27ae60';
   if((diagAdultA||diagAdultHI)&&critB==='oui'&&critDAdult==='oui'){
-    if(diagAdultA&&diagAdultHI){subtype='314.01 — Type combiné (TDAH-C)';subtypeColor='#c0392b';}
-    else if(diagAdultA){subtype='314.00 — Type inattentif prédominant (TDAH-PI)';subtypeColor='#e8a020';}
-    else{subtype='314.01 — Type hyperactif/impulsif prédominant (TDAH-HIP)';subtypeColor='#8b0000';}
+    if(diagAdultA&&diagAdultHI){subtype='F90.2 — Présentation combinée (TDAH-C)';subtypeColor='#c0392b';}
+    else if(diagAdultA){subtype='F90.0 — Présentation inattentive prédominante (TDAH-PI)';subtypeColor='#e8a020';}
+    else{subtype='F90.1 — Présentation hyperactive/impulsive prédominante (TDAH-HIP)';subtypeColor='#8b0000';}
   } else {subtype='Critères insuffisants pour le diagnostic de TDAH';subtypeColor='#27ae60';}
 
   // Criteria rows
@@ -1171,8 +1222,8 @@ details>summary{list-style:none;cursor:pointer;} details>summary::-webkit-detail
   <div style="display:flex;align-items:center;gap:14px">
     <div style="font-size:32px">🧠</div>
     <div>
-      <div style="font-size:18px;font-weight:700">Rapport DIVA 2.0 — Entretien diagnostique TDAH adulte</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px">Basé sur les critères DSM-IV &nbsp;|&nbsp; Généré le ${date}</div>
+      <div style="font-size:18px;font-weight:700">Rapport DIVA-5 — Entretien diagnostique TDAH adulte</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px">Basé sur les critères DSM-5 &nbsp;|&nbsp; Généré le ${date}</div>
       <div style="margin-top:6px;display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-size:11px;color:rgba(255,255,255,.8)">🔒 Confidentiel — Réservé au clinicien</div>
     </div>
   </div>
@@ -1202,17 +1253,17 @@ details>summary{list-style:none;cursor:pointer;} details>summary::-webkit-detail
 
 <!-- SCORES RÉSUMÉ -->
 <div style="padding:20px 28px;border-bottom:2px solid #e4e8f2">
-  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:14px">📊 Scores DSM-IV — Résumé</div>
+  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:14px">📊 Scores DSM-5 — Résumé</div>
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
     <div style="background:#eaf2fb;border-radius:10px;padding:12px;border-top:3px solid #2471a3">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#2471a3;margin-bottom:6px">Inattention Adulte</div>
-      ${scoreBar(scoreA_adult,9,scoreA_adult>=6?'#c0392b':'#2471a3')}
-      <div style="font-size:11px;margin-top:5px;font-weight:700;color:${scoreA_adult>=6?'#c0392b':'#27ae60'}">${scoreA_adult>=6?'⚠ ≥6 Significatif':'✓ <6'}</div>
+      ${scoreBar(scoreA_adult,9,scoreA_adult>=5?'#c0392b':'#2471a3')}
+      <div style="font-size:11px;margin-top:5px;font-weight:700;color:${scoreA_adult>=5?'#c0392b':'#27ae60'}">${scoreA_adult>=5?'⚠ ≥5 Significatif':'✓ <5'}</div>
     </div>
     <div style="background:#fdf0ef;border-radius:10px;padding:12px;border-top:3px solid #c0392b">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#c0392b;margin-bottom:6px">HI Adulte</div>
-      ${scoreBar(scoreHI_adult,9,scoreHI_adult>=6?'#c0392b':'#6c3483')}
-      <div style="font-size:11px;margin-top:5px;font-weight:700;color:${scoreHI_adult>=6?'#c0392b':'#27ae60'}">${scoreHI_adult>=6?'⚠ ≥6 Significatif':'✓ <6'}</div>
+      ${scoreBar(scoreHI_adult,9,scoreHI_adult>=5?'#c0392b':'#6c3483')}
+      <div style="font-size:11px;margin-top:5px;font-weight:700;color:${scoreHI_adult>=5?'#c0392b':'#27ae60'}">${scoreHI_adult>=5?'⚠ ≥5 Significatif':'✓ <5'}</div>
     </div>
     <div style="background:#fef6e8;border-radius:10px;padding:12px;border-top:3px solid #e8a020">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#e8a020;margin-bottom:6px">Inattention Enfance</div>
@@ -1227,15 +1278,15 @@ details>summary{list-style:none;cursor:pointer;} details>summary::-webkit-detail
   </div>
 </div>
 
-<!-- FORMULAIRE DE COTATION DSM-IV -->
+<!-- FORMULAIRE DE COTATION DSM-5 -->
 <div style="padding:20px 28px;border-bottom:2px solid #e4e8f2">
-  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:12px">📋 Formulaire de cotation (DSM-IV)</div>
+  <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:12px">📋 Formulaire de cotation (DSM-5)</div>
   <table style="width:100%;border-collapse:collapse;font-size:12px">
     ${[
       ['Critère A — Enfance (A ≥6)', scoreA_child>=6, 'Inattention'],
       ['Critère A — Enfance (HI ≥6)', scoreHI_child>=6, 'Hyperactivité/Impulsivité'],
-      ['Critère A — Adulte (A ≥6)', scoreA_adult>=6, 'Inattention'],
-      ['Critère A — Adulte (HI ≥6)', scoreHI_adult>=6, 'Hyperactivité/Impulsivité'],
+      ['Critère A — Adulte (A ≥5)', scoreA_adult>=5, 'Inattention'],
+      ['Critère A — Adulte (HI ≥5)', scoreHI_adult>=5, 'Hyperactivité/Impulsivité'],
       ['Critère B — Persistance vie entière', critB==='oui', ''],
       ['Critère C/D — Retentissement adulte ≥2 domaines', critDAdult==='oui', ''],
       ['Critère C/D — Retentissement enfance ≥2 domaines', critDChild==='oui', ''],
@@ -1248,7 +1299,7 @@ details>summary{list-style:none;cursor:pointer;} details>summary::-webkit-detail
   </table>
   <div style="margin-top:10px;background:#f8f9fc;border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6">
     <b>Critère E détail :</b> ${critEDetail||'—'}<br>
-    <b>Âge de début :</b> ${critB==='non'?critBAge+' ans':'Avant 7 ans (critère B satisfait)'}<br>
+    <b>Âge de début :</b> ${critB==='non'?critBAge+' ans':"Avant 12 ans (critère B satisfait)"}<br>
     <b>Collatéral famille :</b> ${collParent} &nbsp;|&nbsp; <b>Partenaire :</b> ${collPartner} &nbsp;|&nbsp; <b>Livrets scolaires :</b> ${collSchool}<br>
     <b>Détails :</b> ${collDetails}
   </div>
@@ -1268,7 +1319,7 @@ details>summary{list-style:none;cursor:pointer;} details>summary::-webkit-detail
       <tbody>${makeCrRows(dataA,'A')}</tbody>
       <tfoot><tr style="background:#eaf2fb">
         <td colspan="2" style="padding:8px 10px;font-size:12px;font-weight:700;color:#2471a3">Total inattention</td>
-        <td style="padding:8px 10px;text-align:center;font-weight:800;color:${scoreA_adult>=6?'#c0392b':'#2471a3'}">${scoreA_adult}/9</td>
+        <td style="padding:8px 10px;text-align:center;font-weight:800;color:${scoreA_adult>=5?'#c0392b':'#2471a3'}">${scoreA_adult}/9</td>
         <td style="padding:8px 10px;text-align:center;font-weight:800;color:${scoreA_child>=6?'#c0392b':'#e8a020'}">${scoreA_child}/9</td>
       </tr></tfoot>
     </table>
@@ -1289,7 +1340,7 @@ details>summary{list-style:none;cursor:pointer;} details>summary::-webkit-detail
       <tbody>${makeCrRows(dataHI,'HI')}</tbody>
       <tfoot><tr style="background:#fdf0ef">
         <td colspan="2" style="padding:8px 10px;font-size:12px;font-weight:700;color:#c0392b">Total HI</td>
-        <td style="padding:8px 10px;text-align:center;font-weight:800;color:${scoreHI_adult>=6?'#c0392b':'#6c3483'}">${scoreHI_adult}/9</td>
+        <td style="padding:8px 10px;text-align:center;font-weight:800;color:${scoreHI_adult>=5?'#c0392b':'#6c3483'}">${scoreHI_adult}/9</td>
         <td style="padding:8px 10px;text-align:center;font-weight:800;color:${scoreHI_child>=6?'#c0392b':'#e8a020'}">${scoreHI_child}/9</td>
       </tr></tfoot>
     </table>
@@ -1298,7 +1349,7 @@ details>summary{list-style:none;cursor:pointer;} details>summary::-webkit-detail
 
 <!-- PIED DE PAGE -->
 <div style="background:#1a2744;padding:14px 28px;text-align:center;color:rgba(255,255,255,.45);font-size:10px;line-height:1.8">
-  Rapport DIVA 2.0 généré automatiquement &nbsp;|&nbsp; Kooij JJS &amp; Francken MH, DIVA Foundation, 2010 &nbsp;|&nbsp; Traduction française Caci et al., 2012<br>
+  Rapport DIVA-5 généré automatiquement &nbsp;|&nbsp; Kooij JJS &amp; Francken MH, DIVA Foundation &nbsp;|&nbsp; Adaptation DSM-5 : Asherson P., Ramos-Quiroga JA., Kooij JJS &amp; Wynchank D., DIVA Foundation, 2019 &nbsp;|&nbsp; Traduction française : Dr Hervé Caci, 2019<br>
   🔒 <b style="color:rgba(255,255,255,.65)">Confidentiel — Document réservé exclusivement au clinicien. Ne pas transmettre au patient.</b>
 </div>
 
@@ -1327,7 +1378,7 @@ function downloadReport(){
   const a=document.createElement('a');
   const safeName=(info.nom||'patient').replace(/[^a-z0-9]+/gi,'_');
   a.href=url;
-  a.download=`DIVA2.0_${safeName}_${date.replace(/\//g,'-')}.html`;
+  a.download=`DIVA5_${safeName}_${date.replace(/\//g,'-')}.html`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1369,9 +1420,9 @@ function sendResults(){
   CRITERIA[currentLang].HI.forEach(cr=>{if(criteriaAnswers[cr.id+'-adult']==='oui')scoreHI_adult++;if(criteriaAnswers[cr.id+'-child']==='oui')scoreHI_child++;});
 
   let subtype='Critères insuffisants';
-  if(scoreA_adult>=6&&scoreHI_adult>=6)subtype='314.01 Type combiné';
-  else if(scoreA_adult>=6)subtype='314.00 Type inattentif prédominant';
-  else if(scoreHI_adult>=6)subtype='314.01 Type hyperactif/impulsif prédominant';
+  if(scoreA_adult>=5&&scoreHI_adult>=5)subtype='F90.2 Présentation combinée';
+  else if(scoreA_adult>=5)subtype='F90.0 Présentation inattentive prédominante';
+  else if(scoreHI_adult>=5)subtype='F90.1 Présentation hyperactive/impulsive prédominante';
 
   const btn=document.getElementById('submit-btn');
   const orig=btn.textContent;
@@ -1384,7 +1435,7 @@ function sendResults(){
     child_sex:  info.sexe,
     child_grade:`N° ${info.patientNum}`,
     parent_name:info.clinician,
-    parent_email:'DIVA 2.0',
+    parent_email:'DIVA-5',
     subscale_scores:`Inattention adulte: ${scoreA_adult}/9\nHI adulte: ${scoreHI_adult}/9\nInattention enfance: ${scoreA_child}/9\nHI enfance: ${scoreHI_child}/9`,
     total_score:subtype,
     flagged_items:`Critère B (persistance vie entière): ${criteriaAnswers['critB']||'—'}${criteriaAnswers['critB']==='non'?' — âge de début: '+(document.getElementById('critB-age').value||'—')+' ans':''}\nCritère C/D — Retentissement adulte (≥2 domaines): ${document.querySelector('input[name="critD-adult"]:checked')?.value||'—'}\nCritère C/D — Retentissement enfance (≥2 domaines): ${document.querySelector('input[name="critD-child"]:checked')?.value||'—'}\nCritère E (autre diagnostic mieux explicatif): ${criteriaAnswers['critE']||'—'}${criteriaAnswers['critE']==='oui'?' — '+(document.getElementById('critE-detail').value||'—'):''}`,
