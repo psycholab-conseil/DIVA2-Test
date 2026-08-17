@@ -3,11 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DIVA 2.0 — Questionnaire & Rapport TDAH adulte</title>
+<title>DIVA 2.0 — Entretien diagnostique TDAH adulte</title>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>emailjs.init("p6Lc3MHeM0w-YeGUO");</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,400;0,600;1,400&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
@@ -188,114 +185,6 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
 .confirm-badge{display:inline-block;margin-top:1.2rem;background:var(--purple-light);color:var(--purple);font-size:.8rem;font-weight:700;padding:.45rem 1.1rem;border-radius:20px;}
 
 @media print{#lang-bar,#progress-wrap,#missing-banner,.submit-area{display:none!important;}}
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:wght@400;600;700&display=swap');
-:root{
-  --navy:#1a2744;--purple:#6c3483;--purple-light:#f4ecf7;
-  --blue:#2471a3;--blue-light:#eaf2fb;
-  --teal:#2d7d6f;--teal-light:#e8f4f1;
-  --amber:#e8a020;--amber-light:#fef6e8;
-  --red:#c0392b;--red-light:#fdf0ef;
-  --green:#27ae60;--green-light:#e8f5ee;
-  --gray-100:#f2f4f9;--gray-200:#e4e8f2;--gray-400:#9aa3b8;--gray-600:#5a6478;
-  --white:#fff;--shadow:0 2px 12px rgba(26,39,68,.08);--shadow-lg:0 6px 28px rgba(26,39,68,.14);
-  --radius:14px;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:'Inter',sans-serif;background:var(--gray-100);color:var(--navy);min-height:100vh;}
-
-/* ── HEADER ── */
-.rp-header{background:var(--navy);color:#fff;padding:1.5rem 1.5rem 1.2rem;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-lg);}
-.rp-header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
-.rp-logo{display:flex;align-items:center;gap:.7rem;}
-.rp-logo-icon{font-size:1.8rem;}
-.rp-logo-text h1{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;}
-.rp-logo-text p{font-size:.72rem;color:rgba(255,255,255,.6);margin-top:.1rem;}
-.rp-actions{display:flex;gap:.5rem;flex-wrap:wrap;}
-.rp-btn{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);color:#fff;font-family:inherit;font-size:.78rem;font-weight:600;padding:.4rem .9rem;border-radius:20px;cursor:pointer;transition:all .18s;white-space:nowrap;}
-.rp-btn:hover{background:var(--purple);border-color:var(--purple);}
-.rp-btn.primary{background:var(--purple);border-color:var(--purple);}
-
-/* ── MAIN ── */
-main{max-width:900px;margin:0 auto;padding:1.5rem 1rem 4rem;}
-
-/* ── CARD ── */
-.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.4rem 1.5rem;margin-bottom:1.2rem;}
-.card-title{font-family:'Fraunces',serif;font-size:1rem;color:var(--navy);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;border-bottom:2px solid var(--gray-200);padding-bottom:.7rem;}
-.card-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:#fff;flex-shrink:0;}
-
-/* ── PATIENT INFO GRID ── */
-.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.7rem;}
-.info-cell{background:var(--gray-100);border-radius:8px;padding:.6rem .8rem;}
-.info-cell-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);margin-bottom:.2rem;}
-.info-cell-val{font-size:.92rem;font-weight:700;color:var(--navy);}
-
-/* ── CONCLUSION BANNER ── */
-.conclusion-banner{border-radius:var(--radius);padding:1.4rem 1.5rem;margin-bottom:1.2rem;color:#fff;position:relative;overflow:hidden;}
-.conclusion-banner::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.1);}
-.cb-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;opacity:.75;margin-bottom:.4rem;}
-.cb-subtype{font-size:1.35rem;font-weight:800;line-height:1.2;position:relative;z-index:1;}
-.cb-code{font-size:.85rem;opacity:.75;margin-top:.3rem;}
-.cb-summary{margin-top:.8rem;font-size:.85rem;line-height:1.6;background:rgba(255,255,255,.12);border-radius:8px;padding:.7rem 1rem;}
-
-/* ── SCORE TILES ── */
-.score-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.2rem;}
-@media(max-width:540px){.score-tiles{grid-template-columns:repeat(2,1fr);}}
-.score-tile{border-radius:12px;padding:1rem;text-align:center;border-top:4px solid transparent;}
-.score-tile .st-label{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
-.score-tile .st-val{font-size:2.4rem;font-weight:900;line-height:1;}
-.score-tile .st-max{font-size:.75rem;opacity:.6;margin-top:.2rem;}
-.score-tile .st-status{font-size:.68rem;font-weight:700;margin-top:.4rem;padding:.15rem .6rem;border-radius:10px;display:inline-block;}
-
-/* ── CHARTS ── */
-.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem;}
-@media(max-width:560px){.charts-grid{grid-template-columns:1fr;}}
-.chart-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.1rem;}
-.chart-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-600);margin-bottom:.7rem;}
-
-/* ── CRITERIA TABLE ── */
-.crit-section-hdr{display:flex;align-items:center;gap:.7rem;margin:1.2rem 0 .6rem;}
-.crit-section-hdr::before,.crit-section-hdr::after{content:'';flex:1;height:1.5px;background:var(--gray-200);}
-.crit-section-hdr span{font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .75rem;border-radius:20px;color:#fff;white-space:nowrap;}
-
-.crit-row{display:grid;grid-template-columns:40px 1fr 70px 70px;align-items:center;gap:.5rem;padding:.55rem .4rem;border-radius:8px;margin-bottom:2px;}
-.crit-row:nth-child(even){background:var(--gray-100);}
-.crit-code{font-size:.68rem;font-weight:800;color:var(--gray-400);}
-.crit-q{font-size:.78rem;line-height:1.4;color:var(--navy);}
-.crit-badge{display:flex;align-items:center;justify-content:center;border-radius:20px;font-size:.7rem;font-weight:700;padding:.2rem .5rem;white-space:nowrap;}
-.badge-oui{background:var(--red-light);color:var(--red);border:1.5px solid var(--red);}
-.badge-non{background:var(--green-light);color:var(--green);border:1.5px solid var(--green);}
-.badge-nr{background:var(--gray-100);color:var(--gray-400);border:1.5px solid var(--gray-200);}
-
-/* ── EXAMPLES ── */
-.examples-list{margin-top:.4rem;padding-left:.5rem;}
-.example-tag{display:inline-block;font-size:.65rem;background:#eef0f6;color:var(--gray-600);border-radius:10px;padding:.1rem .5rem;margin:.1rem .1rem;border:1px solid var(--gray-200);}
-.example-tag.checked{background:var(--purple-light);color:var(--purple);border-color:var(--purple);}
-
-/* ── SYNTHESIS ── */
-.synthesis-block{background:var(--gray-100);border-radius:10px;padding:1rem 1.2rem;margin-top:.8rem;}
-.synthesis-block h4{font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;}
-.synthesis-block p{font-size:.82rem;line-height:1.7;color:var(--gray-600);}
-
-/* ── DSM TABLE ── */
-.dsm-table{width:100%;border-collapse:collapse;}
-.dsm-table th{background:var(--navy);color:#fff;padding:.6rem .8rem;font-size:.72rem;text-align:left;}
-.dsm-table td{padding:.55rem .8rem;border-bottom:1px solid var(--gray-200);font-size:.8rem;}
-.dsm-table tr:last-child td{border:none;}
-
-/* ── PDF overlay ── */
-#pdf-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(26,39,68,.85);align-items:center;justify-content:center;flex-direction:column;gap:1rem;color:#fff;font-size:1rem;font-weight:600;}
-#pdf-overlay.show{display:flex;}
-.pdf-spinner{width:44px;height:44px;border:5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* ── ERROR ── */
-#error-page{display:none;min-height:80vh;align-items:center;justify-content:center;flex-direction:column;gap:1rem;text-align:center;padding:2rem;}
-#error-page.show{display:flex;}
-
-/* ── RAPPORT PAGE ── */
-.page{display:none;}.page.active{display:block;}
 </style>
 </head>
 <body>
@@ -494,6 +383,7 @@ main{max-width:900px;margin:0 auto;padding:1.5rem 1rem 4rem;}
         <input type="email" id="specialist-email" placeholder="specialiste@clinique.com" style="width:100%;margin-bottom:.7rem">
       </div>
       <button id="submit-btn" data-i18n="calcBtn"></button>
+      <button id="download-btn" type="button" style="margin-top:.6rem;width:100%;background:var(--teal);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:.9rem;font-weight:700;padding:.8rem 1.5rem;border-radius:50px;box-shadow:var(--shadow);" data-i18n="downloadBtn" onclick="downloadReport()"></button>
       <p class="submit-note" data-i18n="submitNote"></p>
       <div id="send-status"></div>
     </div>
@@ -555,12 +445,12 @@ fr:{
   collDetails:"Détails / précisions",
   sendLabel:"Email du clinicien (destinataire des résultats)",
   calcBtn:"📧 Envoyer le rapport au clinicien",
+  downloadBtn:"⬇ Télécharger le rapport complet (Critères A–E)",
   submitNote:"Saisissez l'email du clinicien et envoyez quand vous êtes prêt.",
   errEmail:"⚠ Email du clinicien invalide.",
   sending:"⏳ Envoi en cours...",
   errSend:"❌ Erreur d'envoi. Vérifiez votre connexion.",
-  progressTpl:(a,t)=>`${a} / ${t} réponses`,
-  partial:'En cours',
+  progressTpl:a=>`${a} / 18 répondus`,
   missingBanner:m=>`⚠ ${m.length} critère(s) non complété(s) :`,
   missingChip:n=>n,
   btnMissing:n=>``,
@@ -615,12 +505,12 @@ en:{
   collDetails:"Details / notes",
   sendLabel:"Clinician email (results recipient)",
   calcBtn:"📧 Send Report to Clinician",
+  downloadBtn:"⬇ Download full report (Criteria A–E)",
   submitNote:"Enter the clinician's email and send when ready.",
   errEmail:"⚠ Invalid clinician email.",
   sending:"⏳ Sending...",
   errSend:"❌ Send error. Check your connection.",
-  progressTpl:(a,t)=>`${a} / ${t} answered`,
-  partial:'Partial',
+  progressTpl:a=>`${a} / 18 answered`,
   missingBanner:m=>`⚠ ${m.length} incomplete criterion/criteria:`,
   missingChip:n=>n,
   btnMissing:n=>``,
@@ -675,12 +565,12 @@ ar:{
   collDetails:"تفاصيل / ملاحظات",
   sendLabel:"البريد الإلكتروني للطبيب (مستلم النتائج)",
   calcBtn:"📧 إرسال التقرير إلى الطبيب",
+  downloadBtn:"⬇ تنزيل التقرير الكامل (المعايير A–E)",
   submitNote:"أدخل بريد الطبيب وأرسل عندما تكون مستعداً.",
   errEmail:"⚠ البريد الإلكتروني للطبيب غير صالح.",
   sending:"⏳ جارٍ الإرسال...",
   errSend:"❌ خطأ في الإرسال.",
-  progressTpl:(a,t)=>`${a} / ${t} إجابة`,
-  partial:'جزئي',
+  progressTpl:a=>`${a} / 18 تمت الإجابة`,
   missingBanner:m=>`⚠ ${m.length} معيار(معايير) غير مكتمل:`,
   missingChip:n=>n,
   btnMissing:n=>``,
@@ -964,12 +854,7 @@ function getDOB(){return String(drumState.day).padStart(2,'0')+'/'+String(drumSt
 // ═══════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const target=document.getElementById(id);
-  if(target) target.classList.add('active');
-  window.scrollTo(0,0);
-}
+function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
 function goToForm(){ showPage('page-form'); }
 
 // ═══════════════════════════════════════════════════════════
@@ -1100,16 +985,6 @@ function buildCriteria(){
       </div>`;
     container.appendChild(supDiv);
   });
-  // Auto-open first unanswered criterion
-  const allIds=['A1','A2','A3','A4','A5','A6','A7','A8','A9',
-                'HI1','HI2','HI3','HI4','HI5','HI6','HI7','HI8','HI9'];
-  for(const id of allIds){
-    if(!criteriaAnswers[id+'-adult']||!criteriaAnswers[id+'-child']){
-      const body=document.getElementById('body-'+id);
-      if(body) body.classList.add('open');
-      break;
-    }
-  }
 }
 
 function toggleCard(id){
@@ -1120,42 +995,23 @@ function toggleExample(id){
   checkedExamples[id] = document.getElementById(id).checked;
 }
 function setCriterion(key, val, cardId){
-  // Prevent double-firing from onclick+onchange on same click
-  if(criteriaAnswers[key] === val){ updateProgress(); return; }
+  // Prevent double-firing from both onchange and onclick
+  if(criteriaAnswers[key] === val) return;
   criteriaAnswers[key] = val;
-  // Sync radio button visually
-  const radio = document.querySelector('input[name="'+key+'"][value="'+val+'"]');
+  // Check the correct radio visually
+  const radio = document.querySelector(`input[name="${key}"][value="${val}"]`);
   if(radio) radio.checked = true;
-  // Update progress immediately
-  updateProgress();
-  // Auto-advance: if both adult+child answered, collapse card and open next
+  // Auto-advance: if both adult+child set, show next
   const base = key.replace('-adult','').replace('-child','');
   const otherKey = key.includes('-adult') ? base+'-child' : base+'-adult';
   if(criteriaAnswers[otherKey]){
+    // Both answered — collapse after short delay
     setTimeout(()=>{
       const body = document.getElementById('body-'+base);
       if(body) body.classList.remove('open');
-      // Open next unanswered criterion
-      const allIds=['A1','A2','A3','A4','A5','A6','A7','A8','A9',
-                    'HI1','HI2','HI3','HI4','HI5','HI6','HI7','HI8','HI9'];
-      const currentIdx = allIds.indexOf(base);
-      for(let i=currentIdx+1;i<allIds.length;i++){
-        const nid=allIds[i];
-        if(!criteriaAnswers[nid+'-adult']||!criteriaAnswers[nid+'-child']){
-          const nextBody=document.getElementById('body-'+nid);
-          const nextCard=document.getElementById('card-'+nid);
-          if(nextBody) nextBody.classList.add('open');
-          if(nextCard){
-            setTimeout(()=>{
-              const y=nextCard.getBoundingClientRect().top+window.scrollY-130;
-              window.scrollTo({top:y,behavior:'smooth'});
-            },100);
-          }
-          break;
-        }
-      }
-    }, 400);
+    }, 500);
   }
+  updateProgress();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1185,19 +1041,21 @@ function buildSectionC(){
     wrapper.innerHTML=html;
     container.appendChild(wrapper);
   });
-
-  // Criterion E handler
-  document.addEventListener('change', e=>{
-    if(e.target.name==='critE'){
-      criteriaAnswers['critE']=e.target.value;
-      document.getElementById('critE-detail-wrap').style.display=e.target.value==='oui'?'block':'none';
-    }
-    if(e.target.name==='critB'){
-      criteriaAnswers['critB']=e.target.value;
-      document.getElementById('critB-age-wrap').style.display=e.target.value==='non'?'block':'none';
-    }
-  });
 }
+
+// Criterion B/E handler — attached ONCE at load time (previously re-attached
+// on every buildSectionC() call, i.e. every language switch, causing
+// duplicate/stacked listeners and unreliable capture of these answers)
+document.addEventListener('change', e=>{
+  if(e.target.name==='critE'){
+    criteriaAnswers['critE']=e.target.value;
+    document.getElementById('critE-detail-wrap').style.display=e.target.value==='oui'?'block':'none';
+  }
+  if(e.target.name==='critB'){
+    criteriaAnswers['critB']=e.target.value;
+    document.getElementById('critB-age-wrap').style.display=e.target.value==='non'?'block':'none';
+  }
+});
 
 // ═══════════════════════════════════════════════════════════
 // PROGRESS
@@ -1213,47 +1071,12 @@ function getMissing(){
 }
 function updateProgress(){
   const t=T[currentLang];
-  // Count individual answers (each adult/child response = 1 point, max 36)
-  const allIds=['A1','A2','A3','A4','A5','A6','A7','A8','A9',
-                'HI1','HI2','HI3','HI4','HI5','HI6','HI7','HI8','HI9'];
-  let answered=0;
-  allIds.forEach(id=>{
-    if(criteriaAnswers[id+'-adult']) answered++;
-    if(criteriaAnswers[id+'-child']) answered++;
-  });
-  const total=36;
-  const pct=Math.round((answered/total)*100);
-  const barInner=document.getElementById('progress-bar-inner');
-  const barPct=document.getElementById('progress-pct');
-  const barLabel=document.getElementById('progress-label');
-  if(barInner) barInner.style.width=pct+'%';
-  if(barPct) barPct.textContent=pct+'%';
-  if(barLabel) barLabel.textContent=t.progressTpl(answered,total);
-  // Update card visual state
-  allIds.forEach(id=>{
-    const card=document.getElementById('card-'+id);
-    if(!card) return;
-    const av=criteriaAnswers[id+'-adult'];
-    const cv=criteriaAnswers[id+'-child'];
-    const done=av&&cv;
-    const partial=av||cv;
-    const numEl=card.querySelector('.criterion-num');
-    const statusEl=card.querySelector('.criterion-status');
-    if(numEl){
-      numEl.style.background=done?'var(--teal)':partial?'var(--amber)':'var(--blue)';
-    }
-    if(statusEl&&done){
-      statusEl.style.background='#e8f5ee';
-      statusEl.style.color='#27ae60';
-      statusEl.style.borderColor='#27ae60';
-      statusEl.textContent='✓ '+( av==='oui'?t.yes:t.no)+' / '+(cv==='oui'?t.yes:t.no);
-    } else if(statusEl&&partial){
-      statusEl.style.background='#fef6e8';
-      statusEl.style.color='var(--amber)';
-      statusEl.style.borderColor='var(--amber)';
-      statusEl.textContent='◐ '+t.partial;
-    }
-  });
+  const missing=getMissing();
+  const answered=18-missing.length;
+  const pct=Math.round((answered/18)*100);
+  document.getElementById('progress-bar-inner').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+' %';
+  document.getElementById('progress-label').textContent=t.progressTpl(answered);
 }
 function renderMissingBanner(){
   const t=T[currentLang];const missing=getMissing();const b=document.getElementById('missing-banner');
@@ -1479,128 +1302,36 @@ details>summary{list-style:none;cursor:pointer;} details>summary::-webkit-detail
   🔒 <b style="color:rgba(255,255,255,.65)">Confidentiel — Document réservé exclusivement au clinicien. Ne pas transmettre au patient.</b>
 </div>
 
-</div>
-<!-- ══ PAGE RAPPORT ══ -->
-<div id="page-rapport" class="page">
-<div id="error-page">
-  <div style="font-size:3rem">⚠️</div>
-  <h2 style="font-family:'Fraunces',serif;color:var(--navy)">Rapport introuvable</h2>
-  <p style="color:var(--gray-600);max-width:400px">Le lien est invalide ou expiré. Veuillez demander un nouveau lien au patient.</p>
-</div>
+</div></body></html>`;
+}
 
-<div id="report-page" style="display:none">
-
-  <div class="rp-header">
-    <div class="rp-header-inner">
-      <div class="rp-logo">
-        <div class="rp-logo-icon">🧠</div>
-        <div class="rp-logo-text">
-          <h1>DIVA 2.0 — Rapport clinique</h1>
-          <p id="rp-subtitle">Entretien diagnostique TDAH adulte</p>
-        </div>
-      </div>
-      <div class="rp-actions">
-        <button class="rp-btn" onclick="window.print()">🖨 Imprimer</button>
-        <button class="rp-btn primary" onclick="downloadPDF()">⬇ PDF</button>
-      </div>
-    </div>
-  </div>
-
-  <main id="report-content">
-
-    <!-- PATIENT INFO -->
-    <div class="card" id="section-info">
-      <div class="card-title">
-        <span class="card-icon" style="background:var(--purple)">👤</span>
-        Informations patient
-      </div>
-      <div class="info-grid" id="patient-info-grid"></div>
-    </div>
-
-    <!-- CONCLUSION BANNER -->
-    <div class="conclusion-banner" id="conclusion-banner"></div>
-
-    <!-- SCORE TILES -->
-    <div class="score-tiles" id="score-tiles"></div>
-
-    <!-- CHARTS -->
-    <div class="charts-grid">
-      <div class="chart-card">
-        <div class="chart-title">📊 Scores par dimension</div>
-        <canvas id="chart-bar" height="220"></canvas>
-      </div>
-      <div class="chart-card">
-        <div class="chart-title">🕸 Profil radar</div>
-        <canvas id="chart-radar" height="220"></canvas>
-      </div>
-    </div>
-
-    <!-- EVOLUTION CHART: adulte vs enfance -->
-    <div class="card">
-      <div class="card-title">
-        <span class="card-icon" style="background:var(--teal)">📈</span>
-        Comparaison adulte / enfance par critère
-      </div>
-      <canvas id="chart-compare" height="160"></canvas>
-    </div>
-
-    <!-- DSM-IV COTATION -->
-    <div class="card">
-      <div class="card-title">
-        <span class="card-icon" style="background:var(--blue)">📋</span>
-        Formulaire de cotation DSM-IV
-      </div>
-      <table class="dsm-table" id="dsm-table"></table>
-    </div>
-
-    <!-- SYNTHESIS & CONCLUSION -->
-    <div class="card" id="synthesis-card">
-      <div class="card-title">
-        <span class="card-icon" style="background:var(--amber)">🔬</span>
-        Synthèse clinique &amp; Conclusion
-      </div>
-      <div id="synthesis-content"></div>
-    </div>
-
-    <!-- SECTION A DETAIL -->
-    <div class="card">
-      <div class="card-title">
-        <span class="card-icon" style="background:var(--blue)">A</span>
-        Détail — Critères d'Inattention (A1a → A1i)
-      </div>
-      <div id="detail-A"></div>
-    </div>
-
-    <!-- SECTION HI DETAIL -->
-    <div class="card">
-      <div class="card-title">
-        <span class="card-icon" style="background:var(--red)">HI</span>
-        Détail — Critères Hyperactivité-Impulsivité (A2a → A2i)
-      </div>
-      <div id="detail-HI"></div>
-    </div>
-
-    <!-- COLLATERAL -->
-    <div class="card" id="collateral-card">
-      <div class="card-title">
-        <span class="card-icon" style="background:var(--gray-400)">📎</span>
-        Informations collatérales &amp; Critères B, C, D, E
-      </div>
-      <div id="collateral-content"></div>
-    </div>
-
-    <!-- CONFIDENTIAL FOOTER -->
-    <div style="text-align:center;padding:1.5rem;font-size:.75rem;color:var(--gray-400);line-height:1.8">
-      Rapport DIVA 2.0 — Kooij JJS &amp; Francken MH, DIVA Foundation, 2010<br>
-      Traduction française : Caci et al., 2012<br>
-      🔒 <strong style="color:var(--gray-600)">Confidentiel — Réservé exclusivement au clinicien — Ne pas transmettre au patient</strong>
-    </div>
-
-  </main>
-</div>
-</div>
-
-</body></html>`;
+// ═══════════════════════════════════════════════════════════
+// DOWNLOAD (standalone report, always includes Critères B/C/D/E
+// — does not depend on the email step, so these criteria are
+// never lost between this tool and downstream report systems)
+// ═══════════════════════════════════════════════════════════
+function downloadReport(){
+  const info={
+    nom:document.getElementById('nom').value||'—',
+    dob:getDOB(),
+    sexe:document.getElementById('sexe').value||'—',
+    patientNum:document.getElementById('patient-num').value||'—',
+    clinician:document.getElementById('clinician').value||'—',
+    interviewDate:document.getElementById('interview-date').value||'—',
+  };
+  const locale=currentLang==='ar'?'ar-DZ':currentLang==='en'?'en-GB':'fr-FR';
+  const date=new Date().toLocaleDateString(locale);
+  const html_report=buildDivaReport(info,date);
+  const blob=new Blob([html_report],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const safeName=(info.nom||'patient').replace(/[^a-z0-9]+/gi,'_');
+  a.href=url;
+  a.download=`DIVA2.0_${safeName}_${date.replace(/\//g,'-')}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1626,137 +1357,39 @@ function sendResults(){
     patientNum:document.getElementById('patient-num').value||'—',
     clinician:document.getElementById('clinician').value||'—',
     interviewDate:document.getElementById('interview-date').value||'—',
-    lang:currentLang,
   };
 
+  const locale=currentLang==='ar'?'ar-DZ':currentLang==='en'?'en-GB':'fr-FR';
+  const date=new Date().toLocaleDateString(locale);
+  const html_report=buildDivaReport(info,date);
+
+  // Count for plain text
   let scoreA_adult=0,scoreA_child=0,scoreHI_adult=0,scoreHI_child=0;
   CRITERIA[currentLang].A.forEach(cr=>{if(criteriaAnswers[cr.id+'-adult']==='oui')scoreA_adult++;if(criteriaAnswers[cr.id+'-child']==='oui')scoreA_child++;});
   CRITERIA[currentLang].HI.forEach(cr=>{if(criteriaAnswers[cr.id+'-adult']==='oui')scoreHI_adult++;if(criteriaAnswers[cr.id+'-child']==='oui')scoreHI_child++;});
 
-  const payload={
-    info, criteriaAnswers, checkedExamples,
-    scores:{scoreA_adult,scoreA_child,scoreHI_adult,scoreHI_child},
-    critB:criteriaAnswers['critB']||'',
-    critBAge:document.getElementById('critB-age').value||'',
-    critDAdult:document.querySelector('input[name="critD-adult"]:checked')?.value||'',
-    critDChild:document.querySelector('input[name="critD-child"]:checked')?.value||'',
-    critE:criteriaAnswers['critE']||'',
-    critEDetail:document.getElementById('critE-detail').value||'',
-    collParent:document.querySelector('input[name="coll-parent"]:checked')?.value||'',
-    collPartner:document.querySelector('input[name="coll-partner"]:checked')?.value||'',
-    collSchool:document.querySelector('input[name="coll-school"]:checked')?.value||'',
-    collDetails:document.getElementById('coll-details').value||'',
-    date:new Date().toISOString(),
-  };
-
-  // ── Build compressed URL (works across all browsers/sessions) ──
-  // Compress payload: only keep what's needed for report
-  // Compress answers: 'oui'->'o', 'non'->'n' to reduce URL size
-  const compressedAnswers = {};
-  Object.keys(criteriaAnswers).forEach(k => {
-    compressedAnswers[k] = criteriaAnswers[k]==='oui'?'o': criteriaAnswers[k]==='non'?'n': criteriaAnswers[k];
-  });
-  const compact = {
-    i: {
-      n: info.nom, d: info.dob, s: info.sexe,
-      p: info.patientNum, c: info.clinician,
-      dt: info.interviewDate, l: info.lang
-    },
-    a: compressedAnswers,
-    sc: [scoreA_adult, scoreA_child, scoreHI_adult, scoreHI_child],
-    b: criteriaAnswers['critB']||'',
-    ba: document.getElementById('critB-age').value||'',
-    da: document.querySelector('input[name="critD-adult"]:checked')?.value||'',
-    dc: document.querySelector('input[name="critD-child"]:checked')?.value||'',
-    e: criteriaAnswers['critE']||'',
-    ed: document.getElementById('critE-detail').value||'',
-    cp: document.querySelector('input[name="coll-parent"]:checked')?.value||'',
-    cpa: document.querySelector('input[name="coll-partner"]:checked')?.value||'',
-    cs: document.querySelector('input[name="coll-school"]:checked')?.value||'',
-    cd: document.getElementById('coll-details').value||'',
-    ts: new Date().toISOString(),
-  };
-
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(compact))));
-  const BASE_URL = 'https://psycholab-conseil.github.io/Conners--Test/';
-  const reportUrl = BASE_URL + '?d=' + encodeURIComponent(encoded);
-
-  let subtype='Critères insuffisants pour le diagnostic';
-  if(scoreA_adult>=6&&scoreHI_adult>=6)subtype='314.01 — Type combiné (TDAH-C)';
-  else if(scoreA_adult>=6)subtype='314.00 — Type inattentif prédominant (TDAH-PI)';
-  else if(scoreHI_adult>=6)subtype='314.01 — Type hyperactif/impulsif (TDAH-HIP)';
+  let subtype='Critères insuffisants';
+  if(scoreA_adult>=6&&scoreHI_adult>=6)subtype='314.01 Type combiné';
+  else if(scoreA_adult>=6)subtype='314.00 Type inattentif prédominant';
+  else if(scoreHI_adult>=6)subtype='314.01 Type hyperactif/impulsif prédominant';
 
   const btn=document.getElementById('submit-btn');
   const orig=btn.textContent;
-  btn.textContent=t.sending; btn.disabled=true;
-
-  const scoreColor = (n) => n>=6?'#c0392b':'#27ae60';
+  btn.textContent=t.sending;btn.disabled=true;
 
   emailjs.send('psycholab_gmail','template_e9ua9l5',{
-      to_email:    specialist,
-      child_name:  info.nom,
-      child_dob:   info.dob,
-      child_sex:   info.sexe,
-      child_grade: 'N° '+info.patientNum,
-      parent_name: info.clinician,
-      parent_email:'DIVA 2.0',
-      subscale_scores:'Inattention adulte: '+scoreA_adult+'/9 | HI adulte: '+scoreHI_adult+'/9 | Inattention enfance: '+scoreA_child+'/9 | HI enfance: '+scoreHI_child+'/9',
-      total_score: subtype,
-      flagged_items:'Critère B: '+(payload.critB||'—')+' | Retent. adulte: '+(payload.critDAdult||'—')+' | Enfance: '+(payload.critDChild||'—'),
-      html_table:
-        '<div style="font-family:Arial,Helvetica,sans-serif;max-width:580px;margin:0 auto">'+
-        '<div style="background:#1a2744;padding:22px 24px;border-radius:12px 12px 0 0;color:#fff">'+
-        '<div style="font-size:22px;margin-bottom:6px">🧠</div>'+
-        '<div style="font-size:17px;font-weight:700;margin:0">DIVA 2.0 — Nouveau rapport patient</div>'+
-        '<div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px">'+info.nom+' &nbsp;·&nbsp; '+info.dob+' &nbsp;·&nbsp; '+new Date().toLocaleDateString('fr-FR')+'</div>'+
-        '</div>'+
-        '<div style="background:#ffffff;padding:20px 24px;border:1px solid #e4e8f2">'+
-        '<div style="background:#f4ecf7;border-left:4px solid #6c3483;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:18px">'+
-        '<div style="font-size:10px;color:#9aa3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Conclusion préliminaire</div>'+
-        '<div style="font-size:15px;font-weight:700;color:#1a2744">'+subtype+'</div>'+
-        '</div>'+
-        '<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px">'+
-        '<tr>'+
-        '<td width="50%" style="padding:4px">'+
-        '<div style="background:#eaf2fb;border-radius:10px;padding:14px;text-align:center">'+
-        '<div style="font-size:10px;color:#2471a3;font-weight:700;text-transform:uppercase;margin-bottom:6px">Inattention adulte</div>'+
-        '<div style="font-size:30px;font-weight:900;color:'+scoreColor(scoreA_adult)+'">'+scoreA_adult+'<span style="font-size:14px;color:#9aa3b8">/9</span></div>'+
-        '<div style="font-size:11px;color:'+scoreColor(scoreA_adult)+';margin-top:4px;font-weight:700">'+(scoreA_adult>=6?'⚠ Significatif':'✓ Sous le seuil')+'</div>'+
-        '</div></td>'+
-        '<td width="50%" style="padding:4px">'+
-        '<div style="background:#fdf0ef;border-radius:10px;padding:14px;text-align:center">'+
-        '<div style="font-size:10px;color:#c0392b;font-weight:700;text-transform:uppercase;margin-bottom:6px">HI adulte</div>'+
-        '<div style="font-size:30px;font-weight:900;color:'+scoreColor(scoreHI_adult)+'">'+scoreHI_adult+'<span style="font-size:14px;color:#9aa3b8">/9</span></div>'+
-        '<div style="font-size:11px;color:'+scoreColor(scoreHI_adult)+';margin-top:4px;font-weight:700">'+(scoreHI_adult>=6?'⚠ Significatif':'✓ Sous le seuil')+'</div>'+
-        '</div></td>'+
-        '</tr>'+
-        '<tr>'+
-        '<td width="50%" style="padding:4px">'+
-        '<div style="background:#fef6e8;border-radius:10px;padding:14px;text-align:center">'+
-        '<div style="font-size:10px;color:#e8a020;font-weight:700;text-transform:uppercase;margin-bottom:6px">Inattention enfance</div>'+
-        '<div style="font-size:30px;font-weight:900;color:'+scoreColor(scoreA_child)+'">'+scoreA_child+'<span style="font-size:14px;color:#9aa3b8">/9</span></div>'+
-        '<div style="font-size:11px;color:'+scoreColor(scoreA_child)+';margin-top:4px;font-weight:700">'+(scoreA_child>=6?'⚠ Significatif':'✓ Sous le seuil')+'</div>'+
-        '</div></td>'+
-        '<td width="50%" style="padding:4px">'+
-        '<div style="background:#f4ecf7;border-radius:10px;padding:14px;text-align:center">'+
-        '<div style="font-size:10px;color:#6c3483;font-weight:700;text-transform:uppercase;margin-bottom:6px">HI enfance</div>'+
-        '<div style="font-size:30px;font-weight:900;color:'+scoreColor(scoreHI_child)+'">'+scoreHI_child+'<span style="font-size:14px;color:#9aa3b8">/9</span></div>'+
-        '<div style="font-size:11px;color:'+scoreColor(scoreHI_child)+';margin-top:4px;font-weight:700">'+(scoreHI_child>=6?'⚠ Significatif':'✓ Sous le seuil')+'</div>'+
-        '</div></td>'+
-        '</tr>'+
-        '</table>'+
-        '<div style="text-align:center;padding:8px 0 16px">'+
-        '<a href="'+reportUrl+'" style="display:inline-block;background:#6c3483;color:#ffffff;padding:16px 32px;border-radius:50px;font-weight:700;font-size:16px;text-decoration:none;letter-spacing:.02em">'+
-        '📊 Ouvrir le rapport complet'+
-        '</a>'+
-        '<div style="font-size:11px;color:#9aa3b8;margin-top:10px">Cliquez pour accéder aux graphiques, statistiques et synthèse clinique complète.</div>'+
-        '</div>'+
-        '</div>'+
-        '<div style="background:#1a2744;padding:12px 24px;text-align:center;color:rgba(255,255,255,.4);font-size:10px;border-radius:0 0 12px 12px">'+
-        '🔒 Confidentiel — Réservé exclusivement au clinicien'+
-        '</div>'+
-        '</div>',
-      date:new Date().toLocaleDateString('fr-FR'),
+    to_email:   specialist,
+    child_name: info.nom,
+    child_dob:  info.dob,
+    child_sex:  info.sexe,
+    child_grade:`N° ${info.patientNum}`,
+    parent_name:info.clinician,
+    parent_email:'DIVA 2.0',
+    subscale_scores:`Inattention adulte: ${scoreA_adult}/9\nHI adulte: ${scoreHI_adult}/9\nInattention enfance: ${scoreA_child}/9\nHI enfance: ${scoreHI_child}/9`,
+    total_score:subtype,
+    flagged_items:`Critère B (persistance vie entière): ${criteriaAnswers['critB']||'—'}${criteriaAnswers['critB']==='non'?' — âge de début: '+(document.getElementById('critB-age').value||'—')+' ans':''}\nCritère C/D — Retentissement adulte (≥2 domaines): ${document.querySelector('input[name="critD-adult"]:checked')?.value||'—'}\nCritère C/D — Retentissement enfance (≥2 domaines): ${document.querySelector('input[name="critD-child"]:checked')?.value||'—'}\nCritère E (autre diagnostic mieux explicatif): ${criteriaAnswers['critE']||'—'}${criteriaAnswers['critE']==='oui'?' — '+(document.getElementById('critE-detail').value||'—'):''}`,
+    html_table:html_report,
+    date:date,
   })
   .then(()=>{
     btn.disabled=false;
@@ -1764,395 +1397,15 @@ function sendResults(){
     setLang(currentLang);
   })
   .catch(err=>{
-    console.error('EmailJS error:',err);
-    btn.textContent=orig; btn.disabled=false;
-    status.style.color='var(--red)'; status.style.display='block';
-    status.textContent=t.errSend+' — '+(err.text||err.status||JSON.stringify(err));
+    console.error(err);
+    btn.textContent=orig;btn.disabled=false;
+    status.style.color='var(--red)';status.style.display='block';
+    status.textContent=t.errSend;
   });
-}
-
-
-
-// CRITERIA LABELS (French only for report page)
-// ═══════════════════════════════════════════════════════
-const CRIT_LABELS = {
-  A:[
-    {id:'A1',code:'A1a',q:'Souvent, ne parvient pas à prêter attention aux détails ou fait des fautes d\'étourderie',examples:["Fait des erreurs d'étourderie","Travaille lentement pour éviter les erreurs","Ne lit pas les instructions avec soin","Du mal à travailler de façon minutieuse","Besoin de trop de temps pour des tâches complexes","Facilement empêtré par les détails","Travaille trop rapidement et commet des erreurs"]},
-    {id:'A2',code:'A1b',q:'A souvent du mal à soutenir son attention au travail ou dans les jeux',examples:["Incapable de maintenir son attention sur des tâches pendant longtemps","Facilement distrait par ses propres pensées","Difficile de suivre un film ou de lire un livre","Rapidement ennuyé","Pose des questions sur des sujets déjà discutés"]},
-    {id:'A3',code:'A1c',q:'Semble souvent ne pas écouter quand on lui parle personnellement',examples:["Rêveur ou préoccupé","Du mal à se concentrer pendant une conversation","Après-coup, ne se rappelle pas du sujet d'une conversation","Change souvent de sujet","D'autres personnes disent que ses pensées sont ailleurs"]},
-    {id:'A4',code:'A1d',q:'Souvent, ne se conforme pas aux consignes et ne parvient pas à mener à terme ses obligations',examples:["Fait plusieurs tâches en même temps sans les terminer","Du mal à finir les tâches une fois la nouveauté diminuée","Besoin de délai pour terminer","Du mal à terminer les tâches administratives","Du mal à suivre les instructions"]},
-    {id:'A5',code:'A1e',q:'A souvent du mal à organiser ses travaux ou ses activités',examples:["Du mal à planifier les activités quotidiennes","La maison ou l'espace de travail est en désordre","Planifie trop de tâches ou planification inefficace","Arrive en retard","Incapable d'utiliser un agenda efficacement","Faible conscience du temps"]},
-    {id:'A6',code:'A1f',q:'Souvent, évite ou fait à contrecœur les tâches qui nécessitent un effort mental soutenu',examples:["Fait en premier les choses les plus faciles","Remet à plus tard les tâches ennuyeuses","Remet à plus tard jusqu'à dépasser les délais","Évite les tâches monotones","N'aime pas lire à cause de l'effort mental"]},
-    {id:'A7',code:'A1g',q:'Perd souvent les objets nécessaires à son travail ou ses activités',examples:["Égare portefeuille, clés ou agenda","Oublie des choses en quittant un lieu","Perd des papiers pour son travail","Perd beaucoup de temps à chercher des choses","Panique si des gens ont changé des choses de place"]},
-    {id:'A8',code:'A1h',q:'Souvent, se laisse facilement distraire par des stimuli externes',examples:["Du mal à ignorer des stimuli externes","Du mal à reprendre les choses après avoir été distrait","Facilement distrait par des bruits ou événements","Facilement distrait par des conversations","Du mal à filtrer les informations"]},
-    {id:'A9',code:'A1i',q:'A des oublis fréquents dans la vie quotidienne',examples:["Oublie des rendez-vous ou obligations","Oublie les clés, l'agenda","A besoin de rappels fréquents","Retourne sur ses pas pour prendre des choses oubliées","N'utilise pas son agenda ou oublie de le consulter"]},
-  ],
-  HI:[
-    {id:'HI1',code:'A2a',q:'Remue souvent les mains ou les pieds, ou se tortille sur son siège',examples:["Du mal à rester assis immobile","Remue les jambes","Tape avec un stylo ou joue avec un objet","Tortille les cheveux ou ronge les ongles","Capable de contrôler mais cela stresse"]},
-    {id:'HI2',code:'A2b',q:'Se lève souvent dans des situations où il est supposé rester assis',examples:["Évite les réunions, conférences, cérémonies","Préfère marcher plutôt que rester assis","Ne reste jamais longtemps assis tranquille","Stressé par l'obligation de rester assis"]},
-    {id:'HI3',code:'A2c',q:'Se sent souvent agité (sentiment subjectif d\'impatience motrice)',examples:["Se sent agité ou nerveux à l'intérieur","Ressent constamment le sentiment d'avoir quelque chose à faire","Trouve difficile de se relaxer"]},
-    {id:'HI4',code:'A2d',q:'A souvent du mal à se tenir tranquille dans les jeux ou activités de loisir',examples:["Parle lorsque cela n'est pas approprié","Se met rapidement en avant en public","Bruyant dans tout type de situations","Du mal à faire des activités tranquillement"]},
-    {id:'HI5',code:'A2e',q:'Est souvent "sur la brèche" ou agit comme s\'il était "monté sur ressorts"',examples:["Toujours occupé à faire quelque chose","Déborde d'énergie, toujours en mouvement","Franchit ses propres limites","Lâche difficilement prise"]},
-    {id:'HI6',code:'A2f',q:'Parle souvent trop',examples:["Parle tellement que les gens trouvent cela fatiguant","Connu pour parler de manière incessante","Ne laisse pas l'occasion aux autres d'intervenir"]},
-    {id:'HI7',code:'A2g',q:'Laisse souvent échapper la réponse avant que la question soit terminée',examples:["Dit ce qu'il pense sans réfléchir","Donne des réponses avant que les gens aient fini","Finit les phrases des autres","Manque de tact"]},
-    {id:'HI8',code:'A2h',q:'A souvent du mal à attendre son tour',examples:["Difficulté à attendre dans une file","Du mal à attendre son tour dans les conversations","Impatient","Commence ou termine rapidement des relations par impatience"]},
-    {id:'HI9',code:'A2i',q:'Interrompt souvent les autres ou impose sa présence',examples:["Rapide à interférer avec les autres","Interrompt les autres","Dérange sans qu'on lui ait rien demandé","A une opinion sur tout et la donne immédiatement"]},
-  ]
-};
-
-// ═══════════════════════════════════════════════════════
-// LOAD DATA FROM URL
-// ═══════════════════════════════════════════════════════
-async function loadData(){
-  const params = new URLSearchParams(window.location.search);
-
-  // Primary: compact format ?d=
-  const enc = params.get('d') || params.get('data');
-  if(!enc){ showError(); return null; }
-  try{
-    const decoded = enc.includes('%') ? decodeURIComponent(enc) : enc;
-    const compact = JSON.parse(decodeURIComponent(escape(atob(decoded))));
-    // Expand compact format to full payload
-    if(compact.i){
-      return {
-        info:{
-          nom:compact.i.n||'—', dob:compact.i.d||'—', sexe:compact.i.s||'—',
-          patientNum:compact.i.p||'—', clinician:compact.i.c||'—',
-          interviewDate:compact.i.dt||'—', lang:compact.i.l||'fr'
-        },
-        criteriaAnswers: compact.a||{},
-        checkedExamples: compact.ex||{},
-        scores:{
-          scoreA_adult:  compact.sc?compact.sc[0]:0,
-          scoreA_child:  compact.sc?compact.sc[1]:0,
-          scoreHI_adult: compact.sc?compact.sc[2]:0,
-          scoreHI_child: compact.sc?compact.sc[3]:0,
-        },
-        critB:     compact.b||'',
-        critBAge:  compact.ba||'',
-        critDAdult:compact.da||'',
-        critDChild:compact.dc||'',
-        critE:     compact.e||'',
-        critEDetail:compact.ed||'',
-        collParent: compact.cp||'',
-        collPartner:compact.cpa||'',
-        collSchool: compact.cs||'',
-        collDetails:compact.cd||'',
-        date:      compact.ts||new Date().toISOString(),
-      };
-    }
-    // Legacy full format
-    return compact;
-  }catch(e){
-    console.error('loadData error:',e);
-    showError(); return null;
-  }
-}
-
-function showError(){
-  document.getElementById('error-page').classList.add('show');
-}
-
-// ═══════════════════════════════════════════════════════
-// BUILD REPORT
-// ═══════════════════════════════════════════════════════
-function buildReport(d){
-  document.getElementById('report-page').style.display = 'block';
-
-  const { info, criteriaAnswers, checkedExamples, scores, critB, critBAge, critDAdult, critDChild, critE, critEDetail, collParent, collPartner, collSchool, collDetails } = d;
-  const { scoreA_adult, scoreA_child, scoreHI_adult, scoreHI_child } = scores;
-
-  const locale = (info.lang||'fr')==='ar'?'ar-DZ':(info.lang==='en'?'en-GB':'fr-FR');
-  const date = new Date(d.date).toLocaleDateString(locale);
-
-  // ── Patient Info ──
-  document.getElementById('rp-subtitle').textContent = `Patient : ${info.nom} — ${date}`;
-  const grid = document.getElementById('patient-info-grid');
-  [['Nom',info.nom],['Naissance',info.dob],['Sexe',info.sexe||'—'],['N° patient',info.patientNum||'—'],['Clinicien',info.clinician||'—'],['Date entretien',info.interviewDate||'—']].forEach(([l,v])=>{
-    grid.innerHTML += `<div class="info-cell"><div class="info-cell-label">${l}</div><div class="info-cell-val">${v}</div></div>`;
-  });
-
-  // ── Subtype & conclusion ──
-  const diagA = scoreA_adult >= 6;
-  const diagHI = scoreHI_adult >= 6;
-  const diagAc = scoreA_child >= 6;
-  const diagHIc = scoreHI_child >= 6;
-  const criteriaB = critB === 'oui';
-  const criteriaDa = critDAdult === 'oui';
-  const criteriaDc = critDChild === 'oui';
-  const noOther = critE !== 'oui';
-
-  let subtype, subtypeCode, bannerBg, synthesisText, synthesisReco;
-
-  if((diagA || diagHI) && criteriaB && criteriaDa){
-    if(diagA && diagHI){
-      subtype='TDAH — Type combiné';subtypeCode='DSM-IV 314.01';
-      bannerBg='linear-gradient(135deg,#6c3483,#c0392b)';
-      synthesisText=`Le profil du patient présente un tableau clinique compatible avec un <strong>TDAH de type combiné (314.01)</strong>. Les critères d'inattention sont significativement atteints (${scoreA_adult}/9 à l'âge adulte, ${scoreA_child}/9 dans l'enfance) et les critères d'hyperactivité/impulsivité dépassent également le seuil clinique (${scoreHI_adult}/9 adulte, ${scoreHI_child}/9 enfance). La persistance des symptômes depuis l'enfance et le retentissement dans plusieurs domaines de vie sont documentés.`;
-      synthesisReco=`Une évaluation complémentaire des comorbidités (troubles anxieux, dépressifs, troubles du sommeil) est recommandée dans ~75% des cas de TDAH adulte. Une prise en charge multimodale associant psychoéducation, stratégies comportementales et évaluation d'un traitement pharmacologique est à envisager.`;
-    } else if(diagA){
-      subtype='TDAH — Type inattentif prédominant';subtypeCode='DSM-IV 314.00';
-      bannerBg='linear-gradient(135deg,#1a2744,#2471a3)';
-      synthesisText=`Le profil présente un tableau clinique compatible avec un <strong>TDAH de type inattentif prédominant (314.00)</strong>. Les critères d'inattention sont cliniquement significatifs (${scoreA_adult}/9 adulte, ${scoreA_child}/9 enfance) alors que les critères d'hyperactivité/impulsivité restent sous le seuil (${scoreHI_adult}/9). Ce profil est souvent sous-diagnostiqué, notamment chez les femmes.`;
-      synthesisReco=`Psychoéducation centrée sur les stratégies d'organisation et de gestion de l'attention. Évaluation des comorbidités anxieuses et dépressives fréquentes dans ce profil.`;
-    } else {
-      subtype='TDAH — Type hyperactif/impulsif prédominant';subtypeCode='DSM-IV 314.01';
-      bannerBg='linear-gradient(135deg,#7b241c,#c0392b)';
-      synthesisText=`Le profil présente un tableau clinique compatible avec un <strong>TDAH de type hyperactif/impulsif prédominant (314.01)</strong>. Les critères d'hyperactivité/impulsivité sont significatifs (${scoreHI_adult}/9 adulte, ${scoreHI_child}/9 enfance) tandis que les critères d'inattention restent sous le seuil diagnostique (${scoreA_adult}/9).`;
-      synthesisReco=`Travail sur la gestion impulsive et les stratégies comportementales. Évaluation des troubles comorbides (opposition, troubles des conduites).`;
-    }
-  } else {
-    subtype='Critères insuffisants pour le diagnostic de TDAH';subtypeCode='';
-    bannerBg='linear-gradient(135deg,#1a2744,#2d7d6f)';
-    const reasons=[];
-    if(!diagA && !diagHI) reasons.push(`seuil de 6 critères non atteint (A:${scoreA_adult}/9, HI:${scoreHI_adult}/9)`);
-    if(!criteriaB) reasons.push('absence de preuve de persistance depuis l\'enfance (critère B)');
-    if(!criteriaDa) reasons.push('retentissement dans ≥2 domaines non confirmé (critère D)');
-    synthesisText=`L'entretien DIVA 2.0 ne permet pas d'établir le diagnostic de TDAH au moment de cette évaluation. Raisons : ${reasons.join('; ')||'réponses insuffisantes pour conclure'}. Un bilan différentiel est recommandé.`;
-    synthesisReco=`Envisager un diagnostic différentiel : troubles anxieux, dépressifs, troubles bipolaires, troubles du sommeil, et pathologies médicales pouvant simuler un TDAH.`;
-  }
-
-  // Conclusion banner
-  document.getElementById('conclusion-banner').style.background = bannerBg;
-  document.getElementById('conclusion-banner').innerHTML = `
-    <div class="cb-label">CONCLUSION DIAGNOSTIQUE</div>
-    <div class="cb-subtype">${subtype}</div>
-    ${subtypeCode?`<div class="cb-code">${subtypeCode}</div>`:''}
-    <div class="cb-summary">${synthesisText}</div>`;
-
-  // ── Score tiles ──
-  const tiles = [
-    {label:'Inattention Adulte',val:scoreA_adult,max:9,color:'#2471a3',bg:'#eaf2fb'},
-    {label:'HI Adulte',val:scoreHI_adult,max:9,color:'#c0392b',bg:'#fdf0ef'},
-    {label:'Inattention Enfance',val:scoreA_child,max:9,color:'#e8a020',bg:'#fef6e8'},
-    {label:'HI Enfance',val:scoreHI_child,max:9,color:'#6c3483',bg:'#f4ecf7'},
-  ];
-  const tilesEl = document.getElementById('score-tiles');
-  tiles.forEach(({label,val,max,color,bg})=>{
-    const sig = val >= 6;
-    tilesEl.innerHTML += `
-      <div class="score-tile" style="background:${bg};border-top-color:${color}">
-        <div class="st-label" style="color:${color}">${label}</div>
-        <div class="st-val" style="color:${sig?'#c0392b':color}">${val}</div>
-        <div class="st-max">/ ${max} critères</div>
-        <div class="st-status" style="background:${sig?'#fdf0ef':'#e8f5ee'};color:${sig?'#c0392b':'#27ae60'}">${sig?'⚠ ≥6 Significatif':'✓ Sous le seuil'}</div>
-      </div>`;
-  });
-
-  // ── Bar chart ──
-  const barLabels=['Inattention\nAdulte','HI\nAdulte','Inattention\nEnfance','HI\nEnfance'];
-  const barVals=[scoreA_adult,scoreHI_adult,scoreA_child,scoreHI_child];
-  const barColors=['#2471a3','#c0392b','#e8a020','#6c3483'];
-  new Chart(document.getElementById('chart-bar').getContext('2d'),{
-    type:'bar',
-    data:{labels:barLabels,datasets:[{data:barVals,backgroundColor:barColors,borderRadius:8,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw}/9`}}},
-      scales:{y:{min:0,max:9,ticks:{stepSize:1},grid:{color:'#eef0f6'},
-        plugins:{annotation:{annotations:{threshold:{type:'line',yMin:6,yMax:6,borderColor:'#c0392b',borderWidth:2,borderDash:[4,4]}}}}},
-        x:{ticks:{font:{size:10}}}}}
-  });
-
-  // ── Radar chart ──
-  new Chart(document.getElementById('chart-radar').getContext('2d'),{
-    type:'radar',
-    data:{labels:barLabels,datasets:[
-      {label:'Adulte',data:[scoreA_adult,scoreHI_adult,scoreA_adult,scoreHI_adult],backgroundColor:'rgba(108,52,131,.15)',borderColor:'#6c3483',borderWidth:2,pointBackgroundColor:'#6c3483',pointRadius:4},
-      {label:'Enfance',data:[scoreA_child,scoreHI_child,scoreA_child,scoreHI_child],backgroundColor:'rgba(232,160,32,.12)',borderColor:'#e8a020',borderWidth:2,borderDash:[4,3],pointBackgroundColor:'#e8a020',pointRadius:4},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11}}}},
-      scales:{r:{min:0,max:9,ticks:{stepSize:3,font:{size:9}},pointLabels:{font:{size:9}}}}}
-  });
-
-  // ── Comparison bar chart (per-criterion adult vs child) ──
-  const allCritIds = [...CRIT_LABELS.A,...CRIT_LABELS.HI].map(c=>c.code);
-  const adultVals2 = [...CRIT_LABELS.A,...CRIT_LABELS.HI].map(cr=>criteriaAnswers[cr.id+'-adult']==='oui'?1:0);
-  const childVals2 = [...CRIT_LABELS.A,...CRIT_LABELS.HI].map(cr=>criteriaAnswers[cr.id+'-child']==='oui'?1:0);
-  new Chart(document.getElementById('chart-compare').getContext('2d'),{
-    type:'bar',
-    data:{labels:allCritIds,datasets:[
-      {label:'Adulte',data:adultVals2,backgroundColor:'rgba(108,52,131,.75)',borderRadius:4},
-      {label:'Enfance',data:childVals2,backgroundColor:'rgba(232,160,32,.75)',borderRadius:4},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11}}}},
-      scales:{y:{min:0,max:1,ticks:{callback:v=>v===1?'Oui':v===0?'Non':'',stepSize:1},grid:{color:'#eef0f6'}},x:{ticks:{font:{size:9}}}}}
-  });
-
-  // ── DSM-IV table ──
-  const dsmTable = document.getElementById('dsm-table');
-  const dsmRows=[
-    ['Critère A — Inattention adulte ≥ 6',scoreA_adult>=6,`${scoreA_adult}/9`],
-    ['Critère A — Hyperactivité/Impulsivité adulte ≥ 6',scoreHI_adult>=6,`${scoreHI_adult}/9`],
-    ['Critère A — Inattention enfance ≥ 6',scoreA_child>=6,`${scoreA_child}/9`],
-    ['Critère A — Hyperactivité/Impulsivité enfance ≥ 6',scoreHI_child>=6,`${scoreHI_child}/9`],
-    ['Critère B — Persistance vie entière (avant 7 ans)',critB==='oui', critB==='oui'?'Oui':critBAge?`Non — début à ${critBAge} ans`:'Non renseigné'],
-    ['Critère C/D — Retentissement adulte ≥ 2 domaines',critDAdult==='oui',critDAdult||'—'],
-    ['Critère C/D — Retentissement enfance ≥ 2 domaines',critDChild==='oui',critDChild||'—'],
-    ['Critère E — Non expliqué par autre diagnostic',critE!=='oui', critE==='oui'?`Oui — ${critEDetail||'non précisé'}`:'Non'],
-  ];
-  dsmTable.innerHTML = `<thead><tr><th>Critère DSM-IV</th><th style="text-align:center;width:100px">Satisfait</th><th style="width:160px">Valeur</th></tr></thead><tbody>`+
-    dsmRows.map(([label,met,val],i)=>`
-      <tr style="background:${i%2===0?'#fff':'#f8f9fc'}">
-        <td style="font-size:.8rem;color:#2c3e50">${label}</td>
-        <td style="text-align:center"><span style="display:inline-block;background:${met?'#e8f5ee':'#fdf0ef'};color:${met?'#27ae60':'#c0392b'};border:1.5px solid ${met?'#27ae60':'#c0392b'};border-radius:20px;padding:.18rem .6rem;font-size:.72rem;font-weight:700">${met?'✓ Oui':'✗ Non'}</span></td>
-        <td style="font-size:.78rem;color:#5a6478">${val}</td>
-      </tr>`).join('')+'</tbody>';
-
-  // ── Synthesis card ──
-  const collScore = n=>n==='2'?'Net (2)':n==='1'?'Partiel (1)':n==='0'?'Faible (0)':n==='na'?'N/A':'—';
-  document.getElementById('synthesis-content').innerHTML = `
-    <div class="synthesis-block">
-      <h4>📝 Synthèse des résultats</h4>
-      <p>${synthesisText}</p>
-    </div>
-    <div class="synthesis-block" style="margin-top:.7rem;background:${subtype.includes('insuffisants')?'#e8f5ee':'#fdf0ef'}">
-      <h4>💡 Recommandations cliniques</h4>
-      <p>${synthesisReco}</p>
-    </div>
-    <div class="synthesis-block" style="margin-top:.7rem">
-      <h4>📎 Informations collatérales</h4>
-      <p>
-        <strong>Famille :</strong> ${collScore(collParent)} &nbsp;|&nbsp;
-        <strong>Partenaire :</strong> ${collScore(collPartner)} &nbsp;|&nbsp;
-        <strong>Livrets scolaires :</strong> ${collScore(collSchool)}<br>
-        ${collDetails?`<em>${collDetails}</em>`:''}
-      </p>
-    </div>`;
-
-  // ── Criteria detail ──
-  ['A','HI'].forEach(section=>{
-    const container = document.getElementById('detail-'+section);
-    const color = section==='A'?'#2471a3':'#c0392b';
-    CRIT_LABELS[section].forEach((cr,idx)=>{
-      const av = criteriaAnswers[cr.id+'-adult'];
-      const cv = criteriaAnswers[cr.id+'-child'];
-      // Checked adult examples
-      const checkedAdult = cr.examples.map((ex,i)=>{
-        const k=`cb-${cr.id}-adult-ex-${i}`;
-        return {ex, checked: !!checkedExamples[k]};
-      });
-      const checkedChild = cr.examples.map((ex,i)=>{
-        const k=`cb-${cr.id}-child-ex-${i}`;
-        return {ex, checked: !!checkedExamples[k]};
-      });
-      const aBadge = av==='oui'?'badge-oui':av==='non'?'badge-non':'badge-nr';
-      const cBadge = cv==='oui'?'badge-oui':cv==='non'?'badge-non':'badge-nr';
-      const aText = av==='oui'?'Oui ✓':av==='non'?'Non ✗':'N/R';
-      const cText = cv==='oui'?'Oui ✓':cv==='non'?'Non ✗':'N/R';
-
-      container.innerHTML += `
-        <div style="padding:.6rem .4rem;border-bottom:1px solid var(--gray-200)">
-          <div class="crit-row" style="grid-template-columns:40px 1fr 70px 70px">
-            <span class="crit-code" style="color:${color}">${cr.code}</span>
-            <span class="crit-q">${cr.q}</span>
-            <span class="crit-badge ${aBadge}">${aText}</span>
-            <span class="crit-badge ${cBadge}">${cText}</span>
-          </div>
-          <div style="padding:0 .4rem;margin-top:.3rem;display:flex;gap:.5rem;flex-wrap:wrap">
-            <div style="flex:1;min-width:140px">
-              <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;color:#2471a3;margin-bottom:.25rem">Adulte — exemples cochés</div>
-              ${checkedAdult.filter(e=>e.checked).length===0
-                ? '<span style="font-size:.7rem;color:var(--gray-400);font-style:italic">Aucun exemple coché</span>'
-                : checkedAdult.filter(e=>e.checked).map(e=>`<span class="example-tag checked">${e.ex}</span>`).join('')}
-            </div>
-            <div style="flex:1;min-width:140px">
-              <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;color:#e8a020;margin-bottom:.25rem">Enfance — exemples cochés</div>
-              ${checkedChild.filter(e=>e.checked).length===0
-                ? '<span style="font-size:.7rem;color:var(--gray-400);font-style:italic">Aucun exemple coché</span>'
-                : checkedChild.filter(e=>e.checked).map(e=>`<span class="example-tag checked">${e.ex}</span>`).join('')}
-            </div>
-          </div>
-        </div>`;
-    });
-    // Column headers
-    container.insertAdjacentHTML('afterbegin',`
-      <div style="display:grid;grid-template-columns:40px 1fr 70px 70px;gap:.5rem;padding:.4rem;border-bottom:2px solid var(--gray-200);margin-bottom:.3rem">
-        <span style="font-size:.65rem;font-weight:700;color:var(--gray-400)">Code</span>
-        <span style="font-size:.65rem;font-weight:700;color:var(--gray-400)">Critère</span>
-        <span style="font-size:.65rem;font-weight:700;color:#2471a3;text-align:center">Adulte</span>
-        <span style="font-size:.65rem;font-weight:700;color:#e8a020;text-align:center">Enfance</span>
-      </div>`);
-  });
-}
-
-// ═══════════════════════════════════════════════════════
-// PDF
-// ═══════════════════════════════════════════════════════
-async function downloadPDF(){
-  const overlay=document.getElementById('pdf-overlay');
-  overlay.classList.add('show');
-  await new Promise(r=>setTimeout(r,400));
-  try{
-    const {jsPDF}=window.jspdf;
-    const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-    const pageW=210,margin=10,contentW=pageW-margin*2;
-    const canvas=await html2canvas(document.getElementById('report-content'),{
-      scale:1.8,useCORS:true,backgroundColor:'#f2f4f9',windowWidth:900
-    });
-    const imgH=(canvas.height*contentW)/canvas.width;
-    const pageH=297-margin*2;
-    let remaining=imgH;
-    while(remaining>0){
-      const sliceH=Math.min(remaining,pageH);
-      const sy=(imgH-remaining)/imgH*canvas.height;
-      const sc=document.createElement('canvas');
-      sc.width=canvas.width; sc.height=(sliceH/imgH)*canvas.height;
-      sc.getContext('2d').drawImage(canvas,0,sy,canvas.width,sc.height,0,0,canvas.width,sc.height);
-      if(imgH-remaining>0) pdf.addPage();
-      pdf.addImage(sc.toDataURL('image/jpeg',.88),'JPEG',margin,margin,contentW,sliceH);
-      remaining-=sliceH;
-    }
-    const nom=document.querySelector('.info-cell-val')?.textContent||'patient';
-    pdf.save('DIVA2_'+nom+'_'+new Date().toISOString().slice(0,10)+'.pdf');
-  }catch(e){ console.error(e); alert('Erreur PDF. Utilisez Imprimer.'); }
-  overlay.classList.remove('show');
 }
 
 // ── INIT ──
-document.addEventListener('DOMContentLoaded', function(){
-  const params = new URLSearchParams(window.location.search);
-  if(params.get('d') || params.get('data')){
-    // RAPPORT MODE
-    const lb = document.getElementById('lang-bar');
-    if(lb) lb.style.display = 'none';
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const rp = document.getElementById('page-rapport');
-    if(rp) rp.classList.add('active');
-    const rc = document.getElementById('report-content');
-    if(rc) rc.innerHTML = '<div style="text-align:center;padding:5rem 1rem"><div style="font-size:3rem">⏳</div><div style="font-size:1rem;font-weight:700;color:#1a2744;margin-top:.8rem">Chargement du rapport...</div></div>';
-    // Decode and build report
-    const enc = params.get('d') || params.get('data');
-    try{
-      const decoded = enc.includes('%25') ? decodeURIComponent(decodeURIComponent(enc)) : (enc.includes('%') ? decodeURIComponent(enc) : enc);
-      const compact = JSON.parse(decodeURIComponent(escape(atob(decoded))));
-      let data;
-      if(compact.i){
-        data = {
-          info:{ nom:compact.i.n||'—', dob:compact.i.d||'—', sexe:compact.i.s||'—', patientNum:compact.i.p||'—', clinician:compact.i.c||'—', interviewDate:compact.i.dt||'—', lang:compact.i.l||'fr' },
-          criteriaAnswers:(function(){
-            const ca={}; 
-            Object.keys(compact.a||{}).forEach(k=>{
-              ca[k]=compact.a[k]==='o'?'oui':compact.a[k]==='n'?'non':compact.a[k];
-            }); 
-            return ca;
-          })(), checkedExamples:{},
-          scores:{ scoreA_adult:compact.sc?compact.sc[0]:0, scoreA_child:compact.sc?compact.sc[1]:0, scoreHI_adult:compact.sc?compact.sc[2]:0, scoreHI_child:compact.sc?compact.sc[3]:0 },
-          critB:compact.b||'', critBAge:compact.ba||'', critDAdult:compact.da||'', critDChild:compact.dc||'',
-          critE:compact.e||'', critEDetail:compact.ed||'', collParent:compact.cp||'', collPartner:compact.cpa||'',
-          collSchool:compact.cs||'', collDetails:compact.cd||'', date:compact.ts||new Date().toISOString(),
-        };
-      } else { data = compact; }
-      if(rc) rc.innerHTML = '';
-      buildReport(data);
-    }catch(e){
-      console.error('Report error:',e);
-      if(rc) rc.innerHTML = '<div style="text-align:center;padding:3rem;color:#c0392b"><div style="font-size:2rem">⚠️</div><div style="font-weight:600;margin-top:.5rem">Lien invalide ou expiré</div></div>';
-    }
-  } else {
-    // PATIENT MODE
-    setLang('fr');
-  }
-});
-
+setLang('fr');
 </script>
 </body>
 </html>
