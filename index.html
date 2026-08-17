@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DIVA-5 — Entretien diagnostique TDAH adulte</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("p6Lc3MHeM0w-YeGUO");</script>
 <style>
@@ -254,6 +255,7 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
         <div><label class="field-label" data-i18n="interviewDate"></label><input type="date" id="interview-date" onchange="updateAgeCheck()"></div>
         <div style="grid-column:1/-1" id="age-check-wrap"></div>
         <div><label class="field-label" data-i18n="clinicianName"></label><input type="text" id="clinician" data-i18n-ph="clinicianNamePH"></div>
+        <div><label class="field-label" data-i18n="clinicianEmail"></label><input type="email" id="clinician-email" data-i18n-ph="clinicianEmailPH" onchange="syncClinicianEmail()"></div>
         <div><label class="field-label" data-i18n="patientNum"></label><input type="text" id="patient-num" data-i18n-ph="patientNumPH"></div>
       </div>
     </div>
@@ -385,8 +387,8 @@ body.rtl .confirm-title{font-family:'Noto Sans Arabic',serif;}
         <input type="email" id="specialist-email" placeholder="specialiste@clinique.com" style="width:100%;margin-bottom:.7rem">
       </div>
       <button id="submit-btn" data-i18n="calcBtn"></button>
-      <button id="download-btn" type="button" style="margin-top:.6rem;width:100%;background:var(--teal);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:.9rem;font-weight:700;padding:.8rem 1.5rem;border-radius:50px;box-shadow:var(--shadow);" data-i18n="downloadBtn" onclick="downloadReport()"></button>
       <p class="submit-note" data-i18n="submitNote"></p>
+      <p class="submit-note" style="margin-top:.3rem" data-i18n="pdfAutoNote"></p>
       <div id="send-status"></div>
     </div>
 
@@ -430,6 +432,7 @@ fr:{
   ageOk:"✓ Âge du patient au moment de l'entretien : {age} ans — dans la tranche d'âge validée par la DIVA-5 (≥ 18 ans).",
   ageWarnMinor:"⚠ Âge du patient au moment de l'entretien : {age} ans — la DIVA-5 est validée pour les adultes (≥ 18 ans). Pour un patient mineur, utilisez la Young DIVA-5 (5–17 ans), un instrument distinct et adapté.",
   clinicianName:"Nom du clinicien",clinicianNamePH:"Nom du clinicien",
+  clinicianEmail:"Email du clinicien",clinicianEmailPH:"specialiste@clinique.com",
   patientNum:"N° patient",patientNumPH:"Numéro",
   secATitle:"Section 1 — Critères d'inattention (DSM-5, Critère A1)",
   secAInstr:"Les symptômes à l'âge adulte doivent être présents depuis au moins 6 mois. Les symptômes dans l'enfance se rapportent à la période 5–12 ans. Répondez librement à chaque critère. Tout est facultatif — exemples et réponses Oui/Non. Cochez et répondez uniquement ce que vous reconnaissez.",
@@ -450,8 +453,8 @@ fr:{
   collDetails:"Détails / précisions",
   sendLabel:"Email du clinicien (destinataire des résultats)",
   calcBtn:"📧 Envoyer le rapport au clinicien",
-  downloadBtn:"⬇ Télécharger le rapport complet (Critères A–E)",
   submitNote:"Saisissez l'email du clinicien et envoyez quand vous êtes prêt.",
+  pdfAutoNote:"Un compte rendu complet (PDF, critères A à E) est généré automatiquement au moment de l'envoi et enregistré directement sur cet appareil — il n'est pas affiché à l'écran.",
   errEmail:"⚠ Email du clinicien invalide.",
   sending:"⏳ Envoi en cours...",
   errSend:"❌ Erreur d'envoi. Vérifiez votre connexion.",
@@ -467,7 +470,7 @@ fr:{
   otherPH:"Autre exemple...",
   optionalLabel:"Facultatif",
   confirmTitle:"Merci pour votre participation !",
-  confirmMsg:"L'entretien a bien été enregistré et transmis au clinicien. Vous pouvez fermer cette page.",
+  confirmMsg:"L'entretien a bien été enregistré et transmis au clinicien. Un compte rendu PDF complet a été enregistré sur cet appareil. Vous pouvez fermer cette page.",
   confirmNote:"Le rapport complet sera analysé par le professionnel de santé qui conduit cet entretien.",
   confirmBadge:"✉ Rapport DIVA-5 envoyé",
   supplementA:"Supplément — Parmi ces symptômes attentionnels, en avez-vous présenté davantage ou plus fréquemment que les autres adultes / enfants de votre âge ?",
@@ -493,6 +496,7 @@ en:{
   ageOk:"✓ Patient age at interview: {age} years — within the DIVA-5 validated age range (≥ 18 years).",
   ageWarnMinor:"⚠ Patient age at interview: {age} years — DIVA-5 is validated for adults (≥ 18 years). For a minor, use the Young DIVA-5 (ages 5–17), a separate, age-appropriate instrument.",
   clinicianName:"Clinician Name",clinicianNamePH:"Clinician name",
+  clinicianEmail:"Clinician Email",clinicianEmailPH:"specialist@clinic.com",
   patientNum:"Patient No.",patientNumPH:"Number",
   secATitle:"Section 1 — Inattention Criteria (DSM-5, Criterion A1)",
   secAInstr:"Adult symptoms must have been present for at least 6 months. Childhood symptoms refer to ages 5–12. Everything is optional — examples and Yes/No answers. Only respond to what feels relevant to you.",
@@ -513,8 +517,8 @@ en:{
   collDetails:"Details / notes",
   sendLabel:"Clinician email (results recipient)",
   calcBtn:"📧 Send Report to Clinician",
-  downloadBtn:"⬇ Download full report (Criteria A–E)",
   submitNote:"Enter the clinician's email and send when ready.",
+  pdfAutoNote:"A complete report (PDF, Criteria A to E) is generated automatically when sent and saved directly on this device — it is not displayed on screen.",
   errEmail:"⚠ Invalid clinician email.",
   sending:"⏳ Sending...",
   errSend:"❌ Send error. Check your connection.",
@@ -530,7 +534,7 @@ en:{
   otherPH:"Other example...",
   optionalLabel:"Optional",
   confirmTitle:"Thank you for your participation!",
-  confirmMsg:"The interview has been recorded and sent to the clinician. You may close this page.",
+  confirmMsg:"The interview has been recorded and sent to the clinician. A complete PDF report has been saved on this device. You may close this page.",
   confirmNote:"The complete report will be analysed by the health professional conducting this interview.",
   confirmBadge:"✉ DIVA-5 Report sent",
   supplementA:"Supplement — Among the above attentional symptoms, did you present more or more frequently than other adults / children your age?",
@@ -556,6 +560,7 @@ ar:{
   ageOk:"✓ عمر المريض عند المقابلة: {age} سنة — ضمن الفئة العمرية المعتمدة لـ DIVA-5 (≥ 18 سنة).",
   ageWarnMinor:"⚠ عمر المريض عند المقابلة: {age} سنة — DIVA-5 معتمدة للبالغين (≥ 18 سنة). للقاصرين، استخدم Young DIVA-5 (5–17 سنة)، وهي أداة منفصلة وملائمة.",
   clinicianName:"اسم الطبيب",clinicianNamePH:"اسم الطبيب المعالج",
+  clinicianEmail:"البريد الإلكتروني للطبيب",clinicianEmailPH:"specialiste@clinique.com",
   patientNum:"رقم المريض",patientNumPH:"الرقم",
   secATitle:"القسم 1 — معايير قصور الانتباه (DSM-5، المعيار A1)",
   secAInstr:"يجب أن تكون الأعراض عند البالغين موجودة منذ 6 أشهر على الأقل. كل شيء اختياري — الأمثلة والإجابات. أجب فقط على ما تراه مناسباً.",
@@ -576,8 +581,8 @@ ar:{
   collDetails:"تفاصيل / ملاحظات",
   sendLabel:"البريد الإلكتروني للطبيب (مستلم النتائج)",
   calcBtn:"📧 إرسال التقرير إلى الطبيب",
-  downloadBtn:"⬇ تنزيل التقرير الكامل (المعايير A–E)",
   submitNote:"أدخل بريد الطبيب وأرسل عندما تكون مستعداً.",
+  pdfAutoNote:"يتم إنشاء تقرير كامل (PDF، المعايير A إلى E) تلقائياً عند الإرسال ويُحفظ مباشرة على هذا الجهاز — دون عرضه على الشاشة.",
   errEmail:"⚠ البريد الإلكتروني للطبيب غير صالح.",
   sending:"⏳ جارٍ الإرسال...",
   errSend:"❌ خطأ في الإرسال.",
@@ -593,7 +598,7 @@ ar:{
   otherPH:"مثال آخر...",
   optionalLabel:"اختياري",
   confirmTitle:"شكراً على مشاركتك!",
-  confirmMsg:"تم تسجيل المقابلة وإرسالها إلى الطبيب. يمكنك إغلاق هذه الصفحة.",
+  confirmMsg:"تم تسجيل المقابلة وإرسالها إلى الطبيب. تم حفظ تقرير PDF كامل على هذا الجهاز. يمكنك إغلاق هذه الصفحة.",
   confirmNote:"سيتم تحليل التقرير الكامل من قِبل المختص الصحي الذي يجري هذه المقابلة.",
   confirmBadge:"✉ تقرير DIVA-5 تم إرساله",
   supplementA:"ملحق — هل عانيت من هذه الأعراض الانتباهية أكثر من غيرك من البالغين / الأطفال في نفس عمرك؟",
@@ -863,6 +868,15 @@ function drumStep(field,dir){
   updateAgeCheck();
 }
 function getDOB(){return String(drumState.day).padStart(2,'0')+'/'+String(drumState.month).padStart(2,'0')+'/'+drumState.year;}
+
+// Keep the "Email du clinicien" entered in the identification section in
+// sync with the send field at the bottom of the form, so the clinician
+// only has to type it once.
+function syncClinicianEmail(){
+  const src = document.getElementById('clinician-email');
+  const dst = document.getElementById('specialist-email');
+  if(src && dst && src.value) dst.value = src.value;
+}
 
 // ═══════════════════════════════════════════════════════════
 // AGE CHECK — DIVA-5 is validated for adults (≥18 ans).
@@ -1357,12 +1371,15 @@ details>summary{list-style:none;cursor:pointer;} details>summary::-webkit-detail
 }
 
 // ═══════════════════════════════════════════════════════════
-// DOWNLOAD (standalone report, always includes Critères B/C/D/E
-// — does not depend on the email step, so these criteria are
-// never lost between this tool and downstream report systems)
+// DOWNLOAD (standalone PDF report, always includes Critères B/C/D/E)
+// This is triggered automatically and silently when the clinician sends
+// the report — it is never exposed as a visible on-screen button during
+// the interview, so the patient does not see the full write-up. The PDF
+// lands directly in the browser's Downloads folder on the clinician's
+// device.
 // ═══════════════════════════════════════════════════════════
-function downloadReport(){
-  const info={
+function buildReportInfo(){
+  return {
     nom:document.getElementById('nom').value||'—',
     dob:getDOB(),
     sexe:document.getElementById('sexe').value||'—',
@@ -1370,19 +1387,49 @@ function downloadReport(){
     clinician:document.getElementById('clinician').value||'—',
     interviewDate:document.getElementById('interview-date').value||'—',
   };
-  const locale=currentLang==='ar'?'ar-DZ':currentLang==='en'?'en-GB':'fr-FR';
-  const date=new Date().toLocaleDateString(locale);
-  const html_report=buildDivaReport(info,date);
-  const blob=new Blob([html_report],{type:'text/html;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  const safeName=(info.nom||'patient').replace(/[^a-z0-9]+/gi,'_');
-  a.href=url;
-  a.download=`DIVA5_${safeName}_${date.replace(/\//g,'-')}.html`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+function downloadReportPDF(){
+  return new Promise((resolve)=>{
+    const info = buildReportInfo();
+    const locale=currentLang==='ar'?'ar-DZ':currentLang==='en'?'en-GB':'fr-FR';
+    const date=new Date().toLocaleDateString(locale);
+    const html_report=buildDivaReport(info,date);
+    const safeName=(info.nom||'patient').replace(/[^a-z0-9]+/gi,'_');
+    const filename=`DIVA5_${safeName}_${date.replace(/\//g,'-')}.pdf`;
+
+    // Render the report off-screen (never visible in the UI)
+    const holder=document.createElement('div');
+    holder.style.cssText='position:fixed;left:-99999px;top:0;width:700px;';
+    holder.innerHTML=html_report;
+    document.body.appendChild(holder);
+
+    if(typeof html2pdf==='undefined'){
+      // Fallback: no PDF library available (e.g. offline) — download HTML instead
+      const blob=new Blob([html_report],{type:'text/html;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download=filename.replace('.pdf','.html');
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
+      document.body.removeChild(holder);
+      resolve();
+      return;
+    }
+
+    html2pdf().set({
+      margin:0,
+      filename:filename,
+      html2canvas:{ scale:2, useCORS:true },
+      jsPDF:{ unit:'pt', format:'a4', orientation:'portrait' },
+      pagebreak:{ mode:['css','legacy'] },
+    }).from(holder).save().then(()=>{
+      document.body.removeChild(holder);
+      resolve();
+    }).catch(()=>{
+      document.body.removeChild(holder);
+      resolve();
+    });
+  });
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1390,7 +1437,7 @@ function downloadReport(){
 // ═══════════════════════════════════════════════════════════
 function sendResults(){
   const t=T[currentLang];
-  const specialist=document.getElementById('specialist-email').value.trim();
+  const specialist=(document.getElementById('specialist-email').value.trim())||(document.getElementById('clinician-email')?.value.trim())||'';
   const status=document.getElementById('send-status');
   status.style.display='none';
 
@@ -1446,6 +1493,10 @@ function sendResults(){
     btn.disabled=false;
     showPage('page-confirm');
     setLang(currentLang);
+    // Silently generate and download the complete PDF (Critères A–E) to
+    // the device's Downloads folder — never rendered on screen, so the
+    // patient does not see the report content.
+    downloadReportPDF();
   })
   .catch(err=>{
     console.error(err);
